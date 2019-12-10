@@ -8,13 +8,16 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
+
+### settings.py
+### master settings file for the PieceView project
+### Copyright 2019 David J Duefrene, All rights reserved.
 """
 
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -25,11 +28,11 @@ SECRET_KEY = 'l&q(1neaf^mt-))3&^#b-_!p+@z4%n96u#q7gow-nqv%a1j!)o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# SECURITY WARNING: don't run local hosts test server ect during production
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+FIXTURE_DIRS = ('/fixtures/',)
 
 # Application definition
-
 INSTALLED_APPS = [
 	'account.apps.AccountConfig',
 	'django.contrib.admin',
@@ -57,7 +60,7 @@ ROOT_URLCONF = 'PieceView.urls'
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': ['./templates'],
+		'DIRS': ['./templates'], # TODO needed?
 		'APP_DIRS': True,
 		'OPTIONS': {
 			'context_processors': [
@@ -72,10 +75,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'PieceView.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+# TODO settle on a perm database
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
@@ -83,10 +85,8 @@ DATABASES = {
 	}
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
 	{
 		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -102,7 +102,6 @@ AUTH_PASSWORD_VALIDATORS = [
 	},
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 LANGUAGE_CODE = 'en-us'
@@ -110,7 +109,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
