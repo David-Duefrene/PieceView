@@ -1,3 +1,10 @@
 django==3.0
 coverage==4.5.4
 selenium==3.141.0
+asgiref==3.2.3
+pip==19.3.1
+pytz==2013.3
+setuptools==41.6.0
+sqlparse==0.3.0
+urllib3==1.25.7
+wheel==0.33.6

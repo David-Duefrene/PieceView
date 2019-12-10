@@ -21,8 +21,13 @@ class UserRegistrationForm(forms.ModelForm):
                                 widget=forms.PasswordInput)
 
     class Meta:
+        # email = {'required': True}
         model = get_user_model()
         fields = ('username', 'first_name', 'email')
+
+    def __init__(self, *args, **kwargs):
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
 
     def clean_password2(self):
         """
