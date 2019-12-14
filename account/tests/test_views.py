@@ -51,3 +51,11 @@ class UserLoginViewTest(TestCase):
         # Test inactive user
         self.assertFalse(self.client.login(username='name', password='nfghT56'))
         self.assertFalse(self.is_user_active())
+
+class UserDashboardTest(TestCase):
+    fixtures = ['data_dump.json']
+
+    def test_user_dashboard(self):
+        self.assertTrue(self.client.login(username='alfred', password='Hads65ads1'))
+        request = self.client.get('/account/')
+        self.assertTrue(request)
