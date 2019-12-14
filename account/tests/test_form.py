@@ -72,7 +72,7 @@ class TestRegistrationForm(TestCase):
 	def test_no_email(self):
 		form = UserRegistrationForm(data={'password': "password", 'password2': "password",
 				'username': "username", 'first_name': "name", 'email': ""})
-		self.assertFalse(form.is_valid()) # TODO make email required
+		self.assertFalse(form.is_valid())
 
 	def test_no_data(self):
 		form = UserRegistrationForm(data={'password': "", 'password2': "",
