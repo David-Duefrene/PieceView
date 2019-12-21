@@ -17,13 +17,6 @@ class UserLoginViewTest(TestCase):
         response = self.client.get('/account/login/')
         self.assertEqual(response.status_code, 200)
 
-    def test_view_url_accessible_by_name(self):
-        """
-        Tests we can access it via name
-        """
-        response = self.client.get('/account/login/')
-        self.assertEqual(response.status_code, 200)
-
     def test_uses_correct_template(self):
         """
         Tests that the correct template is rendering
@@ -32,6 +25,26 @@ class UserLoginViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/login.html')
 
+class UdserLogoutViewTest(TestCase):
+    fixtures = ['data_dump.json']
+
+    def test_view_url_exists_at_desired_location(self):
+        """
+        Tests that the URL actually exists
+        """
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.get('/account/logout/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_uses_correct_template(self):
+        """
+        Tests that the correct template is rendering
+        """
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.get(reverse('logout'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'registration/logged_out.html')
+
 class UserRegistrationViewTest(TestCase):
 
     def test_view_url_exists_at_desired_location(self):
@@ -39,13 +52,6 @@ class UserRegistrationViewTest(TestCase):
         Tests that the URL actually exists
         """
         response = self.client.get('/account/register/')
-        self.assertEqual(response.status_code, 200)
-
-    def test_view_url_accessible_by_name(self):
-        """
-        Tests we can access it via name
-        """
-        response = self.client.get(reverse('register'))
         self.assertEqual(response.status_code, 200)
 
     def test_uses_correct_template(self):
