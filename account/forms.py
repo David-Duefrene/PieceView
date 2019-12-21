@@ -28,6 +28,7 @@ class UserRegistrationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserRegistrationForm, self).__init__(*args, **kwargs)
         self.fields['email'].required = True
+        self.fields['first_name'].required = True
 
     def clean_password2(self):
         """
@@ -35,7 +36,7 @@ class UserRegistrationForm(forms.ModelForm):
         """
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
+            raise forms.ValidationError('Passwords don\'t match.', code='mismatch_pass')
         return cd['password2']
 
     def save(self, commit=True):

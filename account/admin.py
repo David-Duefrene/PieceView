@@ -15,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
 	model = CustomUser
 	list_display = ['username', 'email', 'is_staff',]
 	fieldsets = (
-		(None, {'fields': ('username', 'email', 'password')}),
+		(None, {'fields': ('username', 'email', 'password', 'first_name')}),
 		('Permissions', {'fields': ('is_staff', 'is_active')}),
 	)
 	add_fieldsets = (
