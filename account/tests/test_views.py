@@ -3,82 +3,75 @@
 ### account application views testing suite
 ### Copyright 2019 David J Duefrene, All rights reserved.
 """
-from django.test import TestCase, Client
+from django.test import TestCase
+from django.urls import reverse
+
+from account.forms import UserRegistrationForm
 
 class UserLoginViewTest(TestCase):
-    fixtures = ['data_dump.json']
 
-    def is_user_active(self):
+    def test_view_url_exists_at_desired_location(self):
         """
-        Test to see if the user is active and returns the result
+        Tests that the URL actually exists
         """
         response = self.client.get('/account/login/')
         self.assertEqual(response.status_code, 200)
-        return response.context['user'].is_active
 
-    def test_good_user_login(self):
+    def test_view_url_accessible_by_name(self):
         """
-        Test to see if a good uer/pw will redirect
+        Tests we can access it via name
         """
-        c = Client()
-        response = c.post('/account/login/', {'username': 'alfred',
-                            'password': 'Hads65ads1'}, follow=True)
-        self.assertTrue(response.status_code, 200)
-        self.assertIn(bytes("Hello Alfred", 'utf-8'), response.content)
-
-    def test_login_view(self):
         response = self.client.get('/account/login/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_uses_correct_template(self):
+        """
+        Tests that the correct template is rendering
+        """
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/login.html')
 
-    def test_bad_user_login(self):
-        """
-        Test to see if missing any info on the form will allow a login
-        as well as testing a bad user/pw
-        """
-        # Testing missing username
-        c = Client()
-        response = c.post('/account/login/', {'username': '',
-                            'password': 'Hads65ads1'})
-        self.assertIn(bytes("<ul class=\"errorlist\"><li>This field is required.</li></ul>\n<p><label for=\"id_username\">Username:</label>",
-                            'utf-8'), response.content)
+class UserRegistrationViewTest(TestCase):
 
-        # Missing password, good user
-        c = Client()
-        response = c.post('/account/login/', {'username': 'alfred',
-                            'password': ''})
-        self.assertIn(bytes("<ul class=\"errorlist\"><li>This field is required.</li></ul>\n<p><label for=\"id_password\">Password:</label>",
-                            'utf-8'), response.content)
-
-        # Testing missing bioth fields
-        c = Client()
-        response = c.post('/account/login/', {'username': '', 'password': ''})
-        self.assertIn(bytes("<ul class=\"errorlist\"><li>This field is required.</li></ul>\n<p><label for=\"id_password\">Password:</label>",
-                            'utf-8'), response.content)
-        self.assertIn(bytes("<ul class=\"errorlist\"><li>This field is required.</li></ul>\n<p><label for=\"id_username\">Username:</label>",
-                            'utf-8'), response.content)
-
-        # Test bad login info
-        c = Client()
-        response = c.post('/account/login/', {'username': 'bad', 'password': 'bad'})
-        self.assertIn(bytes("<ul class=\"errorlist nonfield\"><li>Please enter a correct username and password. Note that both fields may be case-sensitive.</li></ul>",
-                            'utf-8'), response.content)
-
-    def test_inactive_user_login(self):
+    def test_view_url_exists_at_desired_location(self):
         """
-        Test to see if a inactive user can login
+        Tests that the URL actually exists
         """
-        c = Client()
-        response = c.post('/account/login/', {'username': 'name', 'password': 'nfghT56'})
-        self.assertIn(bytes("<ul class=\"errorlist nonfield\"><li>Please enter a correct username and password. Note that both fields may be case-sensitive.</li></ul>",
-                            'utf-8'), response.content)
+        response = self.client.get('/account/register/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        """
+        Tests we can access it via name
+        """
+        response = self.client.get(reverse('register'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_uses_correct_template(self):
+        """
+        Tests that the correct template is rendering
+        """
+        response = self.client.get(reverse('register'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'account/register.html')
 
 class UserDashboardTest(TestCase):
     fixtures = ['data_dump.json']
 
-    def test_user_dashboard(self):
+    def test_redirects_if_not_logged_in(self):
         """
-        Tests the user dashboard
+        Tests that the URL actually exists
         """
-        self.assertTrue(self.client.login(username='alfred', password='Hads65ads1'))
-        request = self.client.get('/account/')
-        self.assertTemplateUsed(request, 'account/dashboard.html')
+        response = self.client.get(reverse('dashboard'))
+        self.assertRedirects(response, '/account/login/?next=/account/')
+
+    def test_loggin_uses_correct_template(self):
+        """
+        Tests that the correct template is rendering
+        """
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.get(reverse('dashboard'))
+        self.assertEqual(str(response.context['user']), 'alfred')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'account/dashboard.html')

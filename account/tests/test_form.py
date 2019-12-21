@@ -64,7 +64,7 @@ class TestRegistrationForm(TestCase):
 	def test_no_first_name(self):
 		form = UserRegistrationForm(data={'password': "password", 'password2': "password",
 				'username': "username", 'first_name': "", 'email': "mail@mail.com"})
-		self.assertTrue(form.is_valid())
+		self.assertFalse(form.is_valid())
 
 	# TODO add last name test here
 
