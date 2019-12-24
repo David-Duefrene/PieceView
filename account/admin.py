@@ -14,13 +14,13 @@ class CustomUserAdmin(UserAdmin):
 	add_form = UserRegistrationForm
 	model = CustomUser
 	list_display = ['username', 'email', 'is_staff',]
-	fieldsets = (
+	fieldsets = ( # To edit a existing user
 		(None, {'fields': ('username', 'email', 'password', 'first_name')}),
 		('Permissions', {'fields': ('is_staff', 'is_active')}),
 	)
-	add_fieldsets = (
+	add_fieldsets = ( # To add a new user
 		(None, {'classes': ('wide',),
-			'fields': ('username', 'email', 'password', 'password2', 'is_staff', 'is_active')}),
+			'fields': ('username', 'email', 'password', 'password2', 'first_name', 'is_staff', 'is_active')}),
 	)
 	search_fields = ('email', 'username',)
 	ordering = ('username',)
