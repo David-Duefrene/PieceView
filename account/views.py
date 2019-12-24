@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
-from .forms import LoginForm, UserRegistrationForm
+from .forms import LoginForm, UserRegistrationForm, UserEditForm
 
 def user_login(request):
 	if request.method == 'POST':
@@ -48,3 +48,14 @@ def register(request):
 def dashboard(request):
 	return render(request, 'user/dashboard.html',
 				  {'section': 'dashboard'})
+
+@login_required
+def edit(request):
+	if request.method == 'POST':
+		user_form = UserEditForm(instance=request.user, data=request.POST)
+		if user_form.is_valid():
+			user_form.save()
+	else:
+		user_form = UserEditForm(instance=request.user)
+	return render(request, 'user/edit.html',
+					{'user_form': user_form})

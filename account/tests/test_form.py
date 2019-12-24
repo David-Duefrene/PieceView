@@ -5,7 +5,7 @@
 """
 from django.test import TestCase
 
-from account.forms import LoginForm, UserRegistrationForm
+from account.forms import *
 
 class TestLoginForm(TestCase):
 	# Form requires both user & PW
@@ -84,3 +84,24 @@ class TestRegistrationForm(TestCase):
 				'username': "username", 'first_name': "name", 'email': "mail@mail.com"})
 		form.save(self)
 		self.assertTrue(form.is_valid())
+
+class TestUserEditForm(TestCase):
+	# All data is inputed correctly
+	def test_good_data(self):
+		form = UserEditForm(data={'first_name': "name", 'email': "mail@mail.com"})
+		self.assertTrue(form.is_valid())
+
+	# Test no first name
+	def test_no_first_name(self):
+		form = UserEditForm(data={'first_name': "", 'email': "mail@mail.com"})
+		self.assertFalse(form.is_valid())
+
+	# Test no email
+	def test_no_email(self):
+		form = UserEditForm(data={'first_name': "name", 'email': ""})
+		self.assertFalse(form.is_valid())
+
+	# Test invalid email
+	def test_invalid_email(self):
+		form = UserEditForm(data={'first_name': "name", 'email': "mailcom"})
+		self.assertFalse(form.is_valid())

@@ -60,7 +60,7 @@ class UserRegistrationViewTest(TestCase):
         """
         response = self.client.get(reverse('register'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'account/register.html')
+        self.assertTemplateUsed(response, 'registration/register.html')
 
 class UserDashboardTest(TestCase):
     fixtures = ['data_dump.json']
@@ -80,4 +80,24 @@ class UserDashboardTest(TestCase):
         response = self.client.get(reverse('dashboard'))
         self.assertEqual(str(response.context['user']), 'alfred')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'account/dashboard.html')
+        self.assertTemplateUsed(response, 'user/dashboard.html')
+
+class UserEditTest(TestCase):
+    fixtures = ['data_dump.json']
+
+    def test_redirects_if_not_logged_in(self):
+        """
+        Tests that the URL actually exists
+        """
+        response = self.client.get(reverse('edit'))
+        self.assertRedirects(response, '/account/login/?next=/account/edit/')
+
+    def test_loggin_uses_correct_template(self):
+        """
+        Tests that the correct template is rendering
+        """
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.get(reverse('edit'))
+        self.assertEqual(str(response.context['user']), 'alfred')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'user/edit.html')
