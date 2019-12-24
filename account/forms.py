@@ -23,7 +23,7 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         # email = {'required': True}
         model = get_user_model()
-        fields = ('username', 'first_name', 'email')
+        fields = ('username', 'first_name', 'email', 'last_name')
 
     def __init__(self, *args, **kwargs):
         super(UserRegistrationForm, self).__init__(*args, **kwargs)
@@ -53,7 +53,7 @@ class UserRegistrationForm(forms.ModelForm):
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
-        fields = ('first_name', 'email')
+        fields = ('first_name', 'email', 'last_name')
 
     def __init__(self, *args, **kwargs):
         super(UserEditForm, self).__init__(*args, **kwargs)
