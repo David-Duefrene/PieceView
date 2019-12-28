@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 ### master settings file for the PieceView project
 ### Copyright 2019 David J Duefrene, All rights reserved.
 """
-
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

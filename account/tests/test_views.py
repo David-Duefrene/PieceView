@@ -112,3 +112,61 @@ class UserEditTest(TestCase):
         self.assertEqual(str(response.context['user']), 'alfred')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/edit.html')
+
+class PeopleListTest(TestCase):
+    """
+    Test for the People page.
+    """
+    def setUp(self):
+        user = CustomUser.objects.create_user(
+            username='alfred',
+            password='Hads65ads1',
+        )
+
+    def test_redirects_if_not_logged_in(self):
+        """
+        Tests that someone who does not have an account gets redirected
+        when the try and access the People page.
+        """
+        response = self.client.get(reverse('user_list'))
+        self.assertRedirects(response, '/account/login/?next=/account/people/')
+
+    def test_loggedin_uses_correct_template(self):
+        """
+        Tests that if the user is logged in is will render the correct template
+        for the People page.
+        """
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.get(reverse('user_list'))
+        self.assertEqual(str(response.context['user']), 'alfred')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'user/people.html')
+
+class ProfileDetailTest(TestCase):
+    """
+    Test for users Profile page.
+    """
+    def setUp(self):
+        user = CustomUser.objects.create_user(
+            username='alfred',
+            password='Hads65ads1',
+        )
+
+    def test_redirects_if_not_logged_in(self):
+        """
+        Tests that someone who does not have an account gets redirected
+        when the try and access someones Profile page.
+        """
+        response = self.client.get(reverse('user_detail', args=['alfred']))
+        self.assertRedirects(response, '/account/login/?next=/account/people/alfred/')
+
+    def test_loggedin_uses_correct_template(self):
+        """
+        Tests that if the user is logged in is will render the correct template
+        for another users Profile page.
+        """
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.get(reverse('user_detail', args=['alfred']))
+        self.assertEqual(str(response.context['user']), 'alfred')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'user/profile.html')
