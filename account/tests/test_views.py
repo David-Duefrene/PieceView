@@ -7,9 +7,9 @@ from django.test import TestCase
 from django.urls import reverse
 
 from account.forms import UserRegistrationForm
+from account.models import CustomUser
 
 class UserLoginViewTest(TestCase):
-
     def test_view_url_exists_at_desired_location(self):
         """
         Tests that the URL actually exists
@@ -26,7 +26,11 @@ class UserLoginViewTest(TestCase):
         self.assertTemplateUsed(response, 'registration/login.html')
 
 class UdserLogoutViewTest(TestCase):
-    fixtures = ['data_dump.json']
+    def setUp(self):
+        user = CustomUser.objects.create_user(
+            username='alfred',
+            password='Hads65ads1',
+        )
 
     def test_view_url_exists_at_desired_location(self):
         """
@@ -46,7 +50,6 @@ class UdserLogoutViewTest(TestCase):
         self.assertTemplateUsed(response, 'registration/logged_out.html')
 
 class UserRegistrationViewTest(TestCase):
-
     def test_view_url_exists_at_desired_location(self):
         """
         Tests that the URL actually exists
@@ -63,7 +66,11 @@ class UserRegistrationViewTest(TestCase):
         self.assertTemplateUsed(response, 'registration/register.html')
 
 class UserDashboardTest(TestCase):
-    fixtures = ['data_dump.json']
+    def setUp(self):
+        user = CustomUser.objects.create_user(
+            username='alfred',
+            password='Hads65ads1',
+        )
 
     def test_redirects_if_not_logged_in(self):
         """
@@ -83,7 +90,11 @@ class UserDashboardTest(TestCase):
         self.assertTemplateUsed(response, 'user/dashboard.html')
 
 class UserEditTest(TestCase):
-    fixtures = ['data_dump.json']
+    def setUp(self):
+        user = CustomUser.objects.create_user(
+            username='alfred',
+            password='Hads65ads1',
+        )
 
     def test_redirects_if_not_logged_in(self):
         """

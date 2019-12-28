@@ -6,12 +6,20 @@
 from django.contrib.admin.sites import AdminSite
 from django.test import TestCase, Client
 
+from account.models import CustomUser
+
 class TestCustomerUserAdmin(TestCase):
-    fixtures = ['data_dump.json']
+
+    def setUp(self):
+        self.client = Client()
+        user = CustomUser.objects.create_superuser(
+            username='admin',
+            password='password',
+        )
 
     def test_good_admin_login(self):
         """
         Tests to see if admin can login with good user/pw
         """
         c = Client()
-        c.login(username='admin', password='password')
+        self.assertTrue(c.login(username='admin', password='password'))
