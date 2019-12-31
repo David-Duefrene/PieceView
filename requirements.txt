@@ -4,7 +4,7 @@ selenium==3.141.0
 asgiref==3.2.3
 pip==19.3.1
 pytz==2019.3
-setuptools==42.0.2
+setuptools==43.0.0
 sqlparse==0.3.0
 urllib3==1.25.7
 wheel==0.33.6
