@@ -1,9 +1,10 @@
-django==3.0.1
-coverage==4.5.4
-selenium==3.141.0
 asgiref==3.2.3
+coverage==4.5.4
+django==3.0.1
+Pillow==3.2.1
 pip==19.3.1
 pytz==2019.3
+selenium==3.141.0
 setuptools==42.0.2
 sqlparse==0.3.0
 urllib3==1.25.7

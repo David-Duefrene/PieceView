@@ -21,9 +21,8 @@ class UserRegistrationForm(forms.ModelForm):
                                 widget=forms.PasswordInput)
 
     class Meta:
-        # email = {'required': True}
         model = get_user_model()
-        fields = ('username', 'first_name', 'email', 'last_name')
+        fields = ('username', 'first_name', 'email', 'last_name', 'photo')
 
     def __init__(self, *args, **kwargs):
         super(UserRegistrationForm, self).__init__(*args, **kwargs)
@@ -53,7 +52,8 @@ class UserRegistrationForm(forms.ModelForm):
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
-        fields = ('first_name', 'email', 'last_name')
+        exclude = ('last_login', 'is_superuser', 'groups', 'user_permissions', 'is_staff',
+                    'is_active', 'date_joined', 'password')
 
     def __init__(self, *args, **kwargs):
         super(UserEditForm, self).__init__(*args, **kwargs)

@@ -8,4 +8,4 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    pass
+    photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)

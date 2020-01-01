@@ -117,5 +117,7 @@ dmypy.json
 # vscode
 .vscode/
 
+/media/
+
 # Not including migration until production for simplicity
 */migrations/
