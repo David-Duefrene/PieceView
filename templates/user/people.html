@@ -5,13 +5,11 @@
 {% block content %}
 <h1>People</h1>
 <p>Here is a list of people signed up with PieceView</p>
-<div id="people-list">
   {% for user in users %}
     <div class="user">
-        <a href="{{ user.username }}" class="title">
-          {{ user.get_full_name }}
-        </a>
+      <a href="{{ user.username }}" class="title">
+        {{ user.get_full_name }}
+      </a>
     </div>
   {% endfor %}
-</div>
 {% endblock %}
