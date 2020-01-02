@@ -1,13 +1,44 @@
 {% extends "base.html" %}
-
+{% load widget_tweaks %}
 {% block title %}Edit your account{% endblock %}
 
 {% block content %}
   <h1>Edit your account</h1>
   <p>You can edit your account using the following form:</p>
-  <form action="." method="post" enctype="multipart/form-data">
-    {{ user_form.as_p }}
+  <form class="" action="." method="post" enctype="multipart/form-data">
+    {% for hidden in user_form.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
+
+    {% for field in user_form.visible_fields  %}
+      <!-- Here we handle the users photo if they already have one -->
+      {% if field.id_for_label == "id_photo" %}
+        <div class="container form-group-inline row">
+          <label for="id_photo">Photo</label>
+
+          {% if user.photo %}
+            <p><img src={{ user.photo.url }} class="user-detail"></img></p>
+            <label for="photo-clear_id">Clear photo: </label>
+            <input type="checkbox" name="photo-clear" id="photo-clear_id">
+          {% else %}
+            <input type="file" name="photo" accept="image/*" id="id_photo">
+          {% endif %}
+      <!-- And here we let them add one -->
+      {% else %}
+        <div class="container form-group-inline row">
+          <label for="{{ field.id_for_label }}">{{ field.label }}: </label>
+          {{ field }}
+      {% endif %}
+
+      {% for error in field.errors %}
+        <span class="help-block">{{ error }}</span>
+      {% endfor %}
+
+        </div>
+    {% endfor %}
+
     {% csrf_token %}
-    <p><input type="submit" value="Save changes"></p>
-  </form>
+    <div class="container form-group-inline row">
+        <button class="btn btn-success btn-block" type="submit">Save Changes
+    </div>  </form>
 {% endblock %}

@@ -5,7 +5,7 @@
 {% block content %}
   <h1>{{ user.get_full_name }}</h1>
     {% if user.photo %}
-      <img src={{ user.photo.url }} class="user-detail">
+      <p><img src={{ user.photo.url }} class="user-detail"></img></p>
     {% endif %}
     <p>Username: {{ user.username }}</p>
     <p>First Name: {{ user.first_name }}</p>

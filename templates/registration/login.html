@@ -11,15 +11,30 @@
 		</p>
 	{% else %}
 		<p>Please use the follwoing form to log-in:</p>
-
-		<div class="login-form">
-			<form action="{% url 'login' %}" method="post">
-				{{ form }}
-				{% csrf_token %}
-				<input type="hidden" name="next" value="{{ next }}" />
-				<p><input type="submit" value="Log-in"></p>
-			</form>
-			<p><a href="{% url "password_reset" %}">Forgotten your password</a></p>
-		</div>
 	{% endif %}
+
+		<form action="{% url 'login' %}" method="post">
+			{% for hidden in form.hidden_fields %}
+	      {{ hidden }}
+	    {% endfor %}
+
+			{% for field in form.visible_fields %}
+				<div class="container form-group-inline row">
+					<label class="col-lg-4" for="{{ field.id_for_label }}">{{ field.label }}</label>
+					{{ field }}
+
+					{% for error in field.errors %}
+						<span class="help-block">{{ error }}</span>
+					{% endfor %}
+				</div>
+			{% endfor %}
+			{% csrf_token %}
+
+			<input type="hidden" name="next" value="{{ next }}" />
+			<input class="btn btn-success btn-block" type="submit" value="Log-in">
+			<p><a href="{% url "password_reset" %}">Forgotten your password</a></p>
+
+		</form>
+
+
 	{% endblock %}
