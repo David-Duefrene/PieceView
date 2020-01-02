@@ -88,20 +88,25 @@ class TestRegistrationForm(TestCase):
 class TestUserEditForm(TestCase):
 	# All data is inputed correctly
 	def test_good_data(self):
-		form = UserEditForm(data={'first_name': "name", 'email': "mail@mail.com"})
+		form = UserEditForm(data={'first_name': "name", 'last_name': "named", 'email': "mail@mail.com"})
 		self.assertTrue(form.is_valid())
 
 	# Test no first name
 	def test_no_first_name(self):
-		form = UserEditForm(data={'first_name': "", 'email': "mail@mail.com"})
+		form = UserEditForm(data={'first_name': "", 'last_name': "named", 'email': "mail@mail.com"})
 		self.assertFalse(form.is_valid())
+
+	# Test no last name
+	def test_no_last_name(self):
+		form = UserEditForm(data={'first_name': "name", 'last_name': "", 'email': "mail@mail.com"})
+		self.assertTrue(form.is_valid())
 
 	# Test no email
 	def test_no_email(self):
-		form = UserEditForm(data={'first_name': "name", 'email': ""})
+		form = UserEditForm(data={'first_name': "name", 'last_name': "named", 'email': ""})
 		self.assertFalse(form.is_valid())
 
 	# Test invalid email
 	def test_invalid_email(self):
-		form = UserEditForm(data={'first_name': "name", 'email': "mailcom"})
+		form = UserEditForm(data={'first_name': "name", 'last_name': "named", 'email': "mailcom"})
 		self.assertFalse(form.is_valid())
