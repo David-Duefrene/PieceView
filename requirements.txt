@@ -1,7 +1,7 @@
 asgiref==3.2.3
 coverage==4.5.4
 django==3.0.1
-Pillow==3.2.1
+Pillow==6.2.0
 pip==19.3.1
 pytz==2019.3
 selenium==3.141.0
