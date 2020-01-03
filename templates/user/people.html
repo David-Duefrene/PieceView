@@ -8,11 +8,7 @@
 <div class="card-deck">
   {% for user in users %}
     <div class="card bg-transparent border-warning" style="">
-      {% if user.photo %}
-        <img src="{{ user.photo.url }}" class="card-img-top">
-      {% else %}
-        <img src="{% static 'icons/no-picture.jpg' %}" class="card-img-top">
-      {% endif %}
+      <img src="{{ user.photo_url }}" class="card-img-top">
       <div class="card-body">
         <h5 class="card-title">{{ user.get_full_name }}</h5>
         <p class="card-text">Some default card text here</p>

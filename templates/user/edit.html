@@ -15,14 +15,11 @@
       {% if field.id_for_label == "id_photo" %}
         <div class="container form-group-inline row">
           <label for="id_photo">Photo</label>
+          <p><img src="{{ user.photo_url }}" class="user-detail"></img></p>
+          <label for="photo-clear_id">Clear photo: </label>
+          <input type="checkbox" name="photo-clear" id="photo-clear_id">
+          <input type="file" name="photo" accept="image/*" id="id_photo">
 
-          {% if user.photo %}
-            <p><img src={{ user.photo.url }} class="user-detail"></img></p>
-            <label for="photo-clear_id">Clear photo: </label>
-            <input type="checkbox" name="photo-clear" id="photo-clear_id">
-          {% else %}
-            <input type="file" name="photo" accept="image/*" id="id_photo">
-          {% endif %}
       <!-- And here we let them add one -->
       {% else %}
         <div class="container form-group-inline row">
@@ -40,5 +37,6 @@
     {% csrf_token %}
     <div class="container form-group-inline row">
         <button class="btn btn-success btn-block" type="submit">Save Changes
-    </div>  </form>
+    </div>
+  </form>
 {% endblock %}
