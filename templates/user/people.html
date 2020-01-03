@@ -1,15 +1,24 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}People{% endblock %}
 
 {% block content %}
 <h1>People</h1>
 <p>Here is a list of people signed up with PieceView</p>
+<div class="card-deck">
   {% for user in users %}
-    <div class="user">
-      <a href="{{ user.username }}" class="title">
-        {{ user.get_full_name }}
-      </a>
+    <div class="card bg-transparent border-warning" style="">
+      {% if user.photo %}
+        <img src="{{ user.photo.url }}" class="card-img-top">
+      {% else %}
+        <img src="{% static 'icons/no-picture.jpg' %}" class="card-img-top">
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ user.get_full_name }}</h5>
+        <p class="card-text">Some default card text here</p>
+      </div>
+      <div class="card-footer bg-transparent border-warning"><a href="{{ user.username }}" class="btn btn-primary">Profile</a></div>
     </div>
   {% endfor %}
+</div>
 {% endblock %}
