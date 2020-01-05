@@ -23,8 +23,12 @@ urlpatterns = [
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     # Registration URL
     path('register/', views.register, name='register'),
+
+    path('users/follow/', views.user_follow, name='user_follow'),
+    
     # Edit Profile
     path('edit/', views.edit, name='edit'),
     path('people/', views.user_list, name='user_list'),
     path('people/<username>/', views.user_detail, name='user_detail'),
+
 ]

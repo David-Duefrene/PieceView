@@ -8,4 +8,49 @@
     <p>Username: {{ user.username }}</p>
     <p>First Name: {{ user.first_name }}</p>
     <p>Last Name: {{ user.last_name }}</p>
+
+    {% with total_followers=user.followers.count %}
+      <span class="count">
+        <span class="total">{{ total_followers }}</span>
+        follower{{ total_followers|pluralize }}
+      </span>
+      <button href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
+      class="btn btn-primary follow">
+        {% if request.user not in user.followers.all %}
+          Follow
+        {% else %}
+          Unfollow
+        {% endif %}
+      </button>
+
+    {% endwith %}
+{% endblock %}
+
+{% block domready %}
+  $('button.follow').click(function(e){
+    e.preventDefault();
+    $.post('{% url "user_follow" %}',
+      {
+        id: $(this).data('id'),
+        action: $(this).data('action')
+      },
+      function(data){
+        if (data['status'] == 'ok') {
+          var previous_action = $('button.follow').data('action');
+
+          // toggle data-action
+          $('button.follow').data('action',
+            previous_action == 'follow' ? 'unfollow' : 'follow');
+          // toggle link text
+          $('button.follow').text(
+            previous_action == 'follow' ? 'Unfollow' : 'Follow');
+
+          // update total followers
+          var previous_followers = parseInt(
+            $('span.count .total').text());
+          $('span.count .total').text(previous_action == 'follow' ? previous_followers + 1 : previous_followers - 1);
+        }
+      }
+    );
+  });
 {% endblock %}

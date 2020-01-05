@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import UserRegistrationForm
-from .models import CustomUser
+from .models import CustomUser, Contact
 
 class CustomUserAdmin(UserAdmin):
 	add_form = UserRegistrationForm
@@ -27,3 +27,4 @@ class CustomUserAdmin(UserAdmin):
 	ordering = ('username',)
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Contact)
