@@ -5,48 +5,24 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.views.decorators.http import require_POST
+from django.views.generic.edit import CreateView
 
 from common.decorators import ajax_required
-from .forms import LoginForm, UserRegistrationForm, UserEditForm
+from .forms import UserRegistrationForm, UserEditForm
 from .models import CustomUser, Contact
 
-def user_login(request):
-	if request.user.is_authenticated:
-		return render(request, 'user/dashboard.html', {'section': 'dashboard'})
-	if request.method == 'POST':
-		form = LoginForm(request.POST)
-		if form.is_valid():
-			cd = form.cleaned_data
-			user = authenticate(request, username=cd['username'],
-								  password=cd['password'])
-			if user is not None:
-				if user.is_active:
-					login(request, user)
-					return render(request, 'user/dashboard.html', {'section': 'dashboard'})
-				else:
-					return HttpResponse('Disabled account')
-			else:
-				return render(request, 'registration/login_invalid.html', {'form': form})
-	else:
-		form = LoginForm()
-	return render(request, 'registration/login.html', {'form': form})
+class UserRegisterCreateView(CreateView):
+	"""
+	Our User registration View. overrides form_valid to render a template 
+	"""
+	model = CustomUser
+	form_class = UserRegistrationForm
+	success_url = 'registration/register_done.html'
+	template_name = 'registration/register.html'
 
-def register(request):
-	if request.method == 'POST':
-		user_form = UserRegistrationForm(request.POST)
-		if user_form.is_valid():
-			# Create a new user object but don't save it
-			new_user = user_form.save(commit=False)
-			# Set the chosen password
-			new_user.set_password(user_form.cleaned_data['password'])
-			# Save the user
-			new_user.save()
-			return render(request, 'registration/register_done.html',
-							{'new_user': new_user})
-	else:
-		user_form = UserRegistrationForm()
-	return render(request, 'registration/register.html',
-				  {'user_form': user_form})
+	def form_valid(self, form):
+		form.save()
+		return render(self.request, 'registration/register_done.html', self.get_context_data())
 
 @login_required
 def dashboard(request):

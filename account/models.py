@@ -6,9 +6,19 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 
 class CustomUser(AbstractUser):
+    """
+    CustomerUser model describes our sites users
+    """
     photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}" 
+
+    def get_absulute_url(self):
+        return reverse('dashboard')
 
     @property
     def photo_url(self):

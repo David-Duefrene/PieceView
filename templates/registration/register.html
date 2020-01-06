@@ -5,9 +5,22 @@
 {% block content %}
 	<h1>Create an account</h1>
 	<p>Please, sign up using the following form:</p>
-	<form action="." method="post">
-		{{ user_form.as_p }}
+	<form action={% url 'register' %} method="post">
+		{% for hidden in form.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
+
+		{% for field in form.visible_fields %}
+			<div class="container form-group-inline row">
+				<label class="col-lg-4" for="{{ field.id_for_label }}">{{ field.label }}</label>
+				{{ field }}
+				{% for error in field.errors %}
+					<span class="help-block">{{ error }}</span>
+				{% endfor %}
+			</div>
+		{% endfor %}
 		{% csrf_token %}
-		<p><input id="id_submit_button" type="submit" value="Create my account"></p>
+
+		<input class="btn btn-success btn-block" id="id_submit_button" type="submit" value="Create my account">
 	</form>
 {% endblock content %}
