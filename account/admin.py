@@ -1,8 +1,3 @@
-"""
-### admin.py
-### admin functions for account application
-### Copyright 2019 David J Duefrene, All rights reserved.
-"""
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin

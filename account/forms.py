@@ -1,8 +1,3 @@
-"""
-### forms.py
-### form classes for the account application
-### Copyright 2019 David J Duefrene, All rights reserved.
-"""
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import BaseUserManager

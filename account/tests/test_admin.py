@@ -1,8 +1,3 @@
-"""
-### test_admin.py
-### account application testing suite for admin functions
-### Copyright 2019 David J Duefrene, All rights reserved.
-"""
 from django.contrib.admin.sites import AdminSite
 from django.test import TestCase, Client
 

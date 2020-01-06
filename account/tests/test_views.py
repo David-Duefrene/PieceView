@@ -1,8 +1,3 @@
-"""
-### test_views.py
-### account application views testing suite
-### Copyright 2019 David J Duefrene, All rights reserved.
-"""
 from django.test import TestCase
 from django.urls import reverse
 
