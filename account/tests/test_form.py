@@ -2,25 +2,6 @@ from django.test import TestCase
 
 from account.forms import *
 
-class TestLoginForm(TestCase):
-	# Form requires both user & PW
-	def test_good_data(self):
-		form = LoginForm(data={'username': "name", 'password': "password"})
-		self.assertTrue(form.is_valid())
-
-	# And should return False if missing either one
-	def test_no_username(self):
-		form = LoginForm(data={'username': "", 'password': "password"})
-		self.assertFalse(form.is_valid())
-
-	def test_no_passwords(self):
-		form = LoginForm(data={'username': "name", 'password': ""})
-		self.assertFalse(form.is_valid())
-	# or if missing both
-	def test_no_data(self):
-		form = LoginForm(data={'username': "", 'password': ""})
-		self.assertFalse(form.is_valid())
-
 # UserManager class is not being tested due to it being passed
 
 class TestRegistrationForm(TestCase):

@@ -13,7 +13,7 @@ from .models import CustomUser, Contact
 
 class UserRegisterCreateView(CreateView):
 	"""
-	Our User registration View. overrides form_valid to render a template 
+	Our User registration View. overrides form_valid to render a template
 	"""
 	model = CustomUser
 	form_class = UserRegistrationForm

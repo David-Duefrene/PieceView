@@ -9,7 +9,6 @@ exclude_patterns = [
   "migrations/**",
 ]
 
-
 [[analyzers]]
 name = "python"
 enabled = true
