@@ -39,7 +39,7 @@ def edit(request):
 @login_required
 def user_list(request):
 	users = CustomUser.objects.filter(is_active=True)
-    return render(request, 'user/people.html', {'users': users})
+	return render(request, 'user/people.html', {'users': users})
 
 @login_required
 def user_detail(request, username):
