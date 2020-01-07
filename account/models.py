@@ -11,8 +11,8 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-    @staticmethod        
-    def get_absulute_url(self):
+    @staticmethod
+    def get_absulute_url():
         """Returns the dashboard url"""
         return reverse('dashboard')
 
