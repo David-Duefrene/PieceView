@@ -8,10 +8,6 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
-
-### settings.py
-### master settings file for the PieceView project
-### Copyright 2019 David J Duefrene, All rights reserved.
 """
 import os
 
