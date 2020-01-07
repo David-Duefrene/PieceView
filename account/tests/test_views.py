@@ -79,7 +79,6 @@ class UserDashboardTest(TestCase):
         """
         login = self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('dashboard'))
-        self.assertEqual(str(response.context['user']), 'alfred')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/dashboard.html')
 
@@ -103,7 +102,6 @@ class UserEditTest(TestCase):
         """
         login = self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('edit'))
-        self.assertEqual(str(response.context['user']), 'alfred')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/edit.html')
 
@@ -132,7 +130,6 @@ class PeopleListTest(TestCase):
         """
         login = self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('user_list'))
-        self.assertEqual(str(response.context['user']), 'alfred')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/people.html')
 
@@ -161,6 +158,5 @@ class ProfileDetailTest(TestCase):
         """
         login = self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('user_detail', args=['alfred']))
-        self.assertEqual(str(response.context['user']), 'alfred')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/profile.html')
