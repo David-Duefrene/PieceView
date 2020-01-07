@@ -45,7 +45,7 @@ def user_list(request):
 def user_detail(request, username):
 	user = get_object_or_404(CustomUser, username=username, is_active=True)
 	return render(request, 'user/profile.html',
-                  {'section': 'profile', 'user': user})
+			{'section': 'profile', 'user': user})
 
 @ajax_required
 @require_POST
