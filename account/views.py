@@ -43,8 +43,8 @@ def user_list(request):
 
 @login_required
 def user_detail(request, username):
-    user = get_object_or_404(CustomUser, username=username, is_active=True)
-    return render(request, 'user/profile.html',
+	user = get_object_or_404(CustomUser, username=username, is_active=True)
+	return render(request, 'user/profile.html',
                   {'section': 'profile', 'user': user})
 
 @ajax_required
