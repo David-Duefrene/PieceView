@@ -3,23 +3,23 @@ from django.urls import reverse
 
 from account.models import CustomUser
 
+
 class UserLoginViewTest(TestCase):
+    """Tests for our login view"""
     def test_view_url_exists_at_desired_location(self):
-        """
-        Tests that the URL actually exists
-        """
+        """Tests that the URL actually exists"""
         response = self.client.get('/account/login/')
         self.assertEqual(response.status_code, 200)
 
     def test_uses_correct_template(self):
-        """
-        Tests that the correct template is rendering
-        """
+        """Tests that the correct template is rendering"""
         response = self.client.get(reverse('login'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/login.html')
 
-class UdserLogoutViewTest(TestCase):
+
+class UserLogoutViewTest(TestCase):
+    """ Tests for user logging out view"""
     def setUp(self):
         user = CustomUser.objects.create_user(
             username='alfred',
@@ -27,39 +27,35 @@ class UdserLogoutViewTest(TestCase):
         )
 
     def test_view_url_exists_at_desired_location(self):
-        """
-        Tests that the URL actually exists
-        """
+        """Tests that the URL actually exists"""
         login = self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get('/account/logout/')
         self.assertEqual(response.status_code, 200)
 
     def test_uses_correct_template(self):
-        """
-        Tests that the correct template is rendering
-        """
+        """Tests that the correct template is rendering"""
         login = self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('logout'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/logged_out.html')
 
+
 class UserRegistrationViewTest(TestCase):
+    """Tests to ensure Registration view is correct"""
     def test_view_url_exists_at_desired_location(self):
-        """
-        Tests that the URL actually exists
-        """
+        """Tests that the URL actually exists"""
         response = self.client.get('/account/register/')
         self.assertEqual(response.status_code, 200)
 
     def test_uses_correct_template(self):
-        """
-        Tests that the correct template is rendering
-        """
+        """Tests that the correct template is rendering"""
         response = self.client.get(reverse('register'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/register.html')
 
+
 class UserDashboardTest(TestCase):
+    """ View test for our user dashboard"""
     def setUp(self):
         user = CustomUser.objects.create_user(
             username='alfred',
@@ -67,22 +63,20 @@ class UserDashboardTest(TestCase):
         )
 
     def test_redirects_if_not_logged_in(self):
-        """
-        Tests that the URL actually exists
-        """
+        """Tests that the URL actually exists"""
         response = self.client.get(reverse('dashboard'))
         self.assertRedirects(response, '/account/login/?next=/account/')
 
     def test_loggin_uses_correct_template(self):
-        """
-        Tests that the correct template is rendering
-        """
+        """Tests that the correct template is rendering"""
         login = self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('dashboard'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/dashboard.html')
 
+
 class UserEditTest(TestCase):
+    """ Test for the user edit view"""
     def setUp(self):
         user = CustomUser.objects.create_user(
             username='alfred',
@@ -90,25 +84,20 @@ class UserEditTest(TestCase):
         )
 
     def test_redirects_if_not_logged_in(self):
-        """
-        Tests that the URL actually exists
-        """
+        """Tests that the URL actually exists"""
         response = self.client.get(reverse('edit'))
         self.assertRedirects(response, '/account/login/?next=/account/edit/')
 
     def test_loggin_uses_correct_template(self):
-        """
-        Tests that the correct template is rendering
-        """
+        """Tests that the correct template is rendering"""
         login = self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('edit'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/edit.html')
 
+
 class PeopleListTest(TestCase):
-    """
-    Test for the People page.
-    """
+    """Test for the People view."""
     def setUp(self):
         user = CustomUser.objects.create_user(
             username='alfred',
@@ -133,10 +122,9 @@ class PeopleListTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/people.html')
 
+
 class ProfileDetailTest(TestCase):
-    """
-    Test for users Profile page.
-    """
+    """Test for users Profile Detail view."""
     def setUp(self):
         user = CustomUser.objects.create_user(
             username='alfred',
@@ -149,7 +137,8 @@ class ProfileDetailTest(TestCase):
         when the try and access someones Profile page.
         """
         response = self.client.get(reverse('user_detail', args=['alfred']))
-        self.assertRedirects(response, '/account/login/?next=/account/people/alfred/')
+        self.assertRedirects(response,
+                             '/account/login/?next=/account/people/alfred/')
 
     def test_loggedin_uses_correct_template(self):
         """
