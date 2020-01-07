@@ -19,7 +19,8 @@ class UserRegisterCreateView(CreateView):
 
     def form_valid(self, form):
         form.save()
-        return render(self.request, 'registration/register_done.html', self.get_context_data())
+        return render(self.request, 'registration/register_done.html',
+            self.get_context_data())
 
 @login_required
 def dashboard(request):
@@ -28,7 +29,8 @@ def dashboard(request):
 @login_required
 def edit(request):
     if request.method == 'POST':
-        user_form = UserEditForm(instance=request.user, data=request.POST, files=request.FILES)
+        user_form = UserEditForm(instance=request.user, data=request.POST,
+            files=request.FILES)
         if user_form.is_valid():
             user_form.save()
     else:
@@ -57,9 +59,11 @@ def user_follow(request):
         try:
             user = CustomUser.objects.get(id=user_id)
             if action == 'follow':
-                Contact.objects.get_or_create(from_user=request.user, to_user=user)
+                Contact.objects.get_or_create(from_user=request.user,
+                    to_user=user)
             else:
-                Contact.objects.filter(from_user=request.user, to_user=user).delete()
+                Contact.objects.filter(from_user=request.user,
+                    to_user=user).delete()
             return JsonResponse({'status':'ok'})
 
         except CustomUser.DoesNotExist:
