@@ -31,7 +31,7 @@ class UserRegistrationForm(forms.ModelForm):
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
             raise forms.ValidationError('Passwords don\'t match.',
-                code='mismatch_pass')
+                                        code='mismatch_pass')
         return cd['password2']
 
     def save(self, commit=True):
@@ -45,16 +45,16 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UserEditForm(forms.ModelForm):
-        """
-        Form for a user to edit thier account.
-        required fields are username, email, and first name just as
-        UserRegistrationForm
-        """
+    """
+    Form for a user to edit thier account.
+    required fields are username, email, and first name just as
+    UserRegistrationForm
+    """
     class Meta:
         model = get_user_model()
         exclude = ('last_login', 'is_superuser', 'groups', 'user_permissions',
-            'is_staff', 'is_active', 'date_joined', 'password', 'username',
-            'contacts')
+                   'is_staff', 'is_active', 'date_joined', 'password',
+                   'username', 'contacts')
 
     def __init__(self, *args, **kwargs):
         super(UserEditForm, self).__init__(*args, **kwargs)
