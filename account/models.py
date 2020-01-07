@@ -11,15 +11,17 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-    def get_absulute_url(self):
+    @staticmethod
+    def get_absulute_url():
+        """Returns the dashboard url"""
         return reverse('dashboard')
 
     @property
     def photo_url(self):
+        """Returns the users phot url or the default no pucture url"""
         if self.photo:
             return self.photo.url
-        else:
-            return "/static/icons/no-picture.jpg"
+        return "/static/icons/no-picture.jpg"
 
 class Contact(models.Model):
     """
