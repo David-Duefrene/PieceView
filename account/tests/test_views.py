@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from account.forms import UserRegistrationForm
 from account.models import CustomUser
 
 class UserLoginViewTest(TestCase):

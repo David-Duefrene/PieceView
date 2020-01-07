@@ -1,4 +1,3 @@
-from django.contrib.admin.sites import AdminSite
 from django.test import TestCase, Client
 
 from account.models import CustomUser
