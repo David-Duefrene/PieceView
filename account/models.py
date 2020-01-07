@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 
+
 class CustomUser(AbstractUser):
     """
     CustomerUser model describes our sites users
@@ -23,6 +24,7 @@ class CustomUser(AbstractUser):
             return self.photo.url
         return "/static/icons/no-picture.jpg"
 
+
 class Contact(models.Model):
     """
     Contact model describes the relationship between users
@@ -39,6 +41,8 @@ class Contact(models.Model):
     def __str__(self):
         return f'{self.from_user} follows {self.to_user}'
 
+
 # Add following field to User dynamically
-CustomUser.add_to_class('contacts', models.ManyToManyField('self', through=Contact,
-                                         related_name='followers', symmetrical=False))
+CustomUser.add_to_class('contacts', models.ManyToManyField('self',
+                        through=Contact, related_name='followers',
+                        symmetrical=False))
