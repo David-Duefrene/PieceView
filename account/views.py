@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
-from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic.edit import CreateView, UpdateView
 
@@ -37,6 +36,9 @@ class EditProfileView(UpdateView):
 
     def user_passes_test(self, request):
         """test to see if the profile belongs to the user"""
+        # Deepsource wantsobject declared in __initi__, which Django does not
+        # like, ignore the warning.
+        # skipcq: PYL-W0201
         self.object = self.get_object()
         return self.object == request.user
 

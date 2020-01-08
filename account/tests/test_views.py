@@ -95,6 +95,9 @@ class UserEditTest(TestCase):
     def test_loggin_uses_correct_template(self):
         """Tests that the correct template is being rendered"""
         login = self.client.login(username='alfred', password='Hads65ads1')
+        # DeepSource flags pk as un pythonic. Although correct ignoring it
+        # as well as the _default_manager protected flag, ignoring for tests
+        # skipcq: PYL-C0103, PYL-W0212
         pk = get_user_model()._default_manager.get(username__exact='alfred').pk
         response = self.client.get(reverse('edit', kwargs={'pk': pk}))
         self.assertEqual(response.status_code, 200)
