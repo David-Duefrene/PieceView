@@ -4,18 +4,15 @@ from django.urls import reverse
 
 
 class CustomUser(AbstractUser):
-    """
-    CustomerUser model describes our sites users
-    """
+    """CustomerUser model describes our sites users"""
     photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
-    @staticmethod
-    def get_absulute_url():
-        """Returns the dashboard url"""
-        return reverse('dashboard')
+    def get_absolute_url(self):
+        """Returns the user detail page"""
+        return reverse('user_detail', kwargs={'username': self.username})
 
     @property
     def photo_url(self):
@@ -26,9 +23,7 @@ class CustomUser(AbstractUser):
 
 
 class Contact(models.Model):
-    """
-    Contact model describes the relationship between users
-    """
+    """Contact model describes the relationship between users"""
     from_user = models.ForeignKey(CustomUser, related_name='from_user',
                                   on_delete=models.CASCADE)
     to_user = models.ForeignKey(CustomUser, related_name='to_user',

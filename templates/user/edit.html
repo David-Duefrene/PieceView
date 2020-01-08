@@ -6,11 +6,11 @@
   <h1>Edit your account</h1>
   <p>You can edit your account using the following form:</p>
   <form class="" action="." method="post" enctype="multipart/form-data">
-    {% for hidden in user_form.hidden_fields %}
+    {% for hidden in form.hidden_fields %}
       {{ hidden }}
     {% endfor %}
 
-    {% for field in user_form.visible_fields  %}
+    {% for field in form.visible_fields  %}
       <!-- Here we handle the users photo if they already have one -->
       {% if field.id_for_label == "id_photo" %}
         <div class="container form-group-inline row">

@@ -1,8 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from common.decorators import ajax_required
 from .forms import UserRegistrationForm, UserEditForm
@@ -21,31 +22,29 @@ class UserRegisterCreateView(CreateView):
         return render(self.request, 'registration/register_done.html',
                       self.get_context_data())
 
+
 @login_required
 def dashboard(request):
     return render(request, 'user/dashboard.html', {'section': 'dashboard'})
 
-@login_required
-def edit(request):
-    if request.method == 'POST':
-        user_form = UserEditForm(instance=request.user, data=request.POST,
-                                 files=request.FILES)
-        if user_form.is_valid():
-            user_form.save()
-    else:
-        user_form = UserEditForm(instance=request.user)
-        return render(request, 'user/edit.html', {'user_form': user_form})
+
+class EditProfileView(UpdateView):
+    model = CustomUser
+    form_class = UserEditForm
+    template_name = 'user/edit.html'
+
 
 @login_required
 def user_list(request):
     users = CustomUser.objects.filter(is_active=True)
     return render(request, 'user/people.html', {'users': users})
 
+
 @login_required
 def user_detail(request, username):
     user = get_object_or_404(CustomUser, username=username, is_active=True)
     return render(request, 'user/profile.html',
-        {'section': 'profile', 'user': user})
+                  {'section': 'profile', 'user': user})
 
 
 @ajax_required
