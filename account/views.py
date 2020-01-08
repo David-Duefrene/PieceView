@@ -1,8 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import redirect_to_login
 from django.views.decorators.http import require_POST
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from common.decorators import ajax_required
 from .forms import UserRegistrationForm, UserEditForm
@@ -21,31 +22,51 @@ class UserRegisterCreateView(CreateView):
         return render(self.request, 'registration/register_done.html',
                       self.get_context_data())
 
+
 @login_required
 def dashboard(request):
     return render(request, 'user/dashboard.html', {'section': 'dashboard'})
 
-@login_required
-def edit(request):
-    if request.method == 'POST':
-        user_form = UserEditForm(instance=request.user, data=request.POST,
-                                 files=request.FILES)
-        if user_form.is_valid():
-            user_form.save()
-    else:
-        user_form = UserEditForm(instance=request.user)
-        return render(request, 'user/edit.html', {'user_form': user_form})
+
+class EditProfileView(UpdateView):
+    """View for allowing a user to edit thier profile"""
+    model = CustomUser
+    form_class = UserEditForm
+    template_name = 'user/edit.html'
+
+    def user_passes_test(self, request):
+        """test to see if the profile belongs to the user"""
+        # Deepsource wantsobject declared in __initi__, which Django does not
+        # like, ignore the warning.
+        # skipcq: PYL-W0201
+        self.object = self.get_object()
+        return self.object == request.user
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Overrides  defailt dispatch to force a non-authenticated user to login
+        and to ensure a user who tries to edit a diffrent user's profile gets
+        redirected to their own dashboard.
+        """
+        if request.user.is_authenticated:
+            if not self.user_passes_test(request):
+                return render(request, 'user/dashboard.html')
+            return super(EditProfileView, self).dispatch(
+                request, *args, **kwargs)
+        return redirect_to_login(request.get_full_path())
+
 
 @login_required
 def user_list(request):
     users = CustomUser.objects.filter(is_active=True)
     return render(request, 'user/people.html', {'users': users})
 
+
 @login_required
 def user_detail(request, username):
     user = get_object_or_404(CustomUser, username=username, is_active=True)
     return render(request, 'user/profile.html',
-        {'section': 'profile', 'user': user})
+                  {'section': 'profile', 'user': user})
 
 
 @ajax_required

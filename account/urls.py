@@ -34,7 +34,7 @@ urlpatterns = [
     path('users/follow/', views.user_follow, name='user_follow'),
 
     # Edit Profile
-    path('edit/', views.edit, name='edit'),
+    path('edit/<pk>/', views.EditProfileView.as_view(), name='edit'),
     path('people/', views.user_list, name='user_list'),
     path('people/<username>/', views.user_detail, name='user_detail'),
 

@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-
+from django.contrib.auth import get_user_model
 from account.models import CustomUser
 
 
@@ -82,18 +82,31 @@ class UserEditTest(TestCase):
             username='alfred',
             password='Hads65ads1',
         )
+        user2 = CustomUser.objects.create_user(
+            username='Tommy',
+            password='Kasdf452'
+        )
 
     def test_redirects_if_not_logged_in(self):
-        """Tests that the URL actually exists"""
-        response = self.client.get(reverse('edit'))
-        self.assertRedirects(response, '/account/login/?next=/account/edit/')
+        """Tests that a edit url will redirect if no user is logged in."""
+        response = self.client.get(reverse('edit', kwargs={'pk': 1}))
+        self.assertRedirects(response, '/account/login/?next=/account/edit/1/')
 
     def test_loggin_uses_correct_template(self):
-        """Tests that the correct template is rendering"""
+        """Tests that the correct template is being rendered"""
         login = self.client.login(username='alfred', password='Hads65ads1')
-        response = self.client.get(reverse('edit'))
+        # DeepSource flags pk as un pythonic. Although correct ignoring it
+        # as well as the _default_manager protected flag, ignoring for tests
+        # skipcq: PYL-C0103, PYL-W0212
+        pk = get_user_model()._default_manager.get(username__exact='alfred').pk
+        response = self.client.get(reverse('edit', kwargs={'pk': pk}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/edit.html')
+
+    def test_user_can_only_edit_own_profile(self):
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.get(reverse('edit', kwargs={'pk': 2}))
+        self.assertTemplateUsed(response, 'user/dashboard.html')
 
 
 class PeopleListTest(TestCase):
