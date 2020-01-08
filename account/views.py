@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import redirect_to_login
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic.edit import CreateView, UpdateView
@@ -29,9 +30,28 @@ def dashboard(request):
 
 
 class EditProfileView(UpdateView):
+    """View for allowing a user to edit thier profile"""
     model = CustomUser
     form_class = UserEditForm
     template_name = 'user/edit.html'
+
+    def user_passes_test(self, request):
+        """test to see if the profile belongs to the user"""
+        self.object = self.get_object()
+        return self.object == request.user
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Overrides  defailt dispatch to force a non-authenticated user to login
+        and to ensure a user who tries to edit a diffrent user's profile gets
+        redirected to their own dashboard.
+        """
+        if request.user.is_authenticated:
+            if not self.user_passes_test(request):
+                return render(request, 'user/dashboard.html')
+            return super(EditProfileView, self).dispatch(
+                request, *args, **kwargs)
+        return redirect_to_login(request.get_full_path())
 
 
 @login_required

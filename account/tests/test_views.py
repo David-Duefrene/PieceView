@@ -82,11 +82,15 @@ class UserEditTest(TestCase):
             username='alfred',
             password='Hads65ads1',
         )
+        user2 = CustomUser.objects.create_user(
+            username='Tommy',
+            password='Kasdf452'
+        )
 
     def test_redirects_if_not_logged_in(self):
         """Tests that a edit url will redirect if no user is logged in."""
         response = self.client.get(reverse('edit', kwargs={'pk': 1}))
-        self.assertRedirects(response, '/account/login/?next=/account/edit/')
+        self.assertRedirects(response, '/account/login/?next=/account/edit/1/')
 
     def test_loggin_uses_correct_template(self):
         """Tests that the correct template is being rendered"""
@@ -95,6 +99,11 @@ class UserEditTest(TestCase):
         response = self.client.get(reverse('edit', kwargs={'pk': pk}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/edit.html')
+
+    def test_user_can_only_edit_own_profile(self):
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.get(reverse('edit', kwargs={'pk': 2}))
+        self.assertTemplateUsed(response, 'user/dashboard.html')
 
 
 class PeopleListTest(TestCase):
