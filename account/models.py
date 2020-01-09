@@ -7,6 +7,9 @@ class CustomUser(AbstractUser):
     """CustomerUser model describes our sites users"""
     photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 

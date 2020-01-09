@@ -1,9 +1,10 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import redirect_to_login
 from django.views.decorators.http import require_POST
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 
 from common.decorators import ajax_required
 from .forms import UserRegistrationForm, UserEditForm
@@ -36,16 +37,16 @@ class EditProfileView(UpdateView):
 
     def user_passes_test(self, request):
         """test to see if the profile belongs to the user"""
-        # Deepsource wantsobject declared in __initi__, which Django does not
-        # like, ignore the warning.
+        # Deepsource wants object declared in __init__, which Django does not
+        # recomend overriding in a view class, ignoring the warning.
         # skipcq: PYL-W0201
         self.object = self.get_object()
         return self.object == request.user
 
     def dispatch(self, request, *args, **kwargs):
         """
-        Overrides  defailt dispatch to force a non-authenticated user to login
-        and to ensure a user who tries to edit a diffrent user's profile gets
+        Overrides default dispatch to force a non-authenticated user to login
+        and to ensure a user who tries to edit a different user's profile gets
         redirected to their own dashboard.
         """
         if request.user.is_authenticated:
@@ -56,10 +57,10 @@ class EditProfileView(UpdateView):
         return redirect_to_login(request.get_full_path())
 
 
-@login_required
-def user_list(request):
-    users = CustomUser.objects.filter(is_active=True)
-    return render(request, 'user/people.html', {'users': users})
+class UserListView(LoginRequiredMixin, ListView):
+    model = CustomUser
+    paginate_by = 25
+    template_name = 'user/people.html'
 
 
 @login_required
