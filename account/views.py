@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import redirect_to_login
 from django.views.decorators.http import require_POST
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView
 
 from common.decorators import ajax_required
 from .forms import UserRegistrationForm, UserEditForm
@@ -58,16 +58,18 @@ class EditProfileView(UpdateView):
 
 
 class UserListView(LoginRequiredMixin, ListView):
+    """View displaying all users"""
     model = CustomUser
     paginate_by = 25
     template_name = 'user/people.html'
 
 
-@login_required
-def user_detail(request, username):
-    user = get_object_or_404(CustomUser, username=username, is_active=True)
-    return render(request, 'user/profile.html',
-                  {'section': 'profile', 'user': user})
+class UserDetailView(LoginRequiredMixin, DetailView):
+    """view displaying a users profile"""
+    context_object_name = 'profile'
+    model = CustomUser
+    slug_field = 'username'
+    template_name = 'user/profile.html'
 
 
 @ajax_required
