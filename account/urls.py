@@ -36,6 +36,6 @@ urlpatterns = [
     # Edit Profile
     path('edit/<pk>/', views.EditProfileView.as_view(), name='edit'),
     path('people/', views.UserListView.as_view(), name='user_list'),
-    path('people/<username>/', views.user_detail, name='user_detail'),
+    path('people/<slug>/', views.UserDetailView.as_view(), name='user_detail'),
 
 ]
