@@ -6,7 +6,7 @@
 <h1>People</h1>
 <p>Here is a list of people signed up with PieceView</p>
 <div class="card-deck">
-  {% for user in users %}
+  {% for user in object_list %}
     <div class="card bg-transparent border-warning" style="">
       <img src="{{ user.photo_url }}" class="card-img-top">
       <div class="card-body">

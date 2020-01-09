@@ -147,7 +147,7 @@ class ProfileDetailTest(TestCase):
     def test_redirects_if_not_logged_in(self):
         """
         Tests that someone who does not have an account gets redirected
-        when the try and access someones Profile page.
+        to a login when they try and access someone's Profile page.
         """
         response = self.client.get(reverse('user_detail', args=['alfred']))
         self.assertRedirects(response,
