@@ -3,18 +3,19 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 import os
 
-from account.models import CustomUser
+from account.models import CustomUser, Contact
 
 
 class CustomUserModelTest(TestCase):
-    """Tests are customer user model"""
+    """Tests the CustomUser model"""
     def test_default_photo_url(self):
-        """tests the photo url"""
+        """Tests the photo url"""
         test_user = CustomUser()
         self.assertEqual("/static/icons/no-picture.jpg", test_user.photo_url)
 
     def test_custom_photo_url(self):
-        """tests correct url if a user uploads there own photo"""
+        """Tests correct url if a user uploads there own photo"""
+        # photo should be in /PieceView/account/tests
         image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                   'alber-einstien.jpg')
         test_user = CustomUser()
@@ -23,3 +24,21 @@ class CustomUserModelTest(TestCase):
                                                           'rb').read(),
                                              content_type='image/jpeg')
         self.assertEqual("/media/test_image.jpg", test_user.photo_url)
+
+
+class ContactModelTest(TestCase):
+    """Tests the Contact model"""
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(
+            username='alfred',
+            password='Hads65ads1',
+        )
+        self.user2 = CustomUser.objects.create_user(
+            username='Tommy',
+            password='Kasdf452'
+        )
+
+    def test_follow(self):
+        """Tests to make sure str method functions with follow"""
+        follow = Contact(from_user=self.user, to_user=self.user2)
+        self.assertEqual("alfred follows Tommy", str(follow))
