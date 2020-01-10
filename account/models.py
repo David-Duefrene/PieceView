@@ -1,25 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.urls import reverse
 
 
 class CustomUser(AbstractUser):
-    """CustomerUser model describes our sites users"""
+    """CustomUser model describes our sites users"""
     photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
 
     class Meta:
         ordering = ['-id']
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-
-    def get_absolute_url(self):
-        """Returns the user detail page"""
-        return reverse('user_detail', kwargs={'username': self.username})
-
     @property
     def photo_url(self):
-        """Returns the users phot url or the default no pucture url"""
+        """Returns the users photo url or the default no picture url"""
         if self.photo:
             return self.photo.url
         return "/static/icons/no-picture.jpg"
