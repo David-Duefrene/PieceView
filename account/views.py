@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import redirect_to_login
 from django.views.decorators.http import require_POST
-from django.views.generic import CreateView, UpdateView, ListView, DetailView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView,\
+                                    TemplateView
 
 from common.decorators import ajax_required
 from .forms import UserRegistrationForm, UserEditForm
@@ -24,9 +25,9 @@ class UserRegisterCreateView(CreateView):
                       self.get_context_data())
 
 
-@login_required
-def dashboard(request):
-    return render(request, 'user/dashboard.html', {'section': 'dashboard'})
+class DashboardTemplateView(LoginRequiredMixin, TemplateView):
+    """View for a users dashboard"""
+    template_name = 'user/dashboard.html'
 
 
 class EditProfileView(UpdateView):
