@@ -77,6 +77,10 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 @require_POST
 @login_required
 def user_follow(request):
+    """
+    View for a user following another user.  Only permited via ajax + POST via
+    and authenticated user.
+    """
     user_id = request.POST.get('id')
     action = request.POST.get('action')
     if user_id and action:
