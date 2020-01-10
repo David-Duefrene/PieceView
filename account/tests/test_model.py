@@ -19,15 +19,12 @@ class CustomUserModelTest(TestCase):
         image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                   'albert-einstien.jpg')
         test_user = CustomUser()
-        try:
+        with open(image_path, 'rb') as file:
             test_user.photo = SimpleUploadedFile(name='test_image.jpg',
-                                                 content=open(image_path,
-                                                              'rb').read(),
+                                                 content=file.read(),
                                                  content_type='image/jpeg')
-        except FileNotFoundError:
-            print("Error file not found.")
 
-        self.assertEqual("/media/test_image.jpg", test_user.photo_url)
+            self.assertEqual("/media/test_image.jpg", test_user.photo_url)
 
 
 class ContactModelTest(TestCase):
