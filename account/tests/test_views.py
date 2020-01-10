@@ -1,6 +1,7 @@
 from django.test import TestCase
-from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.urls import reverse
+
 from account.models import CustomUser
 
 
@@ -162,3 +163,47 @@ class ProfileDetailTest(TestCase):
         response = self.client.get(reverse('user_detail', args=['alfred']))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/profile.html')
+
+
+class FollowUserTest(TestCase):
+    """Tests for following users"""
+    def setUp(self):
+        user = CustomUser.objects.create_user(
+            username='alfred',
+            password='Hads65ads1',
+        )
+        user2 = CustomUser.objects.create_user(
+            username='Tommy',
+            password='Kasdf452'
+        )
+
+    def test_can_follow_user(self):
+        """Tests that a logged in user can follow another user"""
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.post(reverse('user_follow'),
+                                    data={'id': 2, 'action': 'follow'},
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(b'{"status": "followed"}', response.content)
+
+    def test_user_can_unfollow(self):
+        login = self.client.login(username='alfred', password='Hads65ads1')
+        response = self.client.post(reverse('user_follow'),
+                                    data={'id': 2, 'action': 'unfollow'},
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(b'{"status": "unfollowed"}', response.content)
+
+    def test_unauthinticated_gets_rejected(self):
+        """Tests a unauthenticated user gets redirected to log in screen"""
+        response = self.client.post(reverse('user_follow'),
+                                    data={'id': 2, 'action': 'follow'},
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                                    follow=True)
+        self.assertIn(b"Please use the follwoing form to log-in:",
+                      response.content)
+
+    def test_http_request_rejected(self):
+        response = self.client.post(reverse('user_follow'),
+                                    data={'id': 2, 'action': 'follow'})
+        self.assertEqual(response.status_code, 400)
