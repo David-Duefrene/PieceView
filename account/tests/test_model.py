@@ -17,12 +17,16 @@ class CustomUserModelTest(TestCase):
         """Tests correct url if a user uploads there own photo"""
         # photo should be in /PieceView/account/tests
         image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                  'alber-einstien.jpg')
+                                  'albert-einstien.jpg')
         test_user = CustomUser()
-        test_user.photo = SimpleUploadedFile(name='test_image.jpg',
-                                             content=open(image_path,
-                                                          'rb').read(),
-                                             content_type='image/jpeg')
+        try:
+            test_user.photo = SimpleUploadedFile(name='test_image.jpg',
+                                                 content=open(image_path,
+                                                              'rb').read(),
+                                                 content_type='image/jpeg')
+        except FileNotFoundError:
+            print("Error file not found.")
+
         self.assertEqual("/media/test_image.jpg", test_user.photo_url)
 
 
@@ -31,11 +35,11 @@ class ContactModelTest(TestCase):
     def setUp(self):
         self.user = CustomUser.objects.create_user(
             username='alfred',
-            password='Hads65ads1',
+            password='Hads65ads1',  # skipcq: PTC-W1006
         )
         self.user2 = CustomUser.objects.create_user(
             username='Tommy',
-            password='Kasdf452'
+            password='Kasdf452'  # skipcq: PTC-W1006
         )
 
     def test_follow(self):
