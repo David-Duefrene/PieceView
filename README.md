@@ -1,5 +1,6 @@
 # Badges
 [![Coverage Status](https://coveralls.io/repos/github/David-Duefrene/PieceView/badge.svg)](https://coveralls.io/github/David-Duefrene/PieceView)
+[![DeepSource](https://static.deepsource.io/deepsource-badge-light.svg)](https://deepsource.io/gh/David-Duefrene/PieceView/?ref=repository-badge)
 
 # PieceView
   A social media website revolving around pieces of information posted to views. Users will be able to follow other users as well as individual views.
