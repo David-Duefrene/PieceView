@@ -3,7 +3,7 @@
 
 # PieceView
   A social media website revolving around pieces of information posted to views. Users will be able to follow other users as well as individual views.
-  Users should be able to create a custom view and mark it either public or private to customize the viewing experience.
+  Users should be able to create a custom view and mark it either public or private to customize the viewing experience. Test
 
 # Organization
   1. The account application primary purpose is to hold and manage all account related information including:
