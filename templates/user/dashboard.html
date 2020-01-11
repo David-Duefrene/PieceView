@@ -4,7 +4,13 @@
 
 {% block content %}
 	<h1>Dashboard</h1>
-	<p>Welcome to your dashboard.</p>
-	<p>You can change you password <a href="{% url "password_change" %}">here</a>.</p>
-	<p>You can also update your profile <a href="{% url "edit" pk=request.user.pk %}">here</a>.</p>
+		<nav class="nav nav-pills nav-fill">
+				<a class="nav-item nav-link" href="#tab-1">Account</a>
+				<a class="nav-item nav-link" href="#tab-3">Followers</a>
+				<a class="nav-item nav-link" href="#tab-2">Following</a>
+		</nav>
+
+		<p>You can change you password <a href="{% url "password_change" %}">here</a>.</p>
+		<p>You can also update your profile <a href="{% url "edit" pk=request.user.pk %}">here</a>.</p>
+
 {% endblock %}
