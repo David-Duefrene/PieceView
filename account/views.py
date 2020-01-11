@@ -89,10 +89,10 @@ def user_follow(request):
             if action == 'follow':
                 Contact.objects.get_or_create(from_user=request.user,
                                               to_user=user)
-                return JsonResponse({'status': 'ok'})
+                return JsonResponse({'status': 'follow'})
             Contact.objects.filter(from_user=request.user,
                                    to_user=user).delete()
-            return JsonResponse({'status': 'ok'})
+            return JsonResponse({'status': 'unfollow'})
 
         except CustomUser.DoesNotExist:
             return JsonResponse({'status': 'DoesNotExist'})
