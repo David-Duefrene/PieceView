@@ -1,26 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}{{ profile.get_full_name }}{% endblock %}
+{% block title %}{{profile.get_full_name}}{% endblock %}
 
 {% block content %}
   <h1>{{ profile.get_full_name }}</h1>
-    <p><img src="{{ profile.photo_url }}" class="profile-detail"></img></p>
-    <p>Username: {{ profile.profilename }}</p>
-    <p>First Name: {{ profile.first_name }}</p>
-    <p>Last Name: {{ profile.last_name }}</p>
+    <p><img src="{{profile.photo_url}}" class="profile-detail"></img></p>
+    <p>Username: {{profile.profilename}}</p>
+    <p>First Name: {{profile.first_name}}</p>
+    <p>Last Name: {{profile.last_name}}</p>
 
     {% with total_followers=profile.followers.count %}
       <span class="count">
-        <span class="total">{{ total_followers }}</span>
-        follower{{ total_followers|pluralize }}
+        <span class="total">{{total_followers}}</span>
+        follower{{total_followers|pluralize}}
       </span>
-      <button href="#" data-id="{{ profile.id }}" data-action="{% if request.profile in profile.followers.all %}un{% endif %}follow"
-      class="btn btn-primary follow">
-        {% if request.profile not in profile.followers.all %}
-          Follow
-        {% else %}
-          Unfollow
-        {% endif %}
+      {% if request.profile not in profile.followers.all %}
+        <button data-id="{{profile.id}}" data-action="follow" class="btn btn-primary follow">Follow
+      {% else %}
+        <button data-id="{{profile.id}}" data-action="unfollow" class="btn btn-primary follow">Unfollow
+      {% endif %}
       </button>
 
     {% endwith %}
