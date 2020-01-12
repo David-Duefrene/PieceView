@@ -79,13 +79,15 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 def user_follow(request):
     """
     View for a user following another user.  Only permited via ajax + POST via
-    and authenticated user.
+    a authenticated user.
     """
     user_id = request.POST.get('id')
     action = request.POST.get('action')
+
     if user_id and action:
         try:
             user = CustomUser.objects.get(id=user_id)
+
             if action == 'follow':
                 Contact.objects.get_or_create(from_user=request.user,
                                               to_user=user)

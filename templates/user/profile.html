@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{profile.get_full_name}}{% endblock %}
+
+{% block loadscripts %}
+<script src="{% static 'js/contact_buttons.js' %}"></script>
+{% endblock loadscripts %}
 
 {% block content %}
   <h1>{{ profile.get_full_name }}</h1>
@@ -14,7 +19,7 @@
         <span class="total">{{total_followers}}</span>
         follower{{total_followers|pluralize}}
       </span>
-      {% if request.profile not in profile.followers.all %}
+      {% if user not in profile.followers.all %}
         <button data-id="{{profile.id}}" data-action="follow" class="btn btn-primary follow">Follow
       {% else %}
         <button data-id="{{profile.id}}" data-action="unfollow" class="btn btn-primary follow">Unfollow
@@ -25,39 +30,5 @@
 {% endblock %}
 
 {% block domready %}
-  $('button.follow').click(function(e){
-    e.preventDefault();
-    $.post('{% url "user_follow" %}',
-      {
-        id: $(this).data('id'),
-        action: $(this).data('action')
-      },
-      function(data){
-        if (data['status'] == 'follow') {
-          // toggle data-action
-          $('button.follow').data('action', 'unfollow');
-
-          // toggle link text
-          $('button.follow').text('Unfollow');
-
-          // update total followers
-          var previous_followers = parseInt(
-            $('span.count .total').text());
-          $('span.count .total').text(previous_followers + 1);
-        }
-        else if (data['status'] == 'unfollow') {
-          // toggle data-action
-          $('button.follow').data('action', 'follow');
-
-          // toggle link text
-          $('button.follow').text('follow');
-
-          // update total followers
-          var previous_followers = parseInt(
-            $('span.count .total').text());
-          $('span.count .total').text(previous_followers - 1);
-        }
-      }
-    );
-  });
+  followButton('{% url "user_follow" %}');
 {% endblock %}
