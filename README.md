@@ -1,5 +1,5 @@
 # Badges
-[![Coverage Status](https://coveralls.io/repos/github/David-Duefrene/PieceView/badge.svg)](https://coveralls.io/github/David-Duefrene/PieceView)
+[![Coverage Status](https://coveralls.io/repos/github/David-Duefrene/PieceView/badge.svg?branch=master)](https://coveralls.io/github/David-Duefrene/PieceView?branch=master)
 [![DeepSource](https://static.deepsource.io/deepsource-badge-light.svg)](https://deepsource.io/gh/David-Duefrene/PieceView/?ref=repository-badge)
 
 # PieceView
