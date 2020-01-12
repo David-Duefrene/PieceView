@@ -7,30 +7,20 @@ function followButton(url){
         action: $(this).data('action')
       },
       function(data){
-        if (data['status'] == 'follow') {
+        if (data['status'] == 'follow' || data['status'] == 'unfollow') {
+          status = (data['status'] == 'follow') ? 'unfollow' : 'follow';
           // toggle data-action
-          $('button.follow').data('action', 'unfollow');
+          $('button.follow').data('action', status);
 
           // toggle link text
-          $('button.follow').text('Unfollow');
+          $('button.follow').text(status);
 
           // update total followers
-          var previous_followers = parseInt(
-            $('span.count .total').text());
-          $('span.count .total').text(previous_followers + 1);
-        }
-        else if (data['status'] == 'unfollow') {
-          // toggle data-action
-          $('button.follow').data('action', 'follow');
-
-          // toggle link text
-          $('button.follow').text('Follow');
-
-          // update total followers
-          var previous_followers = parseInt(
-            $('span.count .total').text());
-          $('span.count .total').text(previous_followers - 1);
+          updated_count = (data['status'] == 'follow') ? 1 : -1;
+          var previous_followers = parseInt($('span.count .total').text());
+          $('span.count .total').text(previous_followers + updated_count);
         }
       }
     );
-  });}
+  });
+}

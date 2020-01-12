@@ -184,7 +184,7 @@ class FollowUserTest(TestCase):
                                     data={'id': 2, 'action': 'follow'},
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(b'{"status": "followed"}', response.content)
+        self.assertEqual(b'{"status": "follow"}', response.content)
 
     def test_user_can_unfollow(self):
         login = self.client.login(username='alfred', password='Hads65ads1')
@@ -192,7 +192,7 @@ class FollowUserTest(TestCase):
                                     data={'id': 2, 'action': 'unfollow'},
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(b'{"status": "unfollowed"}', response.content)
+        self.assertEqual(b'{"status": "unfollow"}', response.content)
 
     def test_unauthinticated_gets_rejected(self):
         """Tests a unauthenticated user gets redirected to log in screen"""
