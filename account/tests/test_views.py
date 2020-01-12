@@ -22,20 +22,20 @@ class UserLoginViewTest(TestCase):
 class UserLogoutViewTest(TestCase):
     """ Tests for user logging out view"""
     def setUp(self):
-        user = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username='alfred',
             password='Hads65ads1',
         )
 
     def test_view_url_exists_at_desired_location(self):
         """Tests that the URL actually exists"""
-        login = self.client.login(username='alfred', password='Hads65ads1')
+        self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get('/account/logout/')
         self.assertEqual(response.status_code, 200)
 
     def test_uses_correct_template(self):
         """Tests that the correct template is rendering"""
-        login = self.client.login(username='alfred', password='Hads65ads1')
+        self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('logout'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration/logged_out.html')
@@ -58,7 +58,7 @@ class UserRegistrationViewTest(TestCase):
 class UserDashboardTest(TestCase):
     """ View test for our user dashboard"""
     def setUp(self):
-        user = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username='alfred',
             password='Hads65ads1',
         )
@@ -70,7 +70,7 @@ class UserDashboardTest(TestCase):
 
     def test_loggin_uses_correct_template(self):
         """Tests that the correct template is rendering"""
-        login = self.client.login(username='alfred', password='Hads65ads1')
+        self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('dashboard'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/dashboard.html')
@@ -79,11 +79,11 @@ class UserDashboardTest(TestCase):
 class UserEditTest(TestCase):
     """ Test for the user edit view"""
     def setUp(self):
-        user = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username='alfred',
             password='Hads65ads1',
         )
-        user2 = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username='Tommy',
             password='Kasdf452'
         )
@@ -95,7 +95,7 @@ class UserEditTest(TestCase):
 
     def test_loggin_uses_correct_template(self):
         """Tests that the correct template is being rendered"""
-        login = self.client.login(username='alfred', password='Hads65ads1')
+        self.client.login(username='alfred', password='Hads65ads1')
         # DeepSource flags pk as un pythonic. Although correct ignoring it
         # as well as the _default_manager protected flag, ignoring for tests
         # skipcq: PYL-C0103, PYL-W0212
@@ -105,7 +105,7 @@ class UserEditTest(TestCase):
         self.assertTemplateUsed(response, 'user/edit.html')
 
     def test_user_can_only_edit_own_profile(self):
-        login = self.client.login(username='alfred', password='Hads65ads1')
+        self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('edit', kwargs={'pk': 2}))
         self.assertTemplateUsed(response, 'user/dashboard.html')
 
@@ -113,7 +113,7 @@ class UserEditTest(TestCase):
 class PeopleListTest(TestCase):
     """Test for the People view."""
     def setUp(self):
-        user = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username='alfred',
             password='Hads65ads1',
         )
@@ -131,7 +131,7 @@ class PeopleListTest(TestCase):
         Tests that if the user is logged in is will render the correct template
         for the People page.
         """
-        login = self.client.login(username='alfred', password='Hads65ads1')
+        self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('user_list'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/people.html')
@@ -140,9 +140,13 @@ class PeopleListTest(TestCase):
 class ProfileDetailTest(TestCase):
     """Test for users Profile Detail view."""
     def setUp(self):
-        user = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username='alfred',
             password='Hads65ads1',
+        )
+        CustomUser.objects.create_user(
+            username='Tommy',
+            password='Kasdf452'
         )
 
     def test_redirects_if_not_logged_in(self):
@@ -159,27 +163,50 @@ class ProfileDetailTest(TestCase):
         Tests that if the user is logged in is will render the correct template
         for another users Profile page.
         """
-        login = self.client.login(username='alfred', password='Hads65ads1')
+        self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.get(reverse('user_detail', args=['alfred']))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user/profile.html')
+
+    def test_user_can_follow(self):
+        """
+        Test to see if a user has a follow button if they are not following a
+        Profile
+        """
+        self.client.login(username='alfred', password='Hads65ads1')
+        # skipcq FLK-E302
+        button = '<button data-id="2" data-action="follow" class="btn btn-primary follow">Follow'
+        response = self.client.get(reverse('user_detail', args=['Tommy']))
+        self.assertIn(button, response.content.decode())
+
+    def test_user_can_unfollow(self):
+        """Tests to make sure a user can unfollow another user"""
+        self.client.login(username='alfred', password='Hads65ads1')
+        # skipcq FLK-E302
+        button = '<button data-id="2" data-action="unfollow" class="btn btn-primary follow">Unfollow'
+        response = self.client.post(reverse('user_follow'),
+                                    data={'id': 2, 'action': 'follow'},
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(b'{"status": "follow"}', response.content)
+        response = self.client.get(reverse('user_detail', args=['Tommy']))
+        self.assertIn(button, response.content.decode())
 
 
 class FollowUserTest(TestCase):
     """Tests for following users"""
     def setUp(self):
-        user = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username='alfred',
             password='Hads65ads1',
         )
-        user2 = CustomUser.objects.create_user(
+        CustomUser.objects.create_user(
             username='Tommy',
             password='Kasdf452'
         )
 
     def test_can_follow_user(self):
         """Tests that a logged in user can follow another user"""
-        login = self.client.login(username='alfred', password='Hads65ads1')
+        self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.post(reverse('user_follow'),
                                     data={'id': 2, 'action': 'follow'},
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
@@ -187,7 +214,7 @@ class FollowUserTest(TestCase):
         self.assertEqual(b'{"status": "follow"}', response.content)
 
     def test_user_can_unfollow(self):
-        login = self.client.login(username='alfred', password='Hads65ads1')
+        self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.post(reverse('user_follow'),
                                     data={'id': 2, 'action': 'unfollow'},
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
