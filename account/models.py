@@ -17,15 +17,6 @@ class CustomUser(AbstractUser):
         return "/static/icons/no-picture.jpg"
 
 
-class ContactManager(models.Manager):
-    # TODO: Define fields here
-    def get_queryset(self):
-        return super().get_queryset()
-
-    def following(self, user):
-        return super().get_queryset().filter(to_user=user)
-
-
 class Contact(models.Model):
     """Contact model describes the relationship between users"""
     from_user = models.ForeignKey(CustomUser, related_name='from_user',
@@ -33,7 +24,6 @@ class Contact(models.Model):
     to_user = models.ForeignKey(CustomUser, related_name='to_user',
                                 on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
-    contact_manager = ContactManager()
 
     class Meta:
         ordering = ('-created',)
@@ -43,7 +33,7 @@ class Contact(models.Model):
 
 
 # Add following fields to User dynamically
-CustomUser.add_to_class('contacts',
+CustomUser.add_to_class('following',
                         models.ManyToManyField('self',
                                                through=Contact,
                                                related_name='followers',

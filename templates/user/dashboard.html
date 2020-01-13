@@ -45,8 +45,8 @@
 			<div class="Following">
 				<p>Following</p>
 				<div class="card-deck">
-					{{user.contacts}}
-				  {% for profile in user.contacts.all %}
+				  {% for profile in user.following.all %}
+
 						<div class="card bg-transparent border-warning" style="">
 							<img src="{{ profile.photo_url }}" class="card-img-top">
 							<div class="card-body">
