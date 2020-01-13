@@ -1,16 +1,68 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Dashboard{% endblock %}
 
+{% block loadscripts %}
+<link rel="stylesheet" href="{% static 'css/tabs.css' %}">
+<script src="{% static 'js/tabs.js' %}"></script>
+{% endblock loadscripts %}
+
 {% block content %}
 	<h1>Dashboard</h1>
-		<nav class="nav nav-pills nav-fill">
-				<a class="nav-item nav-link" href="#tab-1">Account</a>
-				<a class="nav-item nav-link" href="#tab-3">Followers</a>
-				<a class="nav-item nav-link" href="#tab-2">Following</a>
-		</nav>
+	<div class="tab-wrapper">
+		<ul class="nav nav-tabs tab-menu">
+			<li class="active">Account</li>
+			<li>Followers</li>
+			<li>Following</li>
+		</ul>
 
-		<p>You can change you password <a href="{% url "password_change" %}">here</a>.</p>
-		<p>You can also update your profile <a href="{% url "edit" pk=request.user.pk %}">here</a>.</p>
+		<div class="container-fluid tab-content">
 
+			<div class="">
+				<p>You can change you password <a href="{% url "password_change" %}">here</a>.</p>
+				<p>You can also update your profile <a href="{% url "edit" pk=request.user.pk %}">here</a>.</p>
+			</div>
+
+			<div class="Followers">
+				<p>Followers</p>
+				<div class="card-deck">
+					{% for profile in user.followers.all %}
+
+						<div class="card bg-transparent border-warning" style="">
+							<img src="{{ profile.photo_url }}" class="card-img-top">
+							<div class="card-body">
+								<h5 class="card-title">{{ profile.get_full_name }}</h5>
+								<p class="card-text">Some default card text here</p>
+							</div>
+							<div class="card-footer bg-transparent border-warning"><a href="people/{{ profile.username }}" class="btn btn-primary">Profile</a></div>
+						</div>
+
+				  {% endfor %}
+				</div>
+			</div>
+
+			<div class="Following">
+				<p>Following</p>
+				<div class="card-deck">
+				  {% for profile in user.following.all %}
+
+						<div class="card bg-transparent border-warning" style="">
+							<img src="{{ profile.photo_url }}" class="card-img-top">
+							<div class="card-body">
+								<h5 class="card-title">{{ profile.get_full_name }}</h5>
+								<p class="card-text">Some default card text here</p>
+							</div>
+							<div class="card-footer bg-transparent border-warning"><a href="people/{{ profile.username }}" class="btn btn-primary">Profile</a></div>
+						</div>
+
+				  {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
+
+{% block domready %}
+	tabs();
+{% endblock domready %}
