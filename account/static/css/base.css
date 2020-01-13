@@ -19,6 +19,7 @@ h3, h4, h5 , h6 {
 }
 
 h1 {
+  text-align: center;
   border-bottom: 1px solid black;
   padding: 0 0 10px 0;
   margin: 10px 0 20px 0;
@@ -28,14 +29,14 @@ h2 {
   margin: 30px 0 20px;
 }
 
-#header {
+.main-header {
   padding: 10px 100px;
   font-size: 14px;
   background: rgb(0,0,0);
   background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(3,47,73,1) 84%);
 }
 
-#header a {
+.main-header a {
   color: #15da15;
 }
 
@@ -43,10 +44,6 @@ h2 {
 p{
   font-family: 'CodeNewRomanRegular';
   font-weight: bold;
-}
-
-#content {
-  padding: 30px 50px;
 }
 
 /* forms */
@@ -78,7 +75,7 @@ input, textarea {
 
 input[type=submit], .button {
   font-weight: bold;
-  background: #blue;
+  background: blue;
   color: #fff;
   padding: 10px 20px;
   font-size: 14px;

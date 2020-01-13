@@ -7,15 +7,15 @@
 		<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/code-new-roman" type="text/css"/>
 		<!-- Bootstrap current ver: 4.4.1 -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link href="{% static 'css/base.css' %}" rel="stylesheet">
+		<link href="{% static "css/base.css" %}" rel="stylesheet">
 	</head>
 
 	<body>
 		<!-- Header navigation bar at top of pages -->
 		<div class="container-fluid">
-			<nav id="header" class="navbar navbar-expand-md navbar-default navbar-static-top">
+			<nav class="navbar navbar-expand-md navbar-default navbar-static-top main-header">
 				<div class="container column d-flex justify-content-center">
-				<a class="navbar-brand" href="#">PieceView</a>
+				<a class="navbar-brand" href="{% url "index" %}">PieceView</a>
 					<ul class="navbar-nav">
 						<li><a class="nav-link" href="{% url "dashboard" %}">My dashboard</a></li>
 						<li><a class="nav-link" href="{% url "user_list" %}">People</a></li>
@@ -30,7 +30,7 @@
 		</div>
 
 		<!-- actual content itself -->
-		<div class="container shadow-lg p-3 mb-5 rounded text-wrap" id="content">
+		<div class="container shadow-lg p-3 mb-5 rounded text-wrap">
 			<div class="d-flex justify-content-center" >
 				<div class="" >
 				{% block content %}

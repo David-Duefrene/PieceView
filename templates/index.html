@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to PieceView{% endblock title %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+  <h1>Welcome {{request.user.first_name}}</h1>
+{% else %}
+  <h1>Welcome to PieceView</h1>
+{% endif %}
+  <p>In the future a default page will load with some stuff on it.</p>
+{% endblock content %}
