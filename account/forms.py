@@ -52,9 +52,7 @@ class UserEditForm(forms.ModelForm):
     """
     class Meta:
         model = get_user_model()
-        exclude = ('last_login', 'is_superuser', 'groups', 'user_permissions',
-                   'is_staff', 'is_active', 'date_joined', 'password',
-                   'username', 'contacts')
+        fields = ('first_name', 'last_name', 'email', 'photo')
 
     def __init__(self, *args, **kwargs):
         super(UserEditForm, self).__init__(*args, **kwargs)
