@@ -1,0 +1,27 @@
+form {
+  max-width: 50%;
+}
+
+.edit-form {
+  align-self: center;
+}
+
+.btn {
+  font-weight: bold;
+  max-width: 50%
+}
+
+.errorlist {
+  color: red;
+  float: left;
+  clear: both;
+  list-style-type: none;
+}
+
+.helptext {
+  margin: 0 0 20px 0;
+  color: #aaa;
+  clear: both;
+  float: left;
+  font-size: 13px;
+}

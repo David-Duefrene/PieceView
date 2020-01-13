@@ -13,12 +13,12 @@ body {
 }
 
 /* Header */
-h3, h4, h5 , h6 {
+h4, h5 , h6 {
   font-family: 'Muli', sans-serif;
   font-weight: normal;
 }
 
-h1 {
+h1{
   text-align: center;
   border-bottom: 1px solid black;
   padding: 0 0 10px 0;
@@ -29,6 +29,10 @@ h2 {
   margin: 30px 0 20px;
 }
 
+h3 {
+  text-align: center;
+  margin: 10px 0 20px 0;
+}
 .main-header {
   padding: 10px 100px;
   font-size: 14px;
@@ -44,57 +48,6 @@ h2 {
 p{
   font-family: 'CodeNewRomanRegular';
   font-weight: bold;
-}
-
-/* forms */
-form {
-  overflow: auto;
-}
-
-form p {
-  width: 100%;
-  overflow: auto;
-}
-
-label {
-  float: left;
-  clear: both;
-  color: #333;
-  margin-bottom: 4px;
-}
-
-input, textarea {
-  clear: both;
-  float: left;
-  margin: 0 0 10px;
-  background: #efefef;
-  border: 0;
-  padding: 6px 10px;
-  font-size: 14px;
-}
-
-input[type=submit], .button {
-  font-weight: bold;
-  background: blue;
-  color: #fff;
-  padding: 10px 20px;
-  font-size: 14px;
-  text-transform: uppercase;
-}
-
-.errorlist {
-  color: red;
-  float: left;
-  clear: both;
-  list-style-type: none;
-}
-
-.helptext {
-  margin: 0 0 20px 0;
-  color: #aaa;
-  clear: both;
-  float: left;
-  font-size: 13px;
 }
 
 /* messages */

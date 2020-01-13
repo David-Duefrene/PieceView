@@ -4,8 +4,8 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block loadscripts %}
-<link rel="stylesheet" href="{% static 'css/tabs.css' %}">
-<script src="{% static 'js/tabs.js' %}"></script>
+<link rel="stylesheet" href="{% static "css/tabs.css" %}">
+<script src="{% static "js/tabs.js" %}"></script>
 {% endblock loadscripts %}
 
 {% block content %}
@@ -19,9 +19,11 @@
 
 		<div class="container-fluid tab-content">
 
-			<div class="">
-				<p>You can change you password <a href="{% url "password_change" %}">here</a>.</p>
-				<p>You can also update your profile <a href="{% url "edit" pk=request.user.pk %}">here</a>.</p>
+			<div>
+				<ul class="account-actions">
+					<li><p>You can change you password <a href="{% url "password_change" %}">here</a>.</p></li>
+					<li><p>You can also update your profile <a href="{% url "edit" pk=request.user.pk %}">here</a>.</p></li>
+				</ul>
 			</div>
 
 			<div class="Followers">
@@ -29,13 +31,13 @@
 				<div class="card-deck">
 					{% for profile in user.followers.all %}
 
-						<div class="card bg-transparent border-warning" style="">
+						<div class="card bg-transparent border-warning">
 							<img src="{{ profile.photo_url }}" class="card-img-top">
 							<div class="card-body">
 								<h5 class="card-title">{{ profile.get_full_name }}</h5>
 								<p class="card-text">Some default card text here</p>
 							</div>
-							<div class="card-footer bg-transparent border-warning"><a href="people/{{ profile.username }}" class="btn btn-primary">Profile</a></div>
+							<div class="card-footer bg-transparent border-warning"><a href="{% url "user_detail" slug=profile.username %}" class="btn btn-primary">Profile</a></div>
 						</div>
 
 				  {% endfor %}
@@ -47,13 +49,13 @@
 				<div class="card-deck">
 				  {% for profile in user.following.all %}
 
-						<div class="card bg-transparent border-warning" style="">
+						<div class="card bg-transparent border-warning">
 							<img src="{{ profile.photo_url }}" class="card-img-top">
 							<div class="card-body">
 								<h5 class="card-title">{{ profile.get_full_name }}</h5>
 								<p class="card-text">Some default card text here</p>
 							</div>
-							<div class="card-footer bg-transparent border-warning"><a href="people/{{ profile.username }}" class="btn btn-primary">Profile</a></div>
+							<div class="card-footer bg-transparent border-warning"><a href="{% url "user_detail" slug=profile.username %}" class="btn btn-primary">Profile</a></div>
 						</div>
 
 				  {% endfor %}

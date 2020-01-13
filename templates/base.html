@@ -8,6 +8,7 @@
 		<!-- Bootstrap current ver: 4.4.1 -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 		<link href="{% static "css/base.css" %}" rel="stylesheet">
+		{% block loadcss %}{% endblock loadcss %}
 	</head>
 
 	<body>
@@ -30,11 +31,10 @@
 		</div>
 
 		<!-- actual content itself -->
-		<div class="container shadow-lg p-3 mb-5 rounded text-wrap">
+		<div class="container shadow-lg p-3 rounded text-wrap">
 			<div class="d-flex justify-content-center" >
 				<div class="" >
-				{% block content %}
-				{% endblock %}
+				{% block content %}{% endblock %}
 				</div>
 			</div>
 		</div>
@@ -42,8 +42,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
-{% block loadscripts %}
-{% endblock loadscripts %}
+{% block loadscripts %}{% endblock loadscripts %}
 
 	</script>
 
@@ -61,8 +60,7 @@
       }
     });
 		$(document).ready(function(){
-      {% block domready %}
-      {% endblock domready %}
+      {% block domready %}{% endblock domready %}
 		});
   </script>
 
