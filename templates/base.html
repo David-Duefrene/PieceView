@@ -31,11 +31,9 @@
 		</div>
 
 		<!-- actual content itself -->
-		<div class="container shadow-lg p-3 rounded text-wrap">
-			<div class="d-flex justify-content-center" >
-				<div class="" >
-				{% block content %}{% endblock %}
-				</div>
+		<div class="container shadow-lg rounded">
+			<div class="row  main-div">
+				{% block content %}{% endblock content %}
 			</div>
 		</div>
 
@@ -43,8 +41,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
 {% block loadscripts %}{% endblock loadscripts %}
-
-	</script>
 
   <script>
     var csrftoken = Cookies.get('csrftoken');

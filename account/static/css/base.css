@@ -2,8 +2,6 @@
 @import url(http://fonts.googleapis.com/css?family=Muli);
 
 body {
-  margin: 0;
-  padding: 0;
   font-family: helvetica, sans-serif;
   background: rgb(3,11,68);
   background: linear-gradient(0deg, rgba(2,93,145,1) 0%, rgba(4,133,157,1) 40%,
@@ -34,8 +32,7 @@ h3 {
   margin: 10px 0 20px 0;
 }
 .main-header {
-  padding: 10px 100px;
-  font-size: 14px;
+  font-size: 2.5em;
   background: rgb(0,0,0);
   background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(3,47,73,1) 84%);
 }
@@ -44,6 +41,17 @@ h3 {
   color: #15da15;
 }
 
+.main-div{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+
+  padding-left: 0%;
+  padding-right: 0%;
+  padding-top: 0%;
+  padding-bottom: 0%;
+}
 /* content */
 p{
   font-family: 'CodeNewRomanRegular';
@@ -70,4 +78,8 @@ ul.messages .info {
 
 .login-form {
   float: left;
+}
+
+.card{
+  max-width: 50%;
 }

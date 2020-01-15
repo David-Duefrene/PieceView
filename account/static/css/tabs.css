@@ -1,3 +1,7 @@
+.tab-menu{
+  justify-content: center;
+}
+
 .tab-menu li {
   position: relative;
   background-color: #fff;
@@ -30,4 +34,19 @@
   background-color: aqua;
   top: 0;
   left: 0;
+}
+
+.tab-content{
+  max-width: 90%;
+}
+
+@media screen and (max-width: 1000px) {
+  .tab-content{
+    min-width: 140%;
+  }
+
+  .tab-content{
+    height: 10%;
+    width: 45em;
+  }
 }
