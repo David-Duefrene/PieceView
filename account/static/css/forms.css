@@ -2,6 +2,17 @@ form {
   max-width: 100%;
 }
 
+.form-group{
+  padding-left: 0%;
+  padding-right: 0%;
+  padding-top: 0%;
+  padding-bottom: 0%;
+}
+
+.img-thumbnail{
+  margin-left: -33%;
+}
+
 .edit-form {
   align-self: center;
 }
@@ -12,6 +23,7 @@ form {
   margin-left: 20%;
   min-width: 65%;
   min-height: 4em;
+  margin-bottom: 2%;
 }
 
 .errorlist {
@@ -40,12 +52,13 @@ form {
   font-size: 13px;
 }
 
-.tab-wrapper{
-  height: 10%;
-  width: 45em;
-}
-
-.card{
-  max-width: 100%;
-  min-height: 30em;
+@media (max-width: 700px) {
+  .input-group-text{
+    min-width: 33%;
+    font-size: x-large;
+  }
+  .custom-file-label{
+    font-size: 2em;
+    background-color: Pink;
+  }
 }

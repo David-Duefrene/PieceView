@@ -8,85 +8,69 @@
 {% endblock loadcss %}
 
 {% block loadscripts %}
-<link rel="stylesheet" href="{% static "css/tabs.css" %}">
-<script src="{% static "js/tabs.js" %}"></script>
 {% endblock loadscripts %}
 
 {% block content %}
+<div class="d-flex justify-content-center">
   <h1 class="col-12">Edit your account</h1>
   <h3 class="col-12">You can edit your account using the following form:</h3>
-  {# <div class="d-flex justify-content-center col-lg"> #}
-    <div class="tab-wrapper col-8">
-      <ul class="nav nav-tabs tab-menu">
-        <li class="active">Photo</li>
-        <li>Details</li>
-      </ul>
+  <div class="container col-8">
+    <form class="form" action="." method="post" enctype="multipart/form-data">
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
 
-      <form class="form" action="." method="post" enctype="multipart/form-data">
-            {% for hidden in form.hidden_fields %}
-              {{ hidden }}
+      <div class="d-flex">
+        <!-- Here we handle the users photo -->
+        {% for field in form.visible_fields %}
+          {% if field.id_for_label == "id_photo" %}
+            <div class="form-group">
+              <img src="{{ user.photo_url }}" class="img-thumbnail img-responsive"></img>
+              <!-- And here we let them add a photo -->
+              <div class="input-group custom-file">
+                <input type="file" class="form-control custom-file-input" name="photo" id="Profile-Photo">
+                <label class="custom-file-label" for="Profile-Photo">Choose Profile Picture</label>
+              </div>
+
+              {% if user.photo_url != "/static/icons/no-picture.jpg" %}
+              <!-- If the user has there own photo give them the checkmark to delete it. -->
+                <label for="photo-clear_id" class="form-control">Delete photo: </label>
+                <input type="checkbox" name="photo-delete" id="photo-delete_id">
+              {% endif %}
+
+            </div> <!-- form-group -->
+
+          {% endif %}
+        {% endfor %}
+      </div> <!-- fluid-container -->
+
+        <div class="d-flex justify-content-center details-from">
+          <!-- Add rest of fields -->
+          <div class="flex-fill">
+            {% for field in form.visible_fields %}
+              {% if field.id_for_label != "id_photo" %}
+                <div class="d-flex form-group">
+                  <label class="input-group-text" for="{{ field.id }}">{{ field.label }}</label>
+                  <input type="text" name="{{ field.name }}" class="input-group-text" value="{{ field.value }}" id="{{ field.id }}">
+                </div>
+
+              {% for error in field.errors %}
+                <span class="help-block">{{ error }}</span>
+              {% endfor %}
+
+              {% endif %}
             {% endfor %}
+          </div> <!-- flex-fill -->
+        </div> <!-- Container Fluid -->
 
-            <div class="container-fluid tab-content">
-        			<div class="photo">
-                <!-- Here we handle the users photo -->
-                {% for field in form.visible_fields %}
-                  {% if field.id_for_label == "id_photo" %}
-                    <div class="card">
-                      <img src="{{ user.photo_url }}" class="card-img-top img-thumbnail"></img>
-                      <div class="card-body">
-                        <!-- And here we let them add a photo -->
-                        <div class="input-group custom-file">
-                          <input type="file" class="form-control custom-file-input" name="photo" id="Profile-Photo">
-                          <label class="custom-file-label" for="Profile-Photo">Choose Profile Picture</label>
-                        </div>
-                      </div>
-
-                      {% if user.photo_url != "/static/icons/no-picture.jpg" %}
-                        <!-- If the user has there own photo give them the checkmark to delete it. -->
-                        <div class="card-footer">
-                          <label for="photo-clear_id" class="form-control">Delete photo: </label>
-                          <input type="checkbox" name="photo-delete" id="photo-delete_id">
-                        </div>
-                      {% endif %}
-
-                    </div> <!-- card -->
-
-                  {% endif %}
-                {% endfor %}
-        			</div> <!-- photo -->
-
-              <div class="details">
-                <!-- Add rest of fields -->
-                <div class="flex-fill card">
-                  <div class="card-body">
-                    {% for field in form.visible_fields %}
-                      {% if field.id_for_label != "id_photo" %}
-                        <div class="d-flex">
-                          <label class="input-group-text" for="{{ field.id }}">{{ field.label }}</label>
-                          <input type="text" name="{{ field.name }}" class="input-group-text" value="{{ field.value }}" id="{{ field.id }}">
-                        </div>
-
-                      {% for error in field.errors %}
-                        <span class="help-block">{{ error }}</span>
-                      {% endfor %}
-
-                      {% endif %}
-                    {% endfor %}
-                  </div>
-                </div> <!-- Card -->
-              </div> <!-- Details -->
-
-              {% csrf_token %}
-              <button class="btn btn-success btn-block" type="submit">Save Changes</button>
-            </div> <!-- tab-content -->
+        {% csrf_token %}
+        <button class="btn btn-success btn-block" type="submit">Save Changes</button>
 
       </form>
     </div><!-- Tab Wrapper -->
-  </div> <!-- Main D-flex -->
+  </div>  <!-- New D-flex test -->
 
 {% endblock %}
 
 {% block domready %}
-	tabs();
 {% endblock domready %}
