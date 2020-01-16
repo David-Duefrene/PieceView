@@ -32,13 +32,7 @@
                 <label class="custom-file-label" for="Profile-Photo">Choose Profile Picture</label>
               </div>
 
-              {% if user.photo_url != "/static/icons/no-picture.jpg" %}
-              <!-- If the user has there own photo give them the checkmark to delete it. -->
-                <label for="photo-clear_id" class="form-control">Delete photo: </label>
-                <input type="checkbox" name="photo-delete" id="photo-delete_id">
-              {% endif %}
-
-            </div> <!-- form-group -->
+            </div> <!-- photo form-group -->
 
           {% endif %}
         {% endfor %}
@@ -73,4 +67,8 @@
 {% endblock %}
 
 {% block domready %}
+$('#Profile-Photo').on('change',function(){
+  var fileName = $(this).val()
+  $(this).next('.custom-file-label').html(fileName);
+})
 {% endblock domready %}
