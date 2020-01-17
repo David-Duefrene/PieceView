@@ -1,0 +1,13 @@
+/* All screens */
+h5{
+  text-align: center;
+  border-bottom: 1px solid black;
+  font-weight: bold;
+}
+
+/* Computer Screens */
+@media (min-width: 701px) {
+  .card{
+    max-width: 25%;
+  }
+}

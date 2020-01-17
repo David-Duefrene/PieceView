@@ -32,6 +32,7 @@ h3 {
   margin: 10px 0 20px 0;
 }
 .main-header {
+  min-width: 101%;
   font-size: 2.5em;
   background: rgb(0,0,0);
   background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(3,47,73,1) 84%);
@@ -76,10 +77,6 @@ ul.messages .info {
   float: left;
 }
 
-.card{
-  max-width: 50%;
-}
-
 .img-thumbnail{
   display: flex;
   max-width: 100%;
@@ -91,4 +88,10 @@ ul.messages .info {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+@media (max-width: 700px) {
+  .shadow-lg{
+    min-width: 110%;
+  }
 }
