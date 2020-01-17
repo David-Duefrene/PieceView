@@ -8,27 +8,30 @@
 {% endblock loadscripts %}
 
 {% block content %}
-  <h1>{{ profile.get_full_name }}</h1>
-    <p><img src="{{profile.photo_url}}" class="profile-detail"></img></p>
-    <p>Username: {{profile.profilename}}</p>
-    <p>First Name: {{profile.first_name}}</p>
-    <p>Last Name: {{profile.last_name}}</p>
 
+  <div class="d-flex">
+    <h1 class="col-12">{{ profile.get_full_name }}</h1>
     {% with total_followers=profile.followers.count %}
-      <span class="count">
-        <span class="total">{{total_followers}}</span>
-        follower{{total_followers|pluralize}}
-      </span>
+    <img src="{{profile.photo_url}}" class="profile-detail img-thumbnail col-lg-6"></img>
+    <div class="col">
+      <p class="col">Username: {{profile.profilename}}</p>
+      <p class="col">First Name: {{profile.first_name}}</p>
+      <p class="col">Last Name: {{profile.last_name}}</p>
+      <p class="col">Total Followers: <div class="col">{{total_followers}} follower{{total_followers|pluralize}}</div></p>
+
       {% if user not in profile.followers.all %}
-        <button data-id="{{profile.id}}" data-action="follow" class="btn btn-primary follow">Follow
+        <button data-id="{{profile.id}}" data-action="follow" class="btn btn-primary btn-lg follow">Follow
       {% else %}
         <button data-id="{{profile.id}}" data-action="unfollow" class="btn btn-primary follow">Unfollow
       {% endif %}
       </button>
+    </div>
 
-    {% endwith %}
-{% endblock %}
+      {% endwith %}
+  </div>
+
+{% endblock content %}
 
 {% block domready %}
   followButton('{% url "user_follow" %}');
-{% endblock %}
+{% endblock domready %}

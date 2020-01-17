@@ -25,7 +25,7 @@
         {% for field in form.visible_fields %}
           {% if field.id_for_label == "id_photo" %}
             <div class="form-group">
-              <img src="{{ user.photo_url }}" class="img-thumbnail img-responsive"></img>
+              <img src="{{ user.photo_url }}" class="img-thumbnail" style="min-width: 175%"></img>
               <!-- And here we let them add a photo -->
               <div class="input-group custom-file">
                 <input type="file" class="form-control custom-file-input" name="photo" id="Profile-Photo">

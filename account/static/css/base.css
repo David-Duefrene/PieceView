@@ -70,7 +70,6 @@ ul.messages .info {
 .img-thumbnail{
   display: flex;
   max-width: 100%;
-  min-width: 175%;
   height: auto;
 }
 
@@ -83,6 +82,14 @@ ul.messages .info {
 .btn{
   min-width: fit-content;
   margin: .25em 0;
+}
+
+@media (min-width: 701px) {
+  .img-thumbnail{
+    max-width: 50%;
+    max-height: 75%;
+    margin-bottom: 1%;
+  }
 }
 
 @media (max-width: 700px) {
