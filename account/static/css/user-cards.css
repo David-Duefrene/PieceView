@@ -5,6 +5,10 @@ h5{
   font-weight: bold;
 }
 
+.card-deck{
+  margin-bottom: 1%;
+}
+
 /* Computer Screens */
 @media (min-width: 701px) {
   .card{
