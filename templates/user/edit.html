@@ -13,7 +13,7 @@
 {% block content %}
 <div class="d-flex justify-content-center">
   <h1 class="col-12">Edit your account</h1>
-  <h3 class="col-12">You can edit your account using the following form:</h3>
+  <h3 class="col-12-md">You can edit your account using the following form:</h3>
   <div class="container col-8">
     <form class="form" action="." method="post" enctype="multipart/form-data">
       {% for hidden in form.hidden_fields %}
@@ -40,10 +40,9 @@
 
         <div class="d-flex justify-content-center details-from">
           <!-- Add rest of fields -->
-          <div class="flex-fill">
             {% for field in form.visible_fields %}
               {% if field.id_for_label != "id_photo" %}
-                <div class="d-flex form-group">
+                <div class="form-group">
                   <label class="input-group-text" for="{{ field.id }}">{{ field.label }}</label>
                   <input type="text" name="{{ field.name }}" class="input-group-text" value="{{ field.value }}" id="{{ field.id }}">
                 </div>
@@ -54,7 +53,6 @@
 
               {% endif %}
             {% endfor %}
-          </div> <!-- flex-fill -->
         </div> <!-- Container Fluid -->
 
         {% csrf_token %}
