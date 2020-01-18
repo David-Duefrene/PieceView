@@ -18,11 +18,15 @@
   list-style-type: none;
 }
 
+
 @media (min-width: 701px) {
   .img-thumbnail{
     margin-left: -33%;
   }
 
+  .short-form{
+    max-width: 33%;
+  }
   .btn {
     font-weight: bold;
     max-width: 50%;
