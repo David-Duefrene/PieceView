@@ -30,6 +30,7 @@ body {
 h4, h5 , h6 {
   font-family: 'Muli', sans-serif;
   font-weight: normal;
+  text-align: center;
 }
 
 h1{
@@ -52,6 +53,9 @@ h3 {
 p{
   font-family: 'CodeNewRomanRegular';
   font-weight: bold;
+}
+a{
+  color: #00ff66;
 }
 
 /* messages */

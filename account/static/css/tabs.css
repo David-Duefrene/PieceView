@@ -17,6 +17,10 @@
   color:#464646;
 }
 
+.nav-link{
+  color: black;
+}
+
 /* Computer Screens */
 @media (min-width: 701px) {
   .nav-tabs{
