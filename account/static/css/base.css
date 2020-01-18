@@ -1,6 +1,4 @@
-/* Base CSS file for PieceView project */
-@import url(http://fonts.googleapis.com/css?family=Muli);
-
+/* Main Body */
 body {
   font-family: helvetica, sans-serif;
   background: rgb(3,11,68);
@@ -10,7 +8,25 @@ body {
   background-attachment: fixed;
 }
 
-/* Header */
+.d-flex{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.shadow-lg{
+  padding-bottom: 1em;
+}
+
+/* Navbar */
+.main-header {
+  min-width: fit-content;
+  background: rgb(0,0,0);
+  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(3,47,73,1) 84%);
+}
+
+/* Global Content */
+/* Headers */
 h4, h5 , h6 {
   font-family: 'Muli', sans-serif;
   font-weight: normal;
@@ -32,14 +48,7 @@ h3 {
   margin: 10px 0 20px 0;
 }
 
-.main-header {
-  min-width: 101%;
-  font-size: 2.5em;
-  background: rgb(0,0,0);
-  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(3,47,73,1) 84%);
-}
-
-/* content */
+/* Default Font */
 p{
   font-family: 'CodeNewRomanRegular';
   font-weight: bold;
@@ -63,6 +72,7 @@ ul.messages .info {
   color: #fff;
 }
 
+/* Misc */
 .login-form {
   float: left;
 }
@@ -73,18 +83,17 @@ ul.messages .info {
   height: auto;
 }
 
-.d-flex{
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 .btn{
   min-width: fit-content;
   margin: .25em 0;
 }
 
+/* Smaller screens */
 @media (min-width: 701px) {
+  .main-nav-link{
+    margin-left: 45em
+  }
+
   .img-thumbnail{
     max-width: 50%;
     max-height: 75%;
@@ -92,6 +101,7 @@ ul.messages .info {
   }
 }
 
+/* Large Screens */
 @media (max-width: 700px) {
   .shadow-lg{
     min-width: 110%;
