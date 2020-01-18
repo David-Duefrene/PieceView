@@ -36,16 +36,15 @@
 @media (max-width: 700px) {
   /* User  Profile Photo */
   .img-thumbnail{
-    margin-left: -33%;
+    margin-left: -35%;
   }
 
-  .custom-file-label{
-    font-size: .6em;
-    min-width: 150%;
+  .register-form{
+    min-width: 190%;
   }
 
   .custom-file{
-    margin-left: -15%;
+    padding-left: 35%;
   }
 
   /* Save button */
