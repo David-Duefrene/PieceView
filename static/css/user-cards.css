@@ -1,15 +1,26 @@
+/********************************
+* user-cards.css
+* Boostrap Card deck custimization.
+* Used to display a list of users.
+* Currently used in people view
+* and in Dashboard view.
+********************************/
 /* All screens */
-h5{
+h5 {
   text-align: center;
   border-bottom: 1px solid black;
   font-weight: bold;
 }
 
-.card-deck{
+.card-deck {
   margin-bottom: 1%;
 }
 
-/* Computer Screens */
+.card-img-top {
+  height: 50%;
+}
+
+/* Larger Screens */
 @media (min-width: 701px) {
   .card{
     max-width: 25%;
