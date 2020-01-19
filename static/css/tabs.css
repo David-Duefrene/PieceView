@@ -1,45 +1,58 @@
+/********************************
+* tabs.css
+* Boostrap Tabs custimization.
+* Used to Tab between a set of
+* mini-views. Currently used
+* in Dashboard view.
+********************************/
 /* All screens */
+/* Header portion */
+.nav-tabs{
+  margin-bottom: 1%;
+  border-bottom: unset;
+}
 .nav-tabs .nav-item {
-  background-color: #fff;
+  background-color: #eae9e9;
 }
 
 .nav-tabs .nav-item:hover {
-  background-color: #464646;
+  background-color: #b09999;
 }
 
 .nav-tabs .nav-item .active {
   color: white;
   background-color: navy;
-  opacity: 1;
 }
 
 .nav-tabs .nav-item .active:hover {
   color:#464646;
 }
 
-.nav-link{
+.nav-link {
   color: black;
+}
+
+/* Content */
+.tab-content {
+  width: 90%;
+}
+
+.tab-pane {
+  width: inherit;
+}
+
+.list-group {
+  width: 80%;
+  margin-left: 10%;
 }
 
 /* Computer Screens */
 @media (min-width: 701px) {
-  .nav-tabs{
+  .nav-tabs {
     min-width: 70%;
-    margin-bottom: 1%;
   }
 
-  .nav-tabs .nav-item{
+  .nav-tabs .nav-item {
     min-width: 33%;
-  }
-
-  .tab-content{
-    max-width: 90%;
-  }
-}
-
-/* Small Screens */
-@media (max-width: 700px) {
-  .tab-content{
-    min-width: 90%;
   }
 }
