@@ -1,27 +1,24 @@
 /* Main Body */
 body {
   font-family: helvetica, sans-serif;
-  background: rgb(3,11,68);
   background: linear-gradient(0deg, rgba(2,93,145,1) 0%, rgba(4,133,157,1) 40%,
                               rgba(0,212,255,1) 99%);
-  background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
-.d-flex{
+.d-flex {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.shadow-lg{
+.shadow-lg {
   padding-bottom: 1em;
 }
 
 /* Navbar */
 .main-header {
   min-width: fit-content;
-  background: rgb(0,0,0);
   background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(3,47,73,1) 84%);
 }
 
@@ -33,7 +30,7 @@ h4, h5 , h6 {
   text-align: center;
 }
 
-h1{
+h1 {
   text-align: center;
   border-bottom: 1px solid black;
   padding: 0 0 10px 0;
@@ -54,7 +51,8 @@ p{
   font-family: 'CodeNewRomanRegular';
   font-weight: bold;
 }
-a{
+
+a {
   color: #00ff66;
 }
 
@@ -81,27 +79,14 @@ ul.messages .info {
   float: left;
 }
 
-.img-thumbnail{
-  display: flex;
-  max-width: 100%;
-  height: auto;
-}
-
-.btn{
-  min-width: fit-content;
-  margin: .25em 0;
+img {
+  min-width: 100%;
 }
 
 /* Smaller screens */
 @media (min-width: 701px) {
   .main-nav-link{
     margin-left: 45em
-  }
-
-  .img-thumbnail{
-    max-width: 50%;
-    max-height: 75%;
-    margin-bottom: 1%;
   }
 }
 

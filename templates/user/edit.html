@@ -8,11 +8,11 @@
 {% endblock loadcss %}
 
 {% block content %}
-<div class="d-flex justify-content-center">
+<div class="d-flex">
   <h1 class="col-12">Edit your account</h1>
-  <h3 class="col-12-md">You can edit your account using the following form:</h3>
+  <h5 class="col-12">You can edit your account using the following form:</h5>
 
-  <div class="container col-8">
+  <div class="d-flex col-8">
     <form class="form" action="." method="post" enctype="multipart/form-data">
       {% for hidden in form.hidden_fields %}
       {{ hidden }}
@@ -24,32 +24,30 @@
 
         {% if field.id_for_label == "id_photo" %}
         <div class="form-group">
-          <img src="{{ user.photo_url }}" class="img-thumbnail"
-               style="min-width: 170%">
+          <img class="img-fluid" src="{{ user.photo_url }}">
 
-              <!-- And here we let them add a photo -->
-              <div class="input-group custom-file" style="margin-left: -15%;">
-                <input type="file" class="form-control custom-file-input"
-                       name="photo" id="Profile-Photo">
-                <label class="custom-file-label" for="Profile-Photo"
-                       style="min-width: 135%">Choose Profile Picture</label>
-              </div>
+          <!-- And here we let them add a photo -->
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" name="photo"
+                  id="Profile-Photo">
+            <label class="custom-file-label" for="Profile-Photo">
+            Choose Profile Picture</label>
+          </div>
 
         </div> <!-- .form-group -->
         {% endif %}
         {% endfor %}
       </div> <!-- .d-flex -->
 
-      <div class="d-flex justify-content-center details-from">
+      <div class="d-flex">
         <!-- Add rest of fields -->
         {% for field in form.visible_fields %}
 
         {% if field.id_for_label != "id_photo" %}
           <div class="form-group">
-            <label class="input-group-text" for="{{ field.id }}">
-            {{ field.label }}</label>
+            <label class="input-group-text">{{ field.label }}</label>
             <input type="text" name="{{ field.name }}" class="input-group-text"
-                   value="{{ field.value }}" id="{{ field.id }}">
+                   value="{{ field.value }}">
           </div>
 
           {% for error in field.errors %}
@@ -61,8 +59,7 @@
       </div> <!-- details-from -->
 
       {% csrf_token %}
-      <button class="btn btn-success btn-block" type="submit">
-      Save Changes</button>
+      <button class="btn btn-success" type="submit">Save Changes</button>
 
     </form> <!-- form -->
   </div><!-- container col-8 -->

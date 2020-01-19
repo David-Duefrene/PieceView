@@ -13,8 +13,8 @@
     <h1 class="col-12">{{ profile.get_full_name }}</h1>
 
   {% with total_followers=profile.followers.count %}
-  <img src="{{profile.photo_url}}"
-       class="profile-detail img-thumbnail col-lg-6">
+
+  <div class="d-flex col-lg-6 img-fluid"><img src="{{profile.photo_url}}"></div>
 
   <div class="col">
     <p class="col">Username: {{profile.profilename}}</p>
