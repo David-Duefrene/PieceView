@@ -8,43 +8,53 @@
 {% endblock loadcss %}
 
 {% block content %}
-	<div class="d-flex">
-		<h1 class="col-12">Create an account</h1>
-		<h5 class="col-12">Please, sign up using the following form:</h5>
+<div class="d-flex">
+  <h1 class="col-12">Create an account</h1>
+  <h5 class="col-12">Please, sign up using the following form:</h5>
 
-		<form action={% url 'register' %} method="post" class="col-8">
-			{% for hidden in form.hidden_fields %}
-				{{ hidden }}
-			{% endfor %}
+  <form action={% url 'register' %} method="post" class="col-8">
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
 
-			<div class="d-flex justify-content-center ">
-				<!-- Add rest of fields -->
-				<div class="form-group register-form col">
-					{% for field in form.visible_fields %}
-						<div class="d-flex col-12 form-line">
-							<label class="input-group-text col" for="{{ field.id }}">{{ field.label }}:</label>
+    <div class="d-flex justify-content-center ">
+      <!-- Add rest of fields -->
 
-							{% if field.id_for_label == "id_photo" %}
-								<div class="input-group custom-file col">
-									<input type="file" class="form-control custom-file-input" name="photo" id="Profile-Photo">
-									<label class="custom-file-label" for="Profile-Photo">Choose Profile Picture</label>
-								</div>
+      <div class="form-group register-form col">
+        {% for field in form.visible_fields %}
 
-							{% else %}
-								<input type="text" name="{{ field.name }}" class="input-group-text col-6" style="background-color: white;" id="{{ field.id }}">
-							{% endif %}
+          <div class="d-flex col-12 form-line">
+            <label class="input-group-text col" for="{{ field.id }}">
+            {{ field.label }}:</label>
 
-							{% for error in field.errors %}
-								<span class="help-block">{{ error }}</span>
-							{% endfor %}
+            {% if field.id_for_label == "id_photo" %}
+              <div class="input-group custom-file col">
+                <input type="file"
+                      class="form-control custom-file-input" name="photo"
+                      id="Profile-Photo">
+                <label class="custom-file-label" for="Profile-Photo">
+                Choose Profile Picture</label>
+              </div>
 
-						</div>
-					{% endfor %}
-				</div> <!-- Form Group -->
-			</div> <!-- Container Fluid -->
+            {% else %}
+              <input type="text" name="{{ field.name }}"
+                    class="input-group-text col-6"
+                    style="background-color: white;" id="{{ field.id }}">
+            {% endif %}
 
-			{% csrf_token %}
-			<input class="btn btn-success btn-block" id="id_submit_button" type="submit" value="Create my account">
-		</form>
-	</div>
+            {% for error in field.errors %}
+              <span class="help-block">{{ error }}</span>
+            {% endfor %}
+
+          </div>
+        {% endfor %}
+      </div> <!-- Form Group register-form col -->
+    </div> <!-- d-flex -->
+
+    {% csrf_token %}
+    <input class="btn btn-success btn-block" id="id_submit_button"
+          type="submit" value="Create my account">
+
+  </form>
+</div> <!-- d-flex -->
 {% endblock content %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}People{% endblock %}
 
 {% block loadcss %}
@@ -7,25 +8,26 @@
 {% endblock loadcss %}
 
 {% block content %}
-  <div class="d-flex">
-    <h1 class="col-12">People</h1>
-    <p class="col-12">Here is a list of people signed up with PieceView</p>
-    <div class="card-deck col">
-      {% for profile in object_list %}
-        <div class="card bg-transparent border-warning">
-          <img src="{{ profile.photo_url }}" class="card-img-top">
+<div class="d-flex">
+  <h1 class="col-12">People</h1>
+  <p class="col-12">Here is a list of people signed up with PieceView</p>
 
-          <div class="card-body">
-            <h5 class="card-title">{{ profile.get_full_name }}</h5>
-            <p class="card-text">Some default card text here</p>
-          </div>
+  <div class="card-deck col">
+  {% for profile in object_list %}
+    <div class="card bg-transparent border-warning">
+      <img src="{{ profile.photo_url }}" class="card-img-top">
 
-          <div class="card-footer bg-transparent border-warning">
-              <a href="{{ profile.username }}" class="btn btn-primary col">Profile</a>
-          </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ profile.get_full_name }}</h5>
+        <p class="card-text">Some default card text here</p>
+      </div>
 
-        </div>
-      {% endfor %}
+      <div class="card-footer bg-transparent border-warning">
+        <a href="{{ profile.username }}" class="btn btn-primary col">Profile</a>
+      </div>
+
     </div>
+  {% endfor %}
   </div>
+</div>
 {% endblock %}

@@ -3,38 +3,39 @@
 {% block title %}Log-in{% endblock %}
 
 {% block content %}
-	<div class="d-flex">
-		<h1 class="col-12">Log-in</h1>
-		{% if form.errors %}
-			<h4 class="col-12">
-			Your username and password didn't match.
-			Please try again.
-		</h4>
-		{% else %}
-			<h4 class="col-12">Please use the follwoing form to log-in:</h4>
-		{% endif %}
+<div class="d-flex">
+  <h1 class="col-12">Log-in</h1>
 
-			<form action="{% url 'login' %}" method="post">
-				{% for hidden in form.hidden_fields %}
-					{{ hidden }}
-				{% endfor %}
+  {% if form.errors %}
+    <h4 class="col-12">
+    Your username and password didn't match. Please try again.</h4>
+  {% else %}
+    <h4 class="col-12">Please use the follwoing form to log-in:</h4>
+  {% endif %}
 
-				{% for field in form.visible_fields %}
-					<div class="container form-group-inline row">
-						<label class="col-lg-4" for="{{ field.id_for_label }}">{{ field.label }}</label>
-						{{ field }}
+  <form action="{% url 'login' %}" method="post">
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
 
-						{% for error in field.errors %}
-							<span class="help-block">{{ error }}</span>
-						{% endfor %}
-					</div>
-				{% endfor %}
-				{% csrf_token %}
+    {% for field in form.visible_fields %}
+      <div class="container form-group-inline row">
+        <label class="col-lg-4" for="{{ field.id_for_label }}">
+        {{ field.label }}</label>
+        {{ field }}
 
-				<input type="hidden" name="next" value="{{ next }}" />
-				<input class="btn btn-success btn-block" type="submit" value="Log-in">
-				<p><a href="{% url "password_reset" %}">Forgotten your password?</a></p>
+        {% for error in field.errors %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
 
-			</form>
-	</div>
+      </div>
+    {% endfor %}
+
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}" />
+    <input class="btn btn-success btn-block" type="submit" value="Log-in">
+    <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p>
+
+  </form>
+</div>
 {% endblock %}

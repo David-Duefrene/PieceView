@@ -3,8 +3,9 @@
 {% block title %}Logged out{% endblock %}
 
 {% block content %}
-	<div class="d-flex col" style="margin: auto;">
-		<h1 class="col-12">Logged out </h1>
-		<p>You have been successfully logged out. You can <a href="{% url "login" %}">log-in again</a></p>
-	</div>
+<div class="d-flex col" style="margin: auto;">
+  <h1 class="col-12">Logged out </h1>
+  <p>You have been successfully logged out. You can
+  <a href="{% url "login" %}">log-in again</a></p>
+</div>
 {% endblock %}
