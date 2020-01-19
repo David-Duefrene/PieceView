@@ -1,87 +1,120 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>{% block title %}{% endblock %}</title>
-		<meta content="width=device-width, initial-scale=1 shrink-to-fit=no" name="viewport" />
-		<!-- fonts loaded here -->
-		<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/code-new-roman" type="text/css"/>
-		<link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet"> 
-		<!-- Javascript links here -->
-		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-		<!-- Bootstrap current ver: 4.4.1 -->
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-		{% block loadscripts %}{% endblock loadscripts %}
+<html lang="en-US">
 
-		<!-- CSS links here -->
-		<!-- Bootstrap current ver: 4.4.1 -->
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<!-- Project CSS files -->
-		<link href="{% static "css/base.css" %}" rel="stylesheet">
-		{% block loadcss %}{% endblock loadcss %}
-	</head>
+<title>{% block title %}{% endblock %}</title>
+<meta content="width=device-width, initial-scale=1 shrink-to-fit=no"
+      name="viewport" charset="utf-8">
 
-	<body>
-		<!-- Header navigation bar at top of pages -->
-			<nav class="navbar navbar-expand-sm navbar-dark bg-inverse navbar-static-top main-header">
-				<a class="navbar-brand" href="{% url "index" %}">PieceView</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
+<!-- fonts loaded here -->
+<link rel="stylesheet" media="screen"
+          href="https://fontlibrary.org/face/code-new-roman" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Muli&display=swap"
+      rel="stylesheet">
 
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item">
-							<a class="col-2 nav-link main-nav-link" href="{% url "dashboard" %}" style=";">Dashboard</a>
-						</li>
-						<li class="nav-item">
-							<a class="col-2 nav-link" href="{% url "user_list" %}">People</a>
-						</li>
-					{% if request.user.is_authenticated %}
-						<li class="nav-item">
-							<a class="col-2 nav-link main-nav-link" href="{% url "logout" %}">Logout</a>
-						</li>
-					{% else %}
-						<li class="nav-item">
-							<a class="col-2 nav-link main-nav-link" href="{% url "login" %}">Log-in</a>
-						</li>
-					{% endif %}
+<!-- Javascript links here -->
+<!-- jquery Current ver: 3.4.1-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh"
+        crossorigin="anonymous"></script>
 
-					</ul>
-				</div> <!-- #navbarSupportedContent -->
-			</nav>
-	<div class="row container-fluid">
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"
+        integrity="sha384-/fzlFUZom6xS9MDIM/aUQgYzL5J7DoVBOewwG5T3d+sDjQK7hQ7VyQiqfohXwUHK"
+        crossorigin="anonymous"></script>
 
-		<!-- actual content itself -->
-		<div class="container col-10 shadow-lg rounded">
-			<div class="main-div">
-				{% block content %}{% endblock content %}
-			</div>
-		</div>
-	</div>
+<!-- Popper Current ver: 1.16.0 -->
+<script
+  src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+  crossorigin="anonymous"></script>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<!-- Bootstrap current ver: 4.4.1 -->
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+  crossorigin="anonymous"></script>
 
+<!-- Page specific scripts -->
+{% block loadscripts %}{% endblock loadscripts %}
 
-  <script>
-    var csrftoken = Cookies.get('csrftoken');
-    function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+<!-- CSS links here -->
+<!-- Bootstrap current ver: 4.4.1 -->
+<link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous">
+
+<!-- Project CSS files -->
+<link href="{% static "css/base.css" %}" rel="stylesheet">
+
+<!-- Page specific CSS here -->
+{% block loadcss %}{% endblock loadcss %}
+
+<body>
+<!-- Header navigation bar at top of pages -->
+
+<nav class="navbar navbar-expand-sm navbar-dark navbar-static-top main-header">
+  <a class="navbar-brand" href="{% url "index" %}">PieceView</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="col-2 nav-link main-nav-link" href="{% url "dashboard" %}">
+      Dashboard</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="col-2 nav-link" href="{% url "user_list" %}">People</a>
+    </li>
+
+    {% if request.user.is_authenticated %}
+    <li class="nav-item">
+      <a class="col-2 nav-link main-nav-link" href="{% url "logout" %}">
+      Logout</a>
+    </li>
+
+    {% else %}
+    <li class="nav-item">
+      <a class="col-2 nav-link main-nav-link" href="{% url "login" %}">
+      Log-in</a>
+    </li>
+    {% endif %}
+
+  </ul> <!-- .navbar-nav -->
+  </div> <!-- #navbarSupportedContent -->
+</nav> <!-- .main-header -->
+
+<!-- actual content itself -->
+<div class="row container-fluid">
+  <div class="container col-10 shadow-lg rounded">
+  {% block content %}{% endblock content %}
+  </div>
+</div>
+
+<script>
+var csrftoken = Cookies.get('csrftoken');
+function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+  beforeSend: function(xhr, settings) {
+    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+      xhr.setRequestHeader("X-CSRFToken", csrftoken);
     }
-    $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-      }
-    });
-		$(document).ready(function(){
-      {% block domready %}{% endblock domready %}
-		});
-  </script>
+  }
+});
+$(document).ready(function(){
+  {% block domready %}{% endblock domready %}
+});
+</script>
 
-	</body>
+</body>
 </html>
