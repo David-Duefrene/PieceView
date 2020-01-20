@@ -182,8 +182,6 @@ class ProfileDetailTest(TestCase):
     def test_user_can_unfollow(self):
         """Tests to make sure a user can unfollow another user"""
         self.client.login(username='alfred', password='Hads65ads1')
-        # skipcq FLK-E302
-        button = '<button data-id="2" data-action="follow"\n            class="btn btn-primary btn-lg follow">Follow'
         follow = self.client.post(reverse('user_follow'),
                                   data={'id': 2, 'action': 'follow'},
                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
