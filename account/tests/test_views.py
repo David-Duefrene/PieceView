@@ -174,22 +174,25 @@ class ProfileDetailTest(TestCase):
         Profile
         """
         self.client.login(username='alfred', password='Hads65ads1')
-        # skipcq FLK-E302
-        button = '<button data-id="2" data-action="follow" class="btn btn-primary follow">Follow'
-        response = self.client.get(reverse('user_detail', args=['Tommy']))
-        self.assertIn(button, response.content.decode())
+        response = self.client.post(reverse('user_follow'),
+                                    data={'id': 2, 'action': 'follow'},
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(b'{"status": "follow"}', response.content)
 
     def test_user_can_unfollow(self):
         """Tests to make sure a user can unfollow another user"""
         self.client.login(username='alfred', password='Hads65ads1')
         # skipcq FLK-E302
-        button = '<button data-id="2" data-action="unfollow" class="btn btn-primary follow">Unfollow'
-        response = self.client.post(reverse('user_follow'),
-                                    data={'id': 2, 'action': 'follow'},
+        button = '<button data-id="2" data-action="follow"\n            class="btn btn-primary btn-lg follow">Follow'
+        follow = self.client.post(reverse('user_follow'),
+                                  data={'id': 2, 'action': 'follow'},
+                                  HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(b'{"status": "follow"}', follow.content)
+
+        unfollow = self.client.post(reverse('user_follow'),
+                                    data={'id': 2, 'action': 'unfollow'},
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(b'{"status": "follow"}', response.content)
-        response = self.client.get(reverse('user_detail', args=['Tommy']))
-        self.assertIn(button, response.content.decode())
+        self.assertEqual(b'{"status": "unfollow"}', unfollow.content)
 
 
 class FollowUserTest(TestCase):
