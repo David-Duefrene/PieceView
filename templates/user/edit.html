@@ -13,56 +13,57 @@
   <h5 class="col-12">You can edit your account using the following form:</h5>
 
   <div class="d-flex col-8">
-    <form class="form" action="." method="post" enctype="multipart/form-data">
-      {% for hidden in form.hidden_fields %}
-      {{ hidden }}
+  <form class="form" action="." method="post" enctype="multipart/form-data">
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+    <div class="d-flex">
+      <!-- Here we handle the users photo -->
+      {% for field in form.visible_fields %}
+
+      {% if field.id_for_label == "id_photo" %}
+      <div class="form-group">
+        <img class="img-fluid" src="{{ user.photo_url }}">
+
+        <!-- And here we let them add a photo -->
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" name="photo"
+                id="Profile-Photo">
+          <label class="custom-file-label" for="Profile-Photo">
+          Choose Profile Picture</label>
+        </div>
+
+      </div> <!-- form-group -->
+      {% endif %}
       {% endfor %}
+    </div> <!-- d-flex -->
 
-      <div class="d-flex">
-        <!-- Here we handle the users photo -->
-        {% for field in form.visible_fields %}
+    <div class="d-flex">
+      <!-- Add rest of fields -->
+      {% for field in form.visible_fields %}
 
-        {% if field.id_for_label == "id_photo" %}
+      {% if field.id_for_label != "id_photo" %}
         <div class="form-group">
-          <img class="img-fluid" src="{{ user.photo_url }}">
+          <label class="input-group-text">{{ field.label }}</label>
+          <input type="{{ field.field.widget.input_type }}"
+                name="{{ field.name }}" class="input-group-text"
+                value="{{ field.value }}">
+        </div>
 
-          <!-- And here we let them add a photo -->
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" name="photo"
-                  id="Profile-Photo">
-            <label class="custom-file-label" for="Profile-Photo">
-            Choose Profile Picture</label>
-          </div>
-
-        </div> <!-- .form-group -->
-        {% endif %}
+        {% for error in field.errors %}
+        <span class="help-block">{{ error }}</span>
         {% endfor %}
-      </div> <!-- .d-flex -->
 
-      <div class="d-flex">
-        <!-- Add rest of fields -->
-        {% for field in form.visible_fields %}
+      {% endif %}
+      {% endfor %}
+    </div> <!-- d-flex -->
 
-        {% if field.id_for_label != "id_photo" %}
-          <div class="form-group">
-            <label class="input-group-text">{{ field.label }}</label>
-            <input type="text" name="{{ field.name }}" class="input-group-text"
-                   value="{{ field.value }}">
-          </div>
+    {% csrf_token %}
+    <button class="btn btn-success" type="submit">Save Changes</button>
 
-          {% for error in field.errors %}
-            <span class="help-block">{{ error }}</span>
-          {% endfor %}
-
-        {% endif %}
-        {% endfor %}
-      </div> <!-- details-from -->
-
-      {% csrf_token %}
-      <button class="btn btn-success" type="submit">Save Changes</button>
-
-    </form> <!-- form -->
-  </div><!-- container col-8 -->
+  </form> <!-- form -->
+  </div><!-- d-flex col-8 -->
 </div>  <!-- d-flex -->
 
 {% endblock %}

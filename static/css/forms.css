@@ -1,4 +1,12 @@
-.input-group-text{
+/********************************
+* forms.css
+* Forms custimization.
+* Used to initially style forms.
+* Currently used profile Edit,
+* Login, and Register views.
+********************************/
+/* All screen sizes */
+.input-group-text {
   text-align: left;
   overflow: hidden;
 }
@@ -18,43 +26,36 @@
   list-style-type: none;
 }
 
-
+/* Computer sized Screens */
 @media (min-width: 701px) {
-  .img-thumbnail{
-    margin-left: -33%;
-  }
-
-  .short-form{
-    max-width: 33%;
-  }
   .btn {
     font-weight: bold;
     max-width: 50%;
     margin-left: 20%;
+    margin-bottom: 2%;
     min-width: 65%;
     min-height: 4em;
-    margin-bottom: 2%;
   }
 }
 
+/* Mobile sized screens */
 @media (max-width: 700px) {
-  /* User  Profile Photo */
-  .img-thumbnail{
-    margin-left: -35%;
-  }
-
-  .register-form{
+  /* Form specific */
+  /* For registering a
+  new user */
+  .register-form {
     min-width: 190%;
   }
 
-  .custom-file{
+  /* General */
+  /* Photo input*/
+  .custom-file {
     padding-left: 35%;
   }
 
-  /* Save button */
-  .btn{
+  .btn {
     font-weight: bold;
-    min-width: 115%;
+    min-width: 100%;
     min-height: 4em;
     margin-top: 10%;
   }
