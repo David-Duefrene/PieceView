@@ -1,0 +1,62 @@
+/********************************
+* forms.css
+* Forms custimization.
+* Used to initially style forms.
+* Currently used profile Edit,
+* Login, and Register views.
+********************************/
+/* All screen sizes */
+.input-group-text {
+  text-align: left;
+  overflow: hidden;
+}
+
+.helptext {
+  margin: 0 0 20px 0;
+  color: #aaa;
+  clear: both;
+  float: left;
+  font-size: 13px;
+}
+
+.errorlist {
+  color: red;
+  float: left;
+  clear: both;
+  list-style-type: none;
+}
+
+/* Computer sized Screens */
+@media (min-width: 701px) {
+  .btn {
+    font-weight: bold;
+    max-width: 50%;
+    margin-left: 20%;
+    margin-bottom: 2%;
+    min-width: 65%;
+    min-height: 4em;
+  }
+}
+
+/* Mobile sized screens */
+@media (max-width: 700px) {
+  /* Form specific */
+  /* For registering a
+  new user */
+  .register-form {
+    min-width: 190%;
+  }
+
+  /* General */
+  /* Photo input*/
+  .custom-file {
+    padding-left: 35%;
+  }
+
+  .btn {
+    font-weight: bold;
+    min-width: 100%;
+    min-height: 4em;
+    margin-top: 10%;
+  }
+}

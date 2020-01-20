@@ -3,66 +3,91 @@
 
 {% block title %}Dashboard{% endblock %}
 
-{% block loadscripts %}
-<link rel="stylesheet" href="{% static 'css/tabs.css' %}">
-<script src="{% static 'js/tabs.js' %}"></script>
-{% endblock loadscripts %}
+{% block loadcss %}
+<link rel="stylesheet" href="{% static "css/tabs.css" %}">
+<link href="{% static "css/user-cards.css" %}" rel="stylesheet">
+{% endblock loadcss %}
 
 {% block content %}
-	<h1>Dashboard</h1>
-	<div class="tab-wrapper">
-		<ul class="nav nav-tabs tab-menu">
-			<li class="active">Account</li>
-			<li>Followers</li>
-			<li>Following</li>
-		</ul>
+<div class="d-flex">
+  <h1 class="col-12">Dashboard</h1>
 
-		<div class="container-fluid tab-content">
+  <ul class="nav nav-tabs">
+    <li class="nav-item col-4-md">
+      <a class="nav-link active" data-toggle="tab" href="#account">Account</a>
+    </li>
+    <li class="nav-item col-4-md">
+      <a class="nav-link" data-toggle="tab" href="#followers">Followers</a>
+    </li>
+    <li class="nav-item col-4-md">
+      <a class="nav-link" data-toggle="tab" href="#following">Following</a>
+    </li>
+  </ul>
 
-			<div class="">
-				<p>You can change you password <a href="{% url "password_change" %}">here</a>.</p>
-				<p>You can also update your profile <a href="{% url "edit" pk=request.user.pk %}">here</a>.</p>
-			</div>
+  <div class="d-flex tab-content col-12">
 
-			<div class="Followers">
-				<p>Followers</p>
-				<div class="card-deck">
-					{% for profile in user.followers.all %}
+    <div class="tab-pane active" id="account">
 
-						<div class="card bg-transparent border-warning" style="">
-							<img src="{{ profile.photo_url }}" class="card-img-top">
-							<div class="card-body">
-								<h5 class="card-title">{{ profile.get_full_name }}</h5>
-								<p class="card-text">Some default card text here</p>
-							</div>
-							<div class="card-footer bg-transparent border-warning"><a href="people/{{ profile.username }}" class="btn btn-primary">Profile</a></div>
-						</div>
+      <div class="list-group">
+        <a href="{% url "password_change" %}"
+          class="list-group-item list-group-item-action">
+        You can change you password.</a>
 
-				  {% endfor %}
-				</div>
-			</div>
+        <a href="{% url "edit" pk=request.user.pk %}"
+          class="list-group-item list-group-item-action">
+        You can also update your profile.</a>
 
-			<div class="Following">
-				<p>Following</p>
-				<div class="card-deck">
-				  {% for profile in user.following.all %}
+      </div>
+    </div>
 
-						<div class="card bg-transparent border-warning" style="">
-							<img src="{{ profile.photo_url }}" class="card-img-top">
-							<div class="card-body">
-								<h5 class="card-title">{{ profile.get_full_name }}</h5>
-								<p class="card-text">Some default card text here</p>
-							</div>
-							<div class="card-footer bg-transparent border-warning"><a href="people/{{ profile.username }}" class="btn btn-primary">Profile</a></div>
-						</div>
+    <div class="tab-pane" id="followers">
 
-				  {% endfor %}
-				</div>
-			</div>
-		</div>
-	</div>
+      <div class="card-deck">
+        {% for profile in user.followers.all %}
+
+          <div class="card bg-transparent border-warning">
+            <img src="{{ profile.photo_url }}"
+                class="card-img-top img-responsive">
+
+              <div class="card-body">
+                <h5 class="card-title">{{ profile.get_full_name }}</h5>
+                <p class="card-text">Some default card text here</p>
+              </div>
+
+              <div class="card-footer bg-transparent border-warning">
+                <a href="{% url "user_detail" slug=profile.username %}"
+                  class="btn btn-primary stretched-link">
+                Profile</a>
+              </div>
+
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="tab-pane" id="following">
+      <div class="card-deck">
+        {% for profile in user.following.all %}
+
+          <div class="card bg-transparent border-warning">
+            <img src="{{ profile.photo_url }}"
+                class="card-img-top img-responsive">
+
+              <div class="card-body">
+                <h5 class="card-title">{{ profile.get_full_name }}</h5>
+                <p class="card-text">Some default card text here</p>
+              </div>
+
+              <div class="card-footer bg-transparent border-warning">
+                <a href="{% url "user_detail" slug=profile.username %}"
+                  class="btn btn-primary stretched-link">Profile</a>
+              </div>
+
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div> <!-- container-fluid tab-content col-12 -->
+</div> <!-- d-flex -->
 {% endblock %}
-
-{% block domready %}
-	tabs();
-{% endblock domready %}

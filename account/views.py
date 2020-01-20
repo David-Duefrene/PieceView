@@ -12,6 +12,11 @@ from .forms import UserRegistrationForm, UserEditForm
 from .models import CustomUser, Contact
 
 
+class IndexTemplateView(TemplateView):
+    """View for displaying the sites index"""
+    template_name = 'index.html'
+
+
 class UserRegisterCreateView(CreateView):
     """User registration View. Overrides form_valid to render a template"""
     model = CustomUser

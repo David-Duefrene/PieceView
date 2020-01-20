@@ -3,7 +3,9 @@
 {% block title %}Welcome{% endblock title %}
 
 {% block content %}
-	<h1 id="id_header_name">Welcome {{ new_user.first_name }}!</h1>
-	<p>Your account has been successfully created. Now you can
-	<a href="{% url "login" %}">Log-in</a>.</p>
+<div class="d-flex">
+  <h1 class="col-12">Welcome {{ new_user.first_name }}!</h1>
+  <p class="col-12">Your account has been successfully created. Now you can
+  <a href="{% url "login" %}">Log-in</a>.</p>
+</div>
 {% endblock content %}

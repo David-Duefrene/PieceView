@@ -1,40 +1,47 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Log-in{% endblock %}
 
+{% block loadcss %}
+<link href="{% static "css/forms.css" %}" rel="stylesheet">
+{% endblock loadcss %}
+
 {% block content %}
-	<h1>Log-in</h1>
-	{% if form.errors %}
-		<p>
-		Your username and password didn't match.
-		Please try again.
-		</p>
-	{% else %}
-		<p>Please use the follwoing form to log-in:</p>
-	{% endif %}
+<div class="d-flex">
+  <h1 class="col-12">Log-in</h1>
 
-		<form action="{% url 'login' %}" method="post">
-			{% for hidden in form.hidden_fields %}
-	      {{ hidden }}
-	    {% endfor %}
+  {% if form.errors %}
+    <h4 class="col-12">
+    Your username and password didn't match. Please try again.</h4>
+  {% else %}
+    <h4 class="col-12">Please use the follwoing form to log-in:</h4>
+  {% endif %}
 
-			{% for field in form.visible_fields %}
-				<div class="container form-group-inline row">
-					<label class="col-lg-4" for="{{ field.id_for_label }}">{{ field.label }}</label>
-					{{ field }}
-
-					{% for error in field.errors %}
-						<span class="help-block">{{ error }}</span>
-					{% endfor %}
-				</div>
-			{% endfor %}
-			{% csrf_token %}
-
-			<input type="hidden" name="next" value="{{ next }}" />
-			<input class="btn btn-success btn-block" type="submit" value="Log-in">
-			<p><a href="{% url "password_reset" %}">Forgotten your password</a></p>
-
-		</form>
+  <div class="form-group">
+  <form action="{% url 'login' %}" method="post">
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
 
 
-	{% endblock %}
+    {% for field in form.visible_fields %}
+      <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+      <input type="{{ field.field.widget.input_type }}"
+            name="{{ field.name }}"
+            class="form-control">
+
+      {% for error in field.errors %}
+        <span class="help-block">{{ error }}</span>
+      {% endfor %}
+    {% endfor %}
+
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}" />
+    <input class="btn btn-success" type="submit" value="Log-in">
+    <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p>
+
+  </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,42 +1,76 @@
 {% extends "base.html" %}
-{% load widget_tweaks %}
+{% load static %}
+
 {% block title %}Edit your account{% endblock %}
 
+{% block loadcss %}
+<link href="{% static "css/forms.css" %}" rel="stylesheet">
+{% endblock loadcss %}
+
 {% block content %}
-  <h1>Edit your account</h1>
-  <p>You can edit your account using the following form:</p>
-  <form class="" action="." method="post" enctype="multipart/form-data">
+<div class="d-flex">
+  <h1 class="col-12">Edit your account</h1>
+  <h5 class="col-12">You can edit your account using the following form:</h5>
+
+  <div class="d-flex col-8">
+  <form class="form" action="." method="post" enctype="multipart/form-data">
     {% for hidden in form.hidden_fields %}
-      {{ hidden }}
+    {{ hidden }}
     {% endfor %}
 
-    {% for field in form.visible_fields  %}
-      <!-- Here we handle the users photo if they already have one -->
+    <div class="d-flex">
+      <!-- Here we handle the users photo -->
+      {% for field in form.visible_fields %}
+
       {% if field.id_for_label == "id_photo" %}
-        <div class="container form-group-inline row">
-          <label for="id_photo">Photo</label>
-          <p><img src="{{ user.photo_url }}" class="user-detail"></img></p>
-          <label for="photo-clear_id">Clear photo: </label>
-          <input type="checkbox" name="photo-clear" id="photo-clear_id">
-          <input type="file" name="photo" accept="image/*" id="id_photo">
+      <div class="form-group">
+        <img class="img-fluid" src="{{ user.photo_url }}">
 
-      <!-- And here we let them add one -->
-      {% else %}
-        <div class="container form-group-inline row">
-          <label for="{{ field.id_for_label }}">{{ field.label }}: </label>
-          {{ field }}
-      {% endif %}
-
-      {% for error in field.errors %}
-        <span class="help-block">{{ error }}</span>
-      {% endfor %}
-
+        <!-- And here we let them add a photo -->
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" name="photo"
+                id="Profile-Photo">
+          <label class="custom-file-label" for="Profile-Photo">
+          Choose Profile Picture</label>
         </div>
-    {% endfor %}
+
+      </div> <!-- form-group -->
+      {% endif %}
+      {% endfor %}
+    </div> <!-- d-flex -->
+
+    <div class="d-flex">
+      <!-- Add rest of fields -->
+      {% for field in form.visible_fields %}
+
+      {% if field.id_for_label != "id_photo" %}
+        <div class="form-group">
+          <label class="input-group-text">{{ field.label }}</label>
+          <input type="{{ field.field.widget.input_type }}"
+                name="{{ field.name }}" class="input-group-text"
+                value="{{ field.value }}">
+        </div>
+
+        {% for error in field.errors %}
+        <span class="help-block">{{ error }}</span>
+        {% endfor %}
+
+      {% endif %}
+      {% endfor %}
+    </div> <!-- d-flex -->
 
     {% csrf_token %}
-    <div class="container form-group-inline row">
-        <button class="btn btn-success btn-block" type="submit">Save Changes
-    </div>
-  </form>
+    <button class="btn btn-success" type="submit">Save Changes</button>
+
+  </form> <!-- form -->
+  </div><!-- d-flex col-8 -->
+</div>  <!-- d-flex -->
+
 {% endblock %}
+
+{% block domready %}
+$('#Profile-Photo').on('change',function(){
+  var fileName = $(this).val()
+  $(this).next('.custom-file-label').html(fileName);
+})
+{% endblock domready %}
