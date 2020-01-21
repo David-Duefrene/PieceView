@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from djrichtextfield.models import RichTextField
 
@@ -15,7 +16,10 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'Post'
         verbose_name_plural = 'Posts'
-        ordering = ('-created')
+        ordering = ('-created', 'authors',  'title')
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'pk': self.pk})

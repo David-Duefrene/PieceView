@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 
@@ -17,3 +16,17 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('create_post')
+
+
+class PostDetailView(DetailView):
+    model = Post
+    context_object_name = 'post'
+    slug_field = 'pk'
+    template_name = 'post/post_detail.html'
+
+
+class PostListView(ListView):
+    context_object_name = 'all_posts'
+    model = Post
+    paginate_by = 25
+    template_name = 'TEMPLATE_NAME'
