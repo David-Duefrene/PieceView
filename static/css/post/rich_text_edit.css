@@ -1,0 +1,5 @@
+.note-editor {
+  width: 100%;
+  width: -moz-available; /* Firefox */
+  width: -webkit-fill-available; /* Chrome */
+}
