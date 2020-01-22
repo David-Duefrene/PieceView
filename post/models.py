@@ -1,15 +1,13 @@
 from django.db import models
 from django.urls import reverse
 
-from djrichtextfield.models import RichTextField
-
 from account.models import CustomUser
 
 
 class Post(models.Model):
     authors = models.ForeignKey(CustomUser, null=True,
                                 on_delete=models.SET_NULL)
-    content = RichTextField()
+    content = models.TextField(blank=False)
     title = models.CharField(blank=False, max_length=100)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
 
