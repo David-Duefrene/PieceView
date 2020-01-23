@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}A Post{% endblock title %}
+
+{% block content %}
+<div class="d-flex">
+  <h1 class="col-12">{{ post.title }}</h1>
+  {{ post.content|safe }}
+</div>
+
+{% endblock content %}

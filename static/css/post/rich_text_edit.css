@@ -1,0 +1,55 @@
+.title label {
+  /* IE/Edge */
+  width: 7em;
+  text-align: right;
+
+  /* Default */
+  width: min-content;
+  display: block;
+  text-align: end;
+
+  /* Firefox */
+  width: -moz-min-content;
+  text-align: -moz-right;
+
+  /* Chrome */
+  width: -webkit-fill-available;
+  width: -webkit-min-content;
+}
+
+.title input {
+  /* IE/Edge */
+  text-align: left;
+
+  /* Default */
+  width: 50%;
+  text-align: start;
+
+  /* Firefox */
+  text-align: -moz-left;
+}
+
+.note-btn {
+  margin-left: 1%;
+}
+
+.note-editor {
+  width: 100%;
+  max-width: 95%;
+}
+
+.note-editable {
+  height: 35em;
+}
+
+@media (max-height: 56.25em) {
+  .note-editable {
+    height: 25em;
+  }
+}
+
+.btn-submit {
+  width: 50%;
+  margin-left: 25%;
+  height: 3em;
+}

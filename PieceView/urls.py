@@ -9,6 +9,7 @@ urlpatterns = [
     path('', IndexTemplateView.as_view(), name='index'),
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
+    path('post/', include('post.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

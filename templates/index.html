@@ -5,12 +5,18 @@
 {% block content %}
 <div class="d-flex col-6" style="margin: auto;">
   {% if request.user.is_authenticated %}
-  <h1>Welcome {{request.user.first_name}}</h1>
+  <h1 class="col-12">Welcome {{request.user.first_name}}</h1>
+
+  <ul>
+    <li><a href="/post/list">All posts</a></li>
+    <li><a href="/post/create/">Create Posts</a></li>
+  </ul>
 
   {% else %}
   <h1>Welcome to PieceView</h1>
-
+  <p>In the future a default page will load with some stuff on it, even if you
+  are not logged in.</p>
+  <p>You should try logging in, you may get diffrent stuff.</p>
   {% endif %}
-  <p>In the future a default page will load with some stuff on it.</p>
 </div>
 {% endblock content %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Post List{% endblock title %}
+
+{% block loadcss %}
+<link href="{% static "css/user-cards.css" %}" rel="stylesheet">
+{% endblock loadcss %}
+
+{% block content %}
+<div class="d-flex">
+  <h1 class="col-12">Post List</h1>
+
+  <div class="card-deck col">
+  {% for post in all_posts %}
+  <div class="card col">
+    <div class="card-body">
+      <h5>{{ post.title }}</h5>
+    </div>
+
+    <div class="card-footer">
+      <a href="{{ post.get_absolute_url }}" class="btn btn-primary col">Read</a>
+    </div>
+  </div>
+  {% endfor %}
+
+  </div>
+</div>
+{% endblock content %}
