@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Post List{% endblock title %}
+
+{% block loadcss %}
+<link href="{% static "css/user-cards.css" %}" rel="stylesheet">
+{% endblock loadcss %}
 
 {% block content %}
 <div class="d-flex">
@@ -8,7 +13,7 @@
 
   <div class="card-deck col">
   {% for post in all_posts %}
-  <div class="card">
+  <div class="card col">
     <div class="card-body">
       <h5>{{ post.title }}</h5>
     </div>

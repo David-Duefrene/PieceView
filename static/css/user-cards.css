@@ -20,6 +20,17 @@ h5 {
   height: 50%;
 }
 
+.card {
+  /* Default */
+  min-width: fit-content;
+
+  /* Firefox */
+  min-width: -moz-fit-content;
+
+  /* Chrome */
+  min-width: -webkit-fit-content;
+}
+
 /* Larger Screens */
 @media (min-width: 701px) {
   .card{

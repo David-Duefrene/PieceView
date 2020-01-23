@@ -11,7 +11,6 @@
 
 {% block loadcss %}
 <link rel="stylesheet" href="{% static "css/post/rich_text_edit.css" %}">
-
 <link
   href="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote-bs4.min.css"
   rel="stylesheet">
@@ -23,13 +22,12 @@
 
 <div class="form-group">
 <form class="" action="." method="post">
-  <div class="d-flex">
-    <label class="input-group-text">{{ form.title.label }}</label>
+  <div class="d-flex title">
+    <label class="input-group-text">Title of Post:</label>
     <input type="text" name="title" class="input-group-text">
   </div>
 
-  <!-- djrichtextfield may be needed in class below -->
-  <textarea name="{{ form.content.name }}" class="djrichtextfield"
+  <textarea name="{{ form.content.name }}" class="post-field"
             id="summernote"></textarea>
 
   {% for error in field.errors %}
@@ -37,7 +35,7 @@
   {% endfor %}
 
   {% csrf_token %}
-  <input class="btn btn-success" type="submit" value="Submit">
+  <input class="btn btn-success btn-submit" type="submit" value="Submit">
 
 </form>
 </div> <!-- Form Group -->
