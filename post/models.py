@@ -5,7 +5,7 @@ from bleach.sanitizer import Cleaner
 
 from account.models import CustomUser
 
-tags = [
+TAGS = [
     "a", "abbr", "area", "b", "bdo", "blockquote", "br", "caption", "cite",
     "code", "col", "colgroup", "dd", "del", "details", "dfn", "div", "dl",
     "dt", "em", "figcaption", "figure", "footer", "h1", "h2", "h3", "h4", "h5",
@@ -15,7 +15,7 @@ tags = [
     "tfoot", "th", "thead", "time", "tr", "u", "ul", "var",
 ]
 
-attributes = {
+ATTRIBUTES = {
     "img": ["src", "alt", "title"],
     "a": ["href", "alt", "title"],
 }
@@ -36,10 +36,10 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        cleaner = Cleaner(tags=tags, attributes=attributes)
+    def save(self):
+        cleaner = Cleaner(tags=TAGS, attributes=ATTRIBUTES)
         self.content = cleaner.clean(self.content)
-        super().save(*args, **kwargs)
+        super().save()
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
