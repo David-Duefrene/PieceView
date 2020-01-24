@@ -36,10 +36,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    def save(self):
+    # skipcq: PYL-W0221
+    def save(self, *args, **kwargs):
         cleaner = Cleaner(tags=TAGS, attributes=ATTRIBUTES)
         self.content = cleaner.clean(self.content)
-        super().save()
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
