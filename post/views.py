@@ -12,6 +12,9 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = 'post/create_post.html'
 
     def form_valid(self, form):
+        post = form.save(commit=False)
+        post.authors = self.request.user
+        post.save()
         return super(PostCreateView, self).form_valid(form)
 
     def get_success_url(self):
