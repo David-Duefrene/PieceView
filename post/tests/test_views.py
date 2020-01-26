@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.urls import reverse
 
 from account.models import CustomUser
-from post.models import Post
 
 
 class TestPostCreateView(TestCase):

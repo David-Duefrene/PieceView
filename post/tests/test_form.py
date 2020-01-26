@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from post.forms import *
+from post.forms import PostCreateForm
 
 
 class TestPostCreateForm(TestCase):

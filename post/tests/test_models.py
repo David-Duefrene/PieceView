@@ -1,9 +1,8 @@
 from django.conf import settings
 from django.test import TestCase
-from django.urls import reverse
 
 from account.models import CustomUser
-from post.models import *
+from post.models import Post
 
 
 class TestPostModel(TestCase):
@@ -26,7 +25,6 @@ class TestPostModel(TestCase):
 
     def test_post_content_safe(self):
         """Tests if the save function correctly cleans and saves HTML data"""
-        test_failed = False
         for tag in settings.ALL_TAGS:
             # First we address any tags that need attributes tested.
             if tag == 'img':
