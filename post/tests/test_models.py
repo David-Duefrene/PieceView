@@ -17,11 +17,11 @@ class TestPostModel(TestCase):
                               authors=self.user)
 
     def test_post_str(self):
-        self.assertTrue(self.test_post, 'Title')
+        self.assertEqual(str(self.test_post), 'Title')
 
     def test_post_url(self):
         url = self.test_post.get_absolute_url()
-        self.assertTrue(url, '/post/None/')
+        self.assertEqual(url, '/post/None/')
 
     def test_post_content_safe(self):
         """Tests if the save function correctly cleans and saves HTML data"""
