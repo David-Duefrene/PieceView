@@ -13,13 +13,18 @@
 
   <div class="card-deck col">
   {% for post in all_posts %}
-  <div class="card col">
-    <div class="card-body">
+  <div class="card card-posts">
+    <div class="card-header">
       <h5>{{ post.title }}</h5>
     </div>
 
+    <div class="card-body">
+      <p>{{ post.content|safe }}</p>
+    </div>
+
     <div class="card-footer">
-      <a href="{{ post.get_absolute_url }}" class="btn btn-primary col">Read</a>
+      <a href="{{ post.get_absolute_url }}"
+        class="btn btn-full stretched-link">Read</a>
     </div>
   </div>
   {% endfor %}

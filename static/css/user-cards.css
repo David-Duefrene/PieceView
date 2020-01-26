@@ -2,8 +2,8 @@
 * user-cards.css
 * Boostrap Card deck custimization.
 * Used to display a list of users.
-* Currently used in people view
-* and in Dashboard view.
+* Currently used in People,
+* Dashboard and in Post List view.
 ********************************/
 /* All screens */
 h5 {
@@ -20,15 +20,21 @@ h5 {
   height: 50%;
 }
 
-.card {
-  /* Default */
-  min-width: fit-content;
+/* Used in Post List only */
+.card-deck .card-posts {
+  min-width: 20em;
+  height: 25em;
+  overflow: hidden;
+  margin-bottom: 2em;
+}
 
-  /* Firefox */
-  min-width: -moz-fit-content;
-
-  /* Chrome */
-  min-width: -webkit-fit-content;
+/* is for making button span
+  accross bottom of card while
+  being a stretched link */
+.btn-full {
+  width: 80%;
+  background-color: #1557f2c7;
+  color: white;
 }
 
 /* Larger Screens */
