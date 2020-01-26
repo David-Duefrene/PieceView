@@ -1,24 +1,10 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
 from bleach.sanitizer import Cleaner
 
 from account.models import CustomUser
-
-TAGS = [
-    "a", "abbr", "area", "b", "bdo", "blockquote", "br", "caption", "cite",
-    "code", "col", "colgroup", "dd", "del", "details", "dfn", "div", "dl",
-    "dt", "em", "figcaption", "figure", "footer", "h1", "h2", "h3", "h4", "h5",
-    "h6", "header", "i", "img", "ins", "li", "main", "map", "mark", "meter",
-    "ol", "p", "picture", "pre", "progress", "q", "s", "samp", "section",
-    "small", "span", "strong", "sub", "summary", "sup", "table", "tbody", "td",
-    "tfoot", "th", "thead", "time", "tr", "u", "ul", "var",
-]
-
-ATTRIBUTES = {
-    "img": ["src", "alt", "title"],
-    "a": ["href", "alt", "title"],
-}
 
 
 class Post(models.Model):
@@ -38,7 +24,8 @@ class Post(models.Model):
 
     # skipcq: PYL-W0221
     def save(self, *args, **kwargs):
-        cleaner = Cleaner(tags=TAGS, attributes=ATTRIBUTES)
+        cleaner = Cleaner(tags=settings.APPROVED_TAGS,
+                          attributes=settings.APPROVED_ATTRIBUTES)
         self.content = cleaner.clean(self.content)
         super().save(*args, **kwargs)
 

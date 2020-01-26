@@ -131,3 +131,45 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 INTERNAL_IPS = ['127.0.0.1']
+
+# Section for tags approved for posts
+ALL_TAGS = [  # This is a master tag list used for testing
+    "a", "abbr", "address", "applet", "area", "article", "aside", "audio",
+    "b", "base", "basefont", "bdi", "bdo", "bgsound", "big", "blink",
+    "blockquote", "body", "br", "button", "canvas", "caption", "center",
+    "cite", "code", "col", "colgroup", "command", "content", "data",
+    "datalist", "dd", "del", "detals", "dfn", "dialog", "dir", "div", "dl",
+    "dt", "element", "em", "embed", "fieldset", "figcaption", "figure", "font",
+    "footer", "form", "frame", "frameset", "h1", "h2", "h3", "h4", "h5", "h6",
+    "head", "header", "hgroup", "hr", "html", "i", "iframe", "image", "img",
+    "input", "ins", "isindex", "kbd", "keygen", "label", "legend", "li",
+    "link", "listing", "main", "map", "mark", "marquee", "menu", "menuitem",
+    "meta", "meter", "multicol", "nav", "nobr", "noembed", "noframes",
+    "noscript", "object", "ol", "optgroup", "option", "output", "p", "param",
+    "picture", "plaintext", "pre", "progress", "q", "rp", "rt", "ruby", "s",
+    "samp", "script", "section", "select", "shadow", "small", "source",
+    "spacer", "span", "strike", "strong", "style", "sub", "summary", "sup",
+    "table", "tbody", "td", "template", "textarea", "tfoot", "th", "thead",
+    "time", "title", "tr", "track", "tt", "u", "ul", "var", "video", "wbr",
+    "xmp",
+]
+
+APPROVED_TAGS = [  # a list of tags that are approved
+    "a", "abbr", "area", "b", "bdo", "blockquote", "br", "caption", "cite",
+    "code", "dd", "del", "details", "dfn", "div", "dl", "dt", "em",
+    "figcaption", "figure", "footer", "h1", "h2", "h3", "h4", "h5", "h6",
+    "header", "i", "img", "ins", "li", "main", "map", "mark", "meter", "ol",
+    "p", "picture", "pre", "progress", "q", "s", "samp", "section", "small",
+    "span", "strong", "sub", "summary", "sup", "table", "tbody", "td", "tfoot",
+    "th", "thead", "time", "tr", "u", "ul", "var",
+]
+
+SUB_TAGS = [  # a list of tags that are only valid inside of another tag
+    "caption", "col", "colgroup", "tbody", "tfoot", "thead", "tr", "th", "td",
+]
+
+APPROVED_ATTRIBUTES = {  # approved attributes and their respective tags.
+    "img": ["src", "alt", "title"],
+    "a": ["href", "alt", "title"],
+    "area": ["shape", "coords", "href"]
+}
