@@ -21,31 +21,30 @@
     <!-- Add rest of fields -->
     <div class="form-group register-form col">
       {% for field in form.visible_fields %}
+      <div class="d-flex col-12 form-line">
+        <label class="input-group-text col" for="{{ field.id }}">
+        {{ field.label }}:</label>
 
-        <div class="d-flex col-12 form-line">
-          <label class="input-group-text col" for="{{ field.id }}">
-          {{ field.label }}:</label>
-
-          {% if field.id_for_label == "id_photo" %}
-            <div class="input-group custom-file col">
-              <input type="file"
-                    class="form-control custom-file-input" name="photo"
-                    id="Profile-Photo">
-              <label class="custom-file-label" for="Profile-Photo">
-              Choose Profile Picture</label>
-            </div>
-
-          {% else %}
-            <input type="{{ field.field.widget.input_type }}"
-                  name="{{ field.name }}" class="input-group-text col-6"
-                  style="background-color: white;" id="{{ field.id }}">
-          {% endif %}
-
-          {% for error in field.errors %}
-          <span class="help-block">{{ error }}</span>
-          {% endfor %}
-
+        {% if field.id_for_label == "id_photo" %}
+        <div class="input-group custom-file col">
+          <input type="file"
+                class="form-control custom-file-input" name="photo"
+                id="Profile-Photo">
+          <label class="custom-file-label" for="Profile-Photo">
+          Choose Profile Picture</label>
         </div>
+
+        {% else %}
+        <input type="{{ field.field.widget.input_type }}"
+              name="{{ field.name }}" class="input-group-text col-6"
+              style="background-color: white;" id="{{ field.id }}">
+        {% endif %}
+
+        {% for error in field.errors %}
+        <span class="help-block">{{ error }}</span>
+        {% endfor %}
+
+      </div>
       {% endfor %}
     </div> <!-- Form Group register-form col -->
     </div> <!-- d-flex -->

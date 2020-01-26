@@ -10,7 +10,7 @@
 {% block content %}
 
 <div class="d-flex">
-    <h1 class="col-12">{{ profile.get_full_name }}</h1>
+  <h1 class="col-12">{{ profile.get_full_name }}</h1>
 
   {% with total_followers=profile.followers.count %}
 
