@@ -32,4 +32,4 @@ class PostListView(ListView):
     context_object_name = 'all_posts'
     model = Post
     paginate_by = 25
-    template_name = 'TEMPLATE_NAME'
+    template_name = 'post/post_list.html'
