@@ -13,13 +13,24 @@ class UserRegistrationForm(forms.ModelForm):
     Required fields are username, email, and passwords.
     """
     password = forms.CharField(label='Password',
-                               widget=forms.PasswordInput)
+                               widget=forms.PasswordInput(
+                                attrs={'class': 'form-control'}))
     password2 = forms.CharField(label='Repeat password',
-                                widget=forms.PasswordInput)
+                                widget=forms.PasswordInput(
+                                    attrs={'class': 'form-control'}))
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'first_name', 'email', 'last_name', 'photo')
+        fields = ('username', 'email', 'first_name', 'last_name', 'photo')
+
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'photo': forms.FileInput(
+                attrs={'class': 'form-control custom-file-input'}),
+        }
 
     def clean_password2(self):
         """Ensures both passwords match."""
