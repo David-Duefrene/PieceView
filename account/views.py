@@ -13,12 +13,12 @@ from .models import CustomUser, Contact
 
 
 class IndexTemplateView(TemplateView):
-    """View for displaying the sites index"""
+    """View for displaying the sites index."""
     template_name = 'index.html'
 
 
 class UserRegisterCreateView(CreateView):
-    """User registration View. Overrides form_valid to render a template"""
+    """User registration View. Overrides form_valid to render a template."""
     model = CustomUser
     form_class = UserRegistrationForm
     success_url = 'registration/register_done.html'
@@ -31,18 +31,18 @@ class UserRegisterCreateView(CreateView):
 
 
 class DashboardTemplateView(LoginRequiredMixin, TemplateView):
-    """View for a users dashboard"""
+    """View for a users dashboard."""
     template_name = 'user/dashboard.html'
 
 
 class EditProfileView(UpdateView):
-    """View for allowing a user to edit thier profile"""
+    """View for allowing a user to edit thier profile."""
     model = CustomUser
     form_class = UserEditForm
     template_name = 'user/edit.html'
 
     def user_passes_test(self, request):
-        """test to see if the profile belongs to the user"""
+        """Test to see if the profile belongs to the user."""
         # Deepsource wants object declared in __init__, which Django does not
         # recomend overriding in a view class, ignoring the warning.
         # skipcq: PYL-W0201
@@ -64,14 +64,14 @@ class EditProfileView(UpdateView):
 
 
 class UserListView(LoginRequiredMixin, ListView):
-    """View displaying all users"""
+    """View displaying all users."""
     model = CustomUser
     paginate_by = 25
     template_name = 'user/people.html'
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
-    """view displaying a users profile"""
+    """View displaying a users profile."""
     context_object_name = 'profile'
     model = CustomUser
     slug_field = 'username'

@@ -10,7 +10,7 @@ class UserManager(BaseUserManager):
 class UserRegistrationForm(forms.ModelForm):
     """
     Form fora new user to register on the site.
-    required fields are username, email, and first name
+    Required fields are username, email, and passwords.
     """
     password = forms.CharField(label='Password',
                                widget=forms.PasswordInput)
@@ -22,7 +22,7 @@ class UserRegistrationForm(forms.ModelForm):
         fields = ('username', 'first_name', 'email', 'last_name', 'photo')
 
     def clean_password2(self):
-        """ensures both passwords match"""
+        """Ensures both passwords match."""
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
             raise forms.ValidationError('Passwords don\'t match.',
@@ -30,8 +30,7 @@ class UserRegistrationForm(forms.ModelForm):
         return cd['password2']
 
     def save(self, commit=True):
-        """saves the form to the database"""
-        """saves the form to the database in a hashed format"""
+        """Saves the form to the database in a hashed format."""
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])
         if commit:
@@ -42,7 +41,7 @@ class UserRegistrationForm(forms.ModelForm):
 class UserEditForm(forms.ModelForm):
     """
     Form for a user to edit thier account.
-    required fields is just email
+    Required fields is just email.
     """
     class Meta:
         model = get_user_model()
