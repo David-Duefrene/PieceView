@@ -21,11 +21,6 @@ class UserRegistrationForm(forms.ModelForm):
         model = get_user_model()
         fields = ('username', 'first_name', 'email', 'last_name', 'photo')
 
-    def __init__(self, *args, **kwargs):
-        super(UserRegistrationForm, self).__init__(*args, **kwargs)
-        self.fields['email'].required = True
-        self.fields['first_name'].required = True
-
     def clean_password2(self):
         """ensures both passwords match"""
         cd = self.cleaned_data
@@ -36,7 +31,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     def save(self, commit=True):
         """saves the form to the database"""
-        # Save the provided password in hashed format
+        """saves the form to the database in a hashed format"""
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])
         if commit:
@@ -47,14 +42,8 @@ class UserRegistrationForm(forms.ModelForm):
 class UserEditForm(forms.ModelForm):
     """
     Form for a user to edit thier account.
-    required fields are username, email, and first name just as
-    UserRegistrationForm
+    required fields is just email
     """
     class Meta:
         model = get_user_model()
         fields = ('first_name', 'last_name', 'email', 'photo')
-
-    def __init__(self, *args, **kwargs):
-        super(UserEditForm, self).__init__(*args, **kwargs)
-        self.fields['email'].required = True
-        self.fields['first_name'].required = True

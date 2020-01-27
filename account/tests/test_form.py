@@ -60,7 +60,7 @@ class TestRegistrationForm(TestCase):
                                           'username': "username",
                                           'first_name': "",
                                           'email': "mail@mail.com"})
-        self.assertFalse(form.is_valid())
+        self.assertTrue(form.is_valid())
 
     # TODO add last name test here
 
@@ -99,10 +99,10 @@ class TestUserEditForm(TestCase):
         self.assertTrue(form.is_valid())
 
     def test_no_first_name(self):
-        """Tests missing first name is rejected"""
+        """Tests missing first name is accepted"""
         form = UserEditForm(data={'first_name': "", 'last_name': "named",
                                   'email': "mail@mail.com"})
-        self.assertFalse(form.is_valid())
+        self.assertTrue(form.is_valid())
 
     def test_no_last_name(self):
         """Tests that missing last name is accepted"""

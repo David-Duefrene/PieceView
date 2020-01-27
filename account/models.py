@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     """CustomUser model describes our sites users"""
+    email = models.EmailField(blank=False)
     photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
 
     class Meta:
