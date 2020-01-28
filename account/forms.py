@@ -10,7 +10,7 @@ class UserManager(BaseUserManager):
 
 class UserRegistrationForm(UserCreationForm):
     """
-    Form fora new user to register on the site.
+    Form for a new user to register on the site.
     Required fields are username, email, and passwords.
     """
     password1 = forms.CharField(label='Password',
@@ -37,7 +37,9 @@ class UserRegistrationForm(UserCreationForm):
 class UserEditForm(forms.ModelForm):
     """
     Form for a user to edit thier account.
-    Required fields is just email.
+    Required fields is just email. Does not
+    inherit from UserChangeForm to avoid setting
+    a password in this form.
     """
     class Meta:
         model = get_user_model()
