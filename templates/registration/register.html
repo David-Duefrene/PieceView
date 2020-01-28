@@ -16,6 +16,9 @@
 
     {% for field in form %}
       <p>
+        {% if field.errors %}
+        <div class="help-block d-flex col">{{ field.errors }}</div>
+        {% endif %}
       {# Photo label #}
       {% if field.name == "photo" %}
       <div class="input-group custom-file">
@@ -33,6 +36,10 @@
       {% endif %}
 
       {{ field }}
+      {% if field.help_text %}
+      <p class="help">{{ field.help_text|safe }}</p>
+      {% endif %}
+
       </div></p>
     {% endfor %}
 
