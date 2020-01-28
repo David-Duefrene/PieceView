@@ -43,4 +43,12 @@ class UserEditForm(forms.ModelForm):
     """
     class Meta:
         model = get_user_model()
-        fields = ('first_name', 'last_name', 'email', 'photo')
+        fields = ('photo', 'first_name', 'last_name', 'email')
+
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'photo': forms.FileInput(
+                attrs={'class': 'form-control custom-file-input'}),
+        }
