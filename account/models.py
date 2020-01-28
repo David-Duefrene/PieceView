@@ -4,7 +4,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
-    """CustomUser model describes our sites users"""
+    """CustomUser model describes our sites users."""
+    email = models.EmailField(blank=False)
     photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
 
     class Meta:
@@ -15,14 +16,14 @@ class CustomUser(AbstractUser):
 
     @property
     def photo_url(self):
-        """Returns the users photo url or the default no picture url"""
+        """Returns the users photo url or the default no picture url."""
         if self.photo:
             return self.photo.url
         return "/static/icons/no-picture.jpg"
 
 
 class Contact(models.Model):
-    """Contact model describes the relationship between users"""
+    """Contact model describes the relationship between users."""
     from_user = models.ForeignKey(CustomUser, related_name='from_user',
                                   on_delete=models.CASCADE)
     to_user = models.ForeignKey(CustomUser, related_name='to_user',

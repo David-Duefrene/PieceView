@@ -30,6 +30,10 @@
   list-style-type: none;
 }
 
+.custom-file-label {
+  overflow: hidden;
+}
+
 /* Computer sized Screens */
 @media (min-width: 701px) {
   .btn {

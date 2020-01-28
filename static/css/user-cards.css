@@ -37,9 +37,6 @@ h5 {
   color: white;
 }
 
-/* Larger Screens */
-@media (min-width: 701px) {
-  .card{
-    max-width: 25%;
-  }
+.card{
+  min-width: 20em;
 }

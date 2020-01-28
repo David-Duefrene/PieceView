@@ -13,37 +13,35 @@
   <h5 class="col-12">Please, sign up using the following form:</h5>
 
   <form action={% url 'register' %} method="post" class="col-8">
-    {% for hidden in form.hidden_fields %}
-    {{ hidden }}
-    {% endfor %}
 
-    <div class="d-flex justify-content-center ">
-    <div class="form-group register-form col">
-    {% for field in form.visible_fields %}
-    <div class="d-flex col-12 form-line">
-      <label class="input-group-text col" for="{{ field.id }}">{{ field.label }}:</label>
+    {% for field in form %}
+      <p>
+        {% if field.errors %}
+        <div class="help-block d-flex col">{{ field.errors }}</div>
+        {% endif %}
+      {# Photo label #}
+      {% if field.name == "photo" %}
+      <div class="input-group custom-file">
+      <label class="custom-file-label" for="{{ field.id_for_label }}">
+        Choose optional profile photo
+      </label>
 
-      {% if field.id_for_label == "id_photo" %}
-      <div class="input-group custom-file col">
-        <input type="file" class="form-control custom-file-input"
-              name="photo" id="Profile-Photo">
-        <label class="custom-file-label" for="Profile-Photo">
-        Choose Profile Picture</label>
-      </div>
-
+      {# All other labels #}
       {% else %}
-      <input type="{{ field.field.widget.input_type }}"
-            name="{{ field.name }}" class="input-group-text col-6">
+      <div class="">
+      <label class="input-group-text" for="{{ field.id_for_label }}">
+        {{ field.label }}
+      </label>
+
       {% endif %}
 
-      {% for error in field.errors %}
-      <span class="help-block">{{ error }}</span>
-      {% endfor %}
+      {{ field }}
+      {% if field.help_text %}
+      <p class="help">{{ field.help_text|safe }}</p>
+      {% endif %}
 
-    </div>
+      </div></p>
     {% endfor %}
-    </div> <!-- Form Group register-form col -->
-    </div> <!-- d-flex -->
 
     {% csrf_token %}
     <input class="btn btn-success btn-block" type="submit"
