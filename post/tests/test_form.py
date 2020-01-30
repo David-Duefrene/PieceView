@@ -1,10 +1,10 @@
 from django.test import TestCase
 
-from post.forms import PostCreateForm
+from post.forms import PostCreateForm, CommentForm
 
 
 class TestPostCreateForm(TestCase):
-    """Tests for PostCreateForm."""
+    """ Tests for PostCreateForm. """
 
     def test_good_data(self):
         """Tests if all data is correct."""
@@ -25,4 +25,18 @@ class TestPostCreateForm(TestCase):
     def test_no_data(self):
         """Tests if  user forgets the content."""
         form = PostCreateForm(data={'title': '', 'content': ''})
+        self.assertFalse(form.is_valid())
+
+
+class TestCommentForm(TestCase):
+    """ Tests for CommentForm """
+
+    def test_good_data(self):
+        """ Tests if all data is correct. """
+        form = CommentForm(data={'body': 'Test_Body'})
+        self.assertTrue(form.is_valid())
+
+    def test_no_body(self):
+        """Tests of user attempts to submit a comment with no body"""
+        form = CommentForm(data={'body': ''})
         self.assertFalse(form.is_valid())
