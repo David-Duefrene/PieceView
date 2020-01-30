@@ -8,4 +8,29 @@
   {{ post.content|safe }}
 </div>
 
+{% if request.user.is_authenticated %}
+<div class="d-flex comments">
+  <form class="" action="{% url 'post_detail' post.pk %}"
+        method="post">
+    {% for field in form %}
+    <div class="input-group">
+      <label class="input-group-text" for="{{ field.id_for_label }}">
+        {{ field.label }}</label>
+        {{ field }}
+
+        {% if field.errors %}
+        <span class="help-block">{{ error }}</span>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    {% csrf_token %}
+    <input class="btn btn-success btn-block" type="submit" value="Post Comment">
+  </form>
+</div>
+
+{% else %}
+<p>Log-in to comment.</p>
+{% endif %}
+
 {% endblock content %}
