@@ -50,4 +50,4 @@ class Comment(models.Model):
         ordering = ['created']
 
     def __str__(self):
-        return f'Comment by {self.comentor} on {self.created}'
+        return f'Comment by {self.parent} on {self.created}'
