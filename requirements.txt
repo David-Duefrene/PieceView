@@ -5,7 +5,7 @@ coverage==4.5.4
 coveralls==1.10.0
 defusedxml==0.6.0
 Django==3.0.2
-django-debug-toolbar==2.1
+django-debug-toolbar==2.2
 django-widget-tweaks==1.4.5
 docopt==0.6.2
 idna==2.8
