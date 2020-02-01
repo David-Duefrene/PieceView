@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}A Post{% endblock title %}
+
+{% block loadcss %}
+<link href="{% static "css/post/details.css" %}" rel="stylesheet">
+{% endblock loadcss %}
 
 {% block content %}
 <div class="d-flex">
@@ -8,29 +13,50 @@
   {{ post.content|safe }}
 </div>
 
+<div class="comment-section col-12">
+<button class="btn btn-primary btn-block" data-toggle="collapse"
+        data-target="#Comment-Form">
+  Show Comment Form</button>
+
+<div id="Comment-Form" class="collapse">
 {% if request.user.is_authenticated %}
-<div class="d-flex comments">
-  <form class="" action="{% url 'post_detail' post.pk %}"
-        method="post">
-    {% for field in form %}
-    <div class="input-group">
-      <label class="input-group-text" for="{{ field.id_for_label }}">
-        {{ field.label }}</label>
-        {{ field }}
+<div class="d-flex comment-form col">
+<form action="{% url 'post_detail' post.pk %}" method="post">
+  {% for field in form %}
+  <div class="input-group">
+    {{ field }}
 
-        {% if field.errors %}
-        <span class="help-block">{{ error }}</span>
-        {% endif %}
-    </div>
-    {% endfor %}
+    {% if field.errors %}
+    <span class="help-block">{{ error }}</span>
+    {% endif %}
+  </div>
+  {% endfor %}
 
-    {% csrf_token %}
-    <input class="btn btn-success btn-block" type="submit" value="Post Comment">
-  </form>
+  {% csrf_token %}
+  <input class="btn btn-success btn-block" type="submit" value="Post Comment">
+</form>
 </div>
 
 {% else %}
 <p>Log-in to comment.</p>
 {% endif %}
+</div>
+
+{% for comment in comments %}
+  <div class="comment row">
+
+    <div class="profile-card d-flex col">
+      <img class="img-fluid profile-photo" src="{{ comment.user.photo_url }}">
+      <p class="d-flex">{{ comment.user }}</p>
+    </div>
+
+    <div class="comment-body col">
+      <h5>{{ comment }}</h5>
+      <p>{{ comment.body }}</p>
+    </div>
+  </div>
+{% endfor %}
+
+</div>
 
 {% endblock content %}
