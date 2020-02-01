@@ -4,12 +4,6 @@
   min-width: -webkit-fill-available;
 }
 
-.input-group textarea {
-  min-width: 100%;
-  min-width: -moz-available;
-  min-width: -webkit-fill-available;
-}
-
 .comment-section {
   border: 10px solid teal;
 }

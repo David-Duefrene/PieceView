@@ -1,31 +1,21 @@
 .title label {
-  /* IE/Edge */
   width: 7em;
-  text-align: right;
-
-  /* Default */
   width: min-content;
-  display: block;
-  text-align: end;
-
-  /* Firefox */
   width: -moz-min-content;
-  text-align: -moz-right;
-
-  /* Chrome */
-  width: -webkit-fill-available;
   width: -webkit-min-content;
+
+  display: block;
+
+  text-align: right;
+  text-align: end;
+  text-align: -moz-right;
 }
 
 .title input {
-  /* IE/Edge */
-  text-align: left;
-
-  /* Default */
   width: 50%;
-  text-align: start;
 
-  /* Firefox */
+  text-align: left;
+  text-align: start;
   text-align: -moz-left;
 }
 
@@ -34,8 +24,9 @@
 }
 
 .note-editor {
-  width: 100%;
-  max-width: 95%;
+  min-width: 100%;
+  min-width: -moz-available;
+  min-width: -webkit-fill-available;
 }
 
 .note-editable {

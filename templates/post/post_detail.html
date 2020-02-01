@@ -3,8 +3,18 @@
 
 {% block title %}A Post{% endblock title %}
 
+{% block loadscripts %}
+<script
+  src="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote-bs4.min.js">
+</script>
+{% endblock loadscripts %}
+
 {% block loadcss %}
 <link href="{% static "css/post/details.css" %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static "css/post/rich_text_edit.css" %}">
+<link
+  href="https://cdn.jsdelivr.net/npm/summernote@0.8.15/dist/summernote-bs4.min.css"
+  rel="stylesheet">
 {% endblock loadcss %}
 
 {% block content %}
@@ -24,11 +34,10 @@
 <form action="{% url 'post_detail' post.pk %}" method="post">
   {% for field in form %}
   <div class="input-group">
-    {{ field }}
-
-    {% if field.errors %}
-    <span class="help-block">{{ error }}</span>
-    {% endif %}
+    <textarea name="body" class="post-field" id="summernote"></textarea>
+    {{ form.errors }}
+    {{ form.non_field_errors }}
+    
   </div>
   {% endfor %}
 
@@ -52,7 +61,7 @@
 
     <div class="comment-body col">
       <h5>{{ comment }}</h5>
-      <p>{{ comment.body }}</p>
+      <p>{{ comment.body|safe }}</p>
     </div>
   </div>
 {% endfor %}
@@ -60,3 +69,7 @@
 </div>
 
 {% endblock content %}
+
+{% block domready %}
+$('#summernote').summernote();
+{% endblock domready %}

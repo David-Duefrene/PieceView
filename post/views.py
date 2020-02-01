@@ -56,7 +56,7 @@ class CommentFormView(SingleObjectMixin, FormView):
         self.object = self.get_object()
         post = get_object_or_404(Post, pk=self.object.pk)
         form = self.get_form()
-        if form.is_valid:
+        if form.is_valid():
             comment = form.save(commit=False)
             comment.parent = post
             comment.user = request.user
