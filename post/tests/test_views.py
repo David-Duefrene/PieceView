@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.db.models.query import QuerySet
 
 from account.models import CustomUser
-from post.models import Comment
 from post.forms import CommentForm
 
 
@@ -92,7 +91,7 @@ class TestCommentFormView(TestCase):
         })
         self.client.logout()
 
-    def test_post(self):
+    def test_post_method(self):
         self.client.login(username='alfred', password='Hads65ads1')
         test_comment = self.client.post(reverse('post_detail', args=['1']),
                                         data={'body': 'test_body'})
@@ -130,7 +129,7 @@ class TestPostDetailView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'post/post_detail.html')
 
-    def test_get_request(self):
+    def test_post_request(self):
         """ Tests a POST request on this view. """
         self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.post(reverse('post_detail', args=['1']),

@@ -53,7 +53,7 @@ class CommentFormView(SingleObjectMixin, FormView):
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
-        self.object = self.get_object()
+        self.object = self.get_object()  # skipcq PYL-W0201
         post = get_object_or_404(Post, pk=self.object.pk)
         form = self.get_form()
         if form.is_valid():
@@ -71,10 +71,12 @@ class CommentFormView(SingleObjectMixin, FormView):
 class PostDetailView(View):
     """View to shjow a Post's details including a comment form to
     logged in users."""
-    def get(self, request, *args, **kwargs):
+    @staticmethod
+    def get(request, *args, **kwargs):
         view = PostDisplayView.as_view()
         return view(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
+    @staticmethod
+    def post(request, *args, **kwargs):
         view = CommentFormView.as_view()
         return view(request, *args, **kwargs)
