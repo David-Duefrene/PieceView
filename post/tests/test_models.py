@@ -2,7 +2,7 @@ from django.conf import settings
 from django.test import TestCase
 
 from account.models import CustomUser
-from post.models import Post
+from post.models import Post, Comment
 
 
 class TestPostModel(TestCase):
@@ -71,3 +71,23 @@ class TestPostModel(TestCase):
                     print(f"content: {content} failed.")
                     print(f"above content is not being filter from:"
                           "{new_post.content}")
+
+
+class TestCommentModel(TestCase):
+    """Tests for the Comment Model."""
+
+    def setUp(self):
+        self.user = CustomUser.objects.create_user(
+            username='alfred',
+            password='Hads65ads1',  # skipcq: PTC-W1006
+        )
+        self.test_post = Post(title='Title',
+                              content='test_post content',
+                              authors=self.user)
+        self.test_comment = Comment(parent=self.test_post, user=self.user,
+                                    body='test_comment body')
+
+    def test_post_str(self):
+        self.assertEqual(
+            str(self.test_comment),
+            f'Comment by {self.user} on {self.test_comment.created}')

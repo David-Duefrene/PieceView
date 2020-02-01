@@ -1,0 +1,39 @@
+.comment-form form {
+  min-width: 100%;
+  min-width: -moz-available;
+  min-width: -webkit-fill-available;
+}
+
+.comment-section {
+  border: 10px solid teal;
+}
+
+.comment {
+  border: 1px solid yellow;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+.profile-card {
+	max-width: 25%;
+}
+
+.profile-card img {
+  padding-top: 1em;
+  min-width: 5em;
+  max-height: 9em;
+}
+
+.profile-card p {
+  font-size: 1.25em;
+  font-weight: bold;
+  width: inherit;
+}
+
+.comment-body {
+  border: 1px solid white;
+}
+
+.comment-body h5 {
+  font-size: 1em;
+}
