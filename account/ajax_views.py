@@ -26,7 +26,19 @@ class GetFollowers(AuthAjaxOnlyMixin):
                 previous_followers = page_limit * (page_num - 1)
                 followers = user.followers.order_by("-date_joined")[
                     previous_followers:previous_followers+page_limit]
-                print(followers)
+
+                followers_dict = []
+                for people in followers:
+                    followers_dict.append({
+                        'photo': people.photo_url,
+                        'url': people.get_absolute_url(),
+                        'name': str(people),
+                        }
+                    )
+                return JsonResponse({
+                    'status': 'OK',
+                    'followers': followers_dict,
+                })
             except CustomUser.DoesNotExist:
                 return JsonResponse({'status': 'DoesNotExist'})
         return JsonResponse({'status': 'ko'})

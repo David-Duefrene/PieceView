@@ -11,6 +11,16 @@ class CustomUser(AbstractUser):
     class Meta:
         ordering = ['-id']
 
+    def __str__(self):
+        if self.first_name:
+            if self.last_name:
+                return f'{self.first_name} {self.last_name}'
+            return self.first_name
+
+        if self.last_name:
+            return self.last_name
+        return self.username
+
     def get_absolute_url(self):
         return reverse('user_detail', kwargs={'slug': self.username})
 

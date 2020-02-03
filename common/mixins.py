@@ -11,7 +11,6 @@ class AuthAjaxOnlyMixin(View):
     """
 
     def dispatch(self, request, *args, **kwargs):
-        print("Inside the Mixin")
         if not request.is_ajax():
             return HttpResponseBadRequest()
 

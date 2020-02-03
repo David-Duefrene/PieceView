@@ -41,22 +41,57 @@
 
     <div class="tab-pane" id="followers">
     <div class="card-deck">
-    {% for profile in user.followers.all %}
-    <div class="card bg-transparent border-warning">
-      <img src="{{ profile.photo_url }}" class="card-img-top img-responsive">
+
+    <div class="card bg-transparent border-warning" id="Follower0">
+      <img src="NULL" class="card-img-top img-responsive">
 
       <div class="card-body">
-        <h5 class="card-title">{{ profile.get_full_name }}</h5>
+        <h5 class="card-title">NULL</h5>
         <p class="card-text">Some default card text here</p>
       </div>
 
       <div class="card-footer bg-transparent border-warning">
-        <a href="{% url "user_detail" slug=profile.username %}"
+        <a href="NULL"
           class="btn btn-primary stretched-link">Profile</a>
       </div>
 
     </div>
-    {% endfor %}
+
+    <div class="card bg-transparent border-warning" id="Follower1">
+      <img src="NULL" class="card-img-top img-responsive">
+
+      <div class="card-body">
+        <h5 class="card-title">NULL</h5>
+        <p class="card-text">Some default card text here</p>
+      </div>
+
+      <div class="card-footer bg-transparent border-warning">
+        <a href="NULL"
+          class="btn btn-primary stretched-link">Profile</a>
+      </div>
+
+    </div>
+
+    <div class="card bg-transparent border-warning" id="Follower2">
+      <img src="NULL" class="card-img-top img-responsive">
+
+      <div class="card-body">
+        <h5 class="card-title">NULL</h5>
+        <p class="card-text">Some default card text here</p>
+      </div>
+
+      <div class="card-footer bg-transparent border-warning">
+        <a href="NULL"
+          class="btn btn-primary stretched-link">Profile</a>
+      </div>
+
+    </div>
+
+    <button data-id="{{ user.id }}" class="btn btn-danger paginate"
+      type="submit">
+      Pushing Buttons
+    </button>
+
     </div>
     </div>
 
@@ -84,3 +119,27 @@
   </div> <!-- d-flex tab-content col-12 -->
 </div> <!-- d-flex -->
 {% endblock %}
+
+{% block domready %}
+
+$('button.paginate').click(function(e){
+  e.preventDefault();
+  $.post('{% url "get_followers" %}',{
+      id: $(this).data('id'),
+      page_limit: 3,
+      page_num: 1
+    },
+    function(data){
+      for (var i = 0; i < data['followers'].length; i++) {
+        $('#Follower'+[i]+' img.card-img-top').attr("src",
+          data['followers'][i]['photo']);
+        $('#Follower'+[i]+' div.card-footer a.stretched-link').attr("href",
+          data['followers'][i]['url']);
+        $('#Follower'+[i]+' .card-body .card-title').text(
+          data['followers'][i]['name']);
+      }
+    }
+  )
+})
+
+{% endblock domready %}
