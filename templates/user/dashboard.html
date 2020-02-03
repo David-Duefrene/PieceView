@@ -3,6 +3,10 @@
 
 {% block title %}Dashboard{% endblock %}
 
+{% block loadscripts %}
+<script src="{% static 'js/pagination.js' %}"></script>
+{% endblock loadscripts %}
+
 {% block loadcss %}
 <link rel="stylesheet" href="{% static "css/tabs.css" %}">
 <link href="{% static "css/user-cards.css" %}" rel="stylesheet">
@@ -121,25 +125,5 @@
 {% endblock %}
 
 {% block domready %}
-
-$('button.paginate').click(function(e){
-  e.preventDefault();
-  $.post('{% url "get_followers" %}',{
-      id: $(this).data('id'),
-      page_limit: 3,
-      page_num: 1
-    },
-    function(data){
-      for (var i = 0; i < data['followers'].length; i++) {
-        $('#Follower'+[i]+' img.card-img-top').attr("src",
-          data['followers'][i]['photo']);
-        $('#Follower'+[i]+' div.card-footer a.stretched-link').attr("href",
-          data['followers'][i]['url']);
-        $('#Follower'+[i]+' .card-body .card-title').text(
-          data['followers'][i]['name']);
-      }
-    }
-  )
-})
-
+paginateUsers('{% url "get_followers" %}');
 {% endblock domready %}
