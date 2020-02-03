@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 
 from . import views
+from . import ajax_views
 
 urlpatterns = [
     path('', views.DashboardTemplateView.as_view(), name='dashboard'),
@@ -38,4 +39,7 @@ urlpatterns = [
     path('people/', views.UserListView.as_view(), name='user_list'),
     path('people/<slug>/', views.UserDetailView.as_view(), name='user_detail'),
 
+    # Ajax requests
+    path('ajax/followers', ajax_views.GetFollowers.as_view(),
+         name='get_followers'),
 ]

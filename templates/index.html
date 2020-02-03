@@ -18,5 +18,22 @@
   are not logged in.</p>
   <p>You should try logging in, you may get diffrent stuff.</p>
   {% endif %}
+
+  <!-- temp button for testing TODO delete -- >
+  <button data-id="{{ user.id }}" class="btn btn-danger ajax" type="submit">Pushing Buttons</button>
 </div>
 {% endblock content %}
+
+<!-- temp button for testing TODO delete -- >
+{% block domready %}
+
+$('button.ajax').click(function(e){
+  e.preventDefault();
+  $.post('{% url "get_followers" %}',{
+      id: $(this).data('id'),
+      page_limit: 10,
+      page_num: 1
+    })
+})
+
+{% endblock domready %}
