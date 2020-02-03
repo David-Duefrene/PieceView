@@ -1,23 +1,17 @@
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import redirect_to_login
-from django.views.decorators.http import require_POST
-from django.views.generic.base import View
-from django.http import HttpResponseBadRequest
-from .models import CustomUser, Contact
+
+from .models import CustomUser
 from common.mixins import AuthAjaxOnlyMixin
-from common.decorators import ajax_required
 
 
-class GetFollowers(AuthAjaxOnlyMixin, View):
+class GetFollowers(AuthAjaxOnlyMixin):
     """
-    Retrieves the current logged on users followers. Redirects unauthenticated
-    users to login. Presently offers to paginate the data. Request needs logged
-    on user's ID, the number of objects per page, and the page number the
-    requester wants.
+    Retrieves the current logged on user’s followers. Redirects
+    unauthenticated users to login. Presently offers to paginate the data.
+    Request needs logged on user's ID, the number of objects per page, and the
+    page number the requester wants.
     """
-    @ajax_required
+
     def post(self, request, *arg):
         user_id = request.POST.get('id')
         page_limit = int(request.POST.get('page_limit'))
