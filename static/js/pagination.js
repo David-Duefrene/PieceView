@@ -1,9 +1,10 @@
 function paginateUsers(url) {
-  $('a.page-link').click(function(e){
+  $('button.page-link').click(function(e){
     e.preventDefault();
     $.post(url, {
-        page_limit: 3,
-        page_num: $('span.current-page').text()
+        page_limit: $('button.centered-link').attr('data-limit'),
+        page_num: $('span.current-page').text(),
+        action: $(this).data('action')
       },
       function(data){
         for (var i = 0; i < data['followers'].length; i++) {
@@ -14,6 +15,8 @@ function paginateUsers(url) {
           $('#Follower'+[i]+' .card-body .card-title').text(
             data['followers'][i]['name']);
         }
+
+        $('span.current-page').text(data['new_page']);
       }
     )
   })
