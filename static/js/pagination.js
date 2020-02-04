@@ -1,10 +1,9 @@
 function paginateUsers(url) {
-  $('button.paginate').click(function(e){
+  $('a.page-link').click(function(e){
     e.preventDefault();
     $.post(url, {
-        id: $(this).data('id'),
         page_limit: 3,
-        page_num: 1
+        page_num: $('span.current-page').text()
       },
       function(data){
         for (var i = 0; i < data['followers'].length; i++) {
