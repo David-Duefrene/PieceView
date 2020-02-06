@@ -156,5 +156,6 @@
 {% endblock %}
 
 {% block domready %}
+process_data('{% url "get_followers" %}', 'first');
 paginateUsers('{% url "get_followers" %}');
 {% endblock domready %}
