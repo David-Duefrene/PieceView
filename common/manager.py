@@ -7,6 +7,10 @@ class PaginateManager(models.Manager):
     display."""
 
     def _get_followers(self, user, prev_set: int, next_set: int):
+        # cannot be negitive
+        if prev_set < 0:
+            prev_set = 0
+
         followers = user.followers.order_by("-date_joined")[
                     prev_set:next_set]
         followers_dict = []
