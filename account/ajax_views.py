@@ -17,10 +17,44 @@ class GetFollowers(AuthAjaxOnlyMixin):
         try:
             page_limit = int(request.POST.get('page_limit'))
             page_num = int(request.POST.get('page_num'))
-            action = request.POST.get('action')
             user = request.user
-            return CustomUser.paginate.paginate(action, user,
-                                                page_limit, page_num)
+            total_followers = user.followers.count()
+            prev_set = page_limit * (page_num)
+            followers = []
+            action = request.POST.get('action')
+
+            # Both statements keep us in bounds
+            if prev_set < page_limit:
+                action = 'first'
+            if prev_set > total_followers:
+                action = 'last'
+
+            if action == 'next':
+                followers = CustomUser.paginate.next_set(
+                    user, page_limit, total_followers, prev_set)
+                page_num += 1
+            elif action == 'previous':
+                followers = CustomUser.paginate.previous_set(
+                    user, page_limit, total_followers, prev_set)
+                page_num -= 1
+            elif action == 'first':
+                followers = CustomUser.paginate.first_set(
+                    user, page_limit, total_followers, prev_set)
+                page_num = 1
+            elif action == 'last':
+                followers = CustomUser.paginate.last_set(
+                    user, page_limit, total_followers, prev_set)
+                page_num = total_followers // page_limit
+
+            if followers:
+                print(f'page number: {page_num}')
+                return JsonResponse({
+                    'status': 'OK',
+                    'followers': followers,
+                    'new_page': page_num,
+                })
+
+            return JsonResponse({'status': 'Bad Request: Bad Action.'})
         except Exception as e:
             print('bad data GetFollowers')
             print(f'{e}')
