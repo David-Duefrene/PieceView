@@ -2,11 +2,15 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 
+from common.manager import PaginateManager
+
 
 class CustomUser(AbstractUser):
     """CustomUser model describes our sites users."""
     email = models.EmailField(blank=False)
     photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
+
+    paginate = PaginateManager()
 
     class Meta:
         ordering = ['-id']
