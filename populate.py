@@ -84,7 +84,7 @@ class Populate(object):
                 continue
 
             follow = users.following.add(user)
-            print(f'{users} follow: {user}')
+            # print(f'{users} follow: {user}')
             counter += 1
 
 
