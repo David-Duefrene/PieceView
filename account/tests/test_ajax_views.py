@@ -5,6 +5,7 @@ from django.urls import reverse
 from account.models import CustomUser, Contact
 
 import json
+from populate import Populate
 
 
 class GetFollowersTest(TestCase):
@@ -14,11 +15,6 @@ class GetFollowersTest(TestCase):
             username='alfred',
             password='Hads65ads1',
         )
-        self.user2 = CustomUser.objects.create_user(
-            username='Tommy',
-            password='Kasdf452'  # skipcq: PTC-W1006
-        )
-        Contact(from_user=self.user, to_user=self.user2)
 
     def test_post_rejects_bad_data(self):
         request = {'test': 'bad data'}
@@ -44,3 +40,25 @@ class GetFollowersTest(TestCase):
         self.assertEquals(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
         self.assertEquals(data['status'], 'Bad Request: Bad Action.')
+
+    def test_next_set(self):
+        pop = Populate()
+        pop.users(['12'])
+        pop.followers(['12', 'alfred'])
+
+        followers = self.user.followers.all()
+        test_list = Contact.paginate.next_set(user=self.user, page_limit=5,
+                                              total_followers=25, prev_set=0)
+
+        counter = 0
+        for case in test_list:
+            self.assertEqual(followers[counter].get_absolute_url(),
+                             case['url'])
+            counter += 1
+
+        test_list = Contact.paginate.next_set(user=self.user, page_limit=5,
+                                              total_followers=25, prev_set=5)
+        for case in test_list:
+            self.assertEqual(followers[counter].get_absolute_url(),
+                             case['url'])
+            counter += 1

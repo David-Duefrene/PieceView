@@ -22,10 +22,7 @@ class PaginateManager(models.Manager):
                 })
         return followers_dict
 
-    def get_queryset(self):
-        """ Returns all active user accounts."""
-        return super(PaginateManager,
-                     self).get_queryset().filter(is_active=True)
+# Removed get_query_set due to Contacts model not having an active status
 
     def next_set(
         self, user,

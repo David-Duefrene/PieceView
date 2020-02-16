@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.manager import Manager
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager
@@ -45,6 +46,9 @@ class Contact(models.Model):
     to_user = models.ForeignKey(CustomUser, related_name='to_user',
                                 on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    objects = Manager()
+    paginate = PaginateManager()
 
     class Meta:
         ordering = ('-created',)
