@@ -41,7 +41,7 @@ class GetFollowersTest(TestCase):
         data = json.loads(response.content.decode('utf-8'))
         self.assertEquals(data['status'], 'Bad Request: Bad Action.')
 
-    def test_next(self):
+    def test_next_action(self):
         pop = Populate()
         pop.users(['10'])
         pop.followers(['10', 'alfred'])
@@ -60,12 +60,12 @@ class GetFollowersTest(TestCase):
         self.assertEqual(5, len(data['followers']), 'message')
         self.assertEqual(2, data['new_page'])
 
-    def test_previous(self):
+    def test_previous_action(self):
         pop = Populate()
         pop.users(['10'])
         pop.followers(['10', 'alfred'])
         request = {'page_limit': 5, 'page_num': 2, 'user': self.user,
-                   'action': 'previous'}
+                   'action': 'first'}
         self.client.login(username='alfred', password='Hads65ads1')
 
         response = self.client.post(
@@ -79,6 +79,46 @@ class GetFollowersTest(TestCase):
         self.assertEqual('OK', data['status'])
         self.assertEqual(5, len(data['followers']), 'message')
         self.assertEqual(1, data['new_page'])
+
+    def test_first_action(self):
+        pop = Populate()
+        pop.users(['10'])
+        pop.followers(['10', 'alfred'])
+        request = {'page_limit': 5, 'page_num': 2, 'user': self.user,
+                   'action': 'first'}
+        self.client.login(username='alfred', password='Hads65ads1')
+
+        response = self.client.post(
+            reverse('get_followers'),
+            request,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        self.assertEquals(response.status_code, 200)
+        data = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual('OK', data['status'])
+        self.assertEqual(5, len(data['followers']), 'message')
+        self.assertEqual(1, data['new_page'])
+
+    def test_last_action(self):
+        pop = Populate()
+        pop.users(['10'])
+        pop.followers(['10', 'alfred'])
+        request = {'page_limit': 5, 'page_num': 2, 'user': self.user,
+                   'action': 'last'}
+        self.client.login(username='alfred', password='Hads65ads1')
+
+        response = self.client.post(
+            reverse('get_followers'),
+            request,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        self.assertEquals(response.status_code, 200)
+        data = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual('OK', data['status'])
+        self.assertEqual(5, len(data['followers']), 'message')
+        self.assertEqual(2, data['new_page'])
 
 
 class PaginateManagerTest(TestCase):
@@ -128,7 +168,7 @@ class PaginateManagerTest(TestCase):
             counter -= 1
 
         test_list = Contact.paginate.previous_set(
-            user=self.user, page_limit=5, total_followers=15, prev_set=15,
+            user=self.user, page_limit=5, total_followers=15, prev_set=10,
             page_num=3)
 
         test_list.reverse()
@@ -138,7 +178,7 @@ class PaginateManagerTest(TestCase):
             counter -= 1
 
         test_list = Contact.paginate.previous_set(
-            user=self.user, page_limit=5, total_followers=15, prev_set=10,
+            user=self.user, page_limit=5, total_followers=15, prev_set=5,
             page_num=2)
 
         test_list.reverse()
