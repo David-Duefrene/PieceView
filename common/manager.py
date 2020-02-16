@@ -38,8 +38,8 @@ class PaginateManager(models.Manager):
         """ Grabs the previous set of data."""
         # Going back a page, so we need to back past this page
         # and go to the begining of the previous page.
-        next_set = prev_set - page_limit * 2
-        return self._get_followers(user, prev_set, next_set)
+        next_set = prev_set - page_limit
+        return self._get_followers(user, next_set, prev_set)
 
     def first_set(self, user, page_limit: int,
                   total_followers: int, prev_set: int):
