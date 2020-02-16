@@ -62,3 +62,39 @@ class GetFollowersTest(TestCase):
             self.assertEqual(followers[counter].get_absolute_url(),
                              case['url'])
             counter += 1
+
+    def test_previous_set(self):
+        pop = Populate()
+        pop.users(['15'])
+        pop.followers(['15', 'alfred'])
+
+        followers = self.user.followers.all()
+        test_list = Contact.paginate.next_set(user=self.user, page_limit=5,
+                                              total_followers=15, prev_set=10)
+
+        test_list.reverse()
+        counter = 14
+        for case in test_list:
+            self.assertEqual(followers[counter].get_absolute_url(),
+                             case['url'])
+            counter -= 1
+
+        test_list = Contact.paginate.previous_set(
+            user=self.user, page_limit=5, total_followers=15, prev_set=15,
+            page_num=3)
+
+        test_list.reverse()
+        for case in test_list:
+            self.assertEqual(followers[counter].get_absolute_url(),
+                             case['url'])
+            counter -= 1
+
+        test_list = Contact.paginate.previous_set(
+            user=self.user, page_limit=5, total_followers=15, prev_set=10,
+            page_num=2)
+
+        test_list.reverse()
+        for case in test_list:
+            self.assertEqual(followers[counter].get_absolute_url(),
+                             case['url'])
+            counter -= 1
