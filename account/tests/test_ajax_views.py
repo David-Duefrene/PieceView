@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from account.models import CustomUser, Contact
+from account.models import CustomUser
 
 import json
 from populate import Populate

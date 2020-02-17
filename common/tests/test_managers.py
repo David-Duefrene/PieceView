@@ -2,7 +2,6 @@ from django.test import TestCase
 
 from account.models import CustomUser, Contact
 
-import json
 from populate import Populate
 
 

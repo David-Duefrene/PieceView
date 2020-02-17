@@ -6,7 +6,7 @@ from faker import Faker
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PieceView.settings')
 django.setup()
 
-from account.models import CustomUser, Contact
+from account.models import CustomUser
 
 
 class Populate(object):
