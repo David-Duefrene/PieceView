@@ -13,7 +13,7 @@ class GetFollowers(AuthAjaxOnlyMixin):
     page number the requester wants.
     """
 
-    def post(self, request, *arg):
+    def post(self, request):
         try:
             page_limit = int(request.POST.get('page_limit'))
             page_num = int(request.POST.get('page_num'))
@@ -31,17 +31,17 @@ class GetFollowers(AuthAjaxOnlyMixin):
 
             if action == 'next':
                 followers = CustomUser.paginate.next_set(
-                    user, page_limit, total_followers, prev_set)
+                    user, page_limit, prev_set)
                 page_num += 1
             elif action == 'previous':
                 followers = CustomUser.paginate.previous_set(
-                    user, page_limit, total_followers, prev_set, page_num)
+                    user, page_limit, prev_set)
                 page_num -= 1
                 if page_num < 1:
                     page_num = 1
             elif action == 'first':
                 followers = CustomUser.paginate.first_set(
-                    user, page_limit, total_followers, prev_set)
+                    user, page_limit, prev_set)
                 page_num = 1
             elif action == 'last':
                 followers = CustomUser.paginate.last_set(
@@ -49,7 +49,6 @@ class GetFollowers(AuthAjaxOnlyMixin):
                 page_num = total_followers // page_limit
 
             if followers:
-                print(f'page number: {page_num}')
                 return JsonResponse({
                     'status': 'OK',
                     'followers': followers,
@@ -58,6 +57,4 @@ class GetFollowers(AuthAjaxOnlyMixin):
 
             return JsonResponse({'status': 'Bad Request: Bad Action.'})
         except Exception as e:
-            print('bad data GetFollowers')
-            print(f'{e}')
             return JsonResponse({'status': 'Bad Data: 404'})

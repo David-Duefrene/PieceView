@@ -19,7 +19,7 @@ class Populate(object):
         self.command_list = {'users': self.users, 'followers': self.followers,
                              'commands': self.commands}
 
-    def commands(self, args):
+    def commands(self):
         print(self.command_list)
 
     def users(self, args):
