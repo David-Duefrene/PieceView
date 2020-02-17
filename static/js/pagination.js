@@ -1,7 +1,7 @@
-function process_data(url, action){
+function process_followers(url, action){
   $.post(url, {
-      page_limit: $('button.centered-link').attr('data-limit'),
-      page_num: $('span.current-page').text(),
+      page_limit: $('button.follower-page').attr('data-limit'),
+      page_num: $('span.follower-current-page').text(),
       action: action
     },
     function(data){
@@ -16,7 +16,7 @@ function process_data(url, action){
         $('#Follower'+[i]+' .card-body .card-title').text(
           data['followers'][i]['name']);
       }
-      $('span.current-page').text(data['new_page']);
+      $('span.follower-current-page').text(data['new_page']);
     }
   )
 }
@@ -24,7 +24,7 @@ function process_data(url, action){
 function paginateUsers(url) {
   $('button.page-link').click(function(e){
     e.preventDefault();
-    process_data(url, $(this).data('action'))
+    process_followers(url, $(this).data('action'))
 
   })
 }

@@ -107,8 +107,8 @@
       </li>
 
       <li class="page-item disabled">
-        <button class="page-link centered-link" data-limit="3">
-          Page <span class="current-page">1</span> of TODO.
+        <button class="page-link follower-page centered-link" data-limit="3">
+          Page <span class="follower-current-page">1</span> of TODO.
         </button>
       </li>
 
@@ -132,22 +132,88 @@
 
     <div class="tab-pane" id="following">
     <div class="card-deck">
-    {% for profile in user.following.all %}
-    <div class="card bg-transparent border-warning">
-      <img src="{{ profile.photo_url }}" class="card-img-top img-responsive">
 
-      <div class="card-body">
-        <h5 class="card-title">{{ profile.get_full_name }}</h5>
-        <p class="card-text">Some default card text here</p>
+      <div class="card bg-transparent border-warning" id="Following0">
+        <img src="NULL" class="card-img-top img-responsive">
+
+        <div class="card-body">
+          <h5 class="card-title">NULL</h5>
+          <p class="card-text">Some default card text here</p>
+        </div>
+
+        <div class="card-footer bg-transparent border-warning">
+          <a href="NULL"
+            class="btn btn-primary stretched-link">Profile</a>
+        </div>
+
       </div>
 
-      <div class="card-footer bg-transparent border-warning">
-        <a href="{% url "user_detail" slug=profile.username %}"
-          class="btn btn-primary stretched-link">Profile</a>
+      <div class="card bg-transparent border-warning" id="Following1">
+        <img src="NULL" class="card-img-top img-responsive">
+
+        <div class="card-body">
+          <h5 class="card-title">NULL</h5>
+          <p class="card-text">Some default card text here</p>
+        </div>
+
+        <div class="card-footer bg-transparent border-warning">
+          <a href="NULL"
+            class="btn btn-primary stretched-link">Profile</a>
+        </div>
+
       </div>
 
-    </div> <!-- card bg-transparent border-warning -->
-    {% endfor %}
+      <div class="card bg-transparent border-warning" id="Following2">
+        <img src="NULL" class="card-img-top img-responsive">
+
+        <div class="card-body">
+          <h5 class="card-title">NULL</h5>
+          <p class="card-text">Some default card text here</p>
+        </div>
+
+        <div class="card-footer bg-transparent border-warning">
+          <a href="NULL"
+            class="btn btn-primary stretched-link">Profile</a>
+        </div>
+
+      </div>
+
+      <div class="d-flex deck-footer">
+        <ul class="pagination">
+
+        <li class="page-item">
+          <button class="page-link" data-action="first">
+            &laquo; first
+          </button>
+        </li>
+
+        <li class="page-item">
+          <button class="page-link" data-action="previous">
+            Previous page
+          </button>
+        </li>
+
+        <li class="page-item disabled">
+          <button class="page-link following-page centered-link" data-limit="3">
+            Page <span class="current-page">1</span> of TODO.
+          </button>
+        </li>
+
+        <li class="page-item">
+          <button class="page-link" data-action="next">
+            Next Page
+          </button>
+        </li>
+
+        <li class="page-item">
+          <button class="page-link" data-action="last">
+            last &raquo;
+          </button>
+        </li>
+
+        </ul> <!-- pagination -->
+      </div>
+
     </div> <!-- card-deck -->
   </div> <!-- tab-pane #following -->
 
@@ -156,6 +222,6 @@
 {% endblock %}
 
 {% block domready %}
-process_data('{% url "get_followers" %}', 'first');
+process_followers('{% url "get_followers" %}', 'first');
 paginateUsers('{% url "get_followers" %}');
 {% endblock domready %}
