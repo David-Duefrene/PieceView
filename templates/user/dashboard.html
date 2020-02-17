@@ -95,13 +95,13 @@
       <ul class="pagination">
 
       <li class="page-item">
-        <button class="page-link" data-action="first">
+        <button class="page-link followers" data-action="first">
           &laquo; first
         </button>
       </li>
 
       <li class="page-item">
-        <button class="page-link" data-action="previous">
+        <button class="page-link followers" data-action="previous">
           Previous page
         </button>
       </li>
@@ -113,13 +113,13 @@
       </li>
 
       <li class="page-item">
-        <button class="page-link" data-action="next">
+        <button class="page-link followers" data-action="next">
           Next Page
         </button>
       </li>
 
       <li class="page-item">
-        <button class="page-link" data-action="last">
+        <button class="page-link followers" data-action="last">
           last &raquo;
         </button>
       </li>
@@ -182,31 +182,31 @@
         <ul class="pagination">
 
         <li class="page-item">
-          <button class="page-link" data-action="first">
+          <button class="page-link following" data-action="first">
             &laquo; first
           </button>
         </li>
 
         <li class="page-item">
-          <button class="page-link" data-action="previous">
+          <button class="page-link following" data-action="previous">
             Previous page
           </button>
         </li>
 
         <li class="page-item disabled">
           <button class="page-link following-page centered-link" data-limit="3">
-            Page <span class="current-page">1</span> of TODO.
+            Page <span class="following-current-page">1</span> of TODO.
           </button>
         </li>
 
         <li class="page-item">
-          <button class="page-link" data-action="next">
+          <button class="page-link following" data-action="next">
             Next Page
           </button>
         </li>
 
         <li class="page-item">
-          <button class="page-link" data-action="last">
+          <button class="page-link following" data-action="last">
             last &raquo;
           </button>
         </li>
@@ -223,5 +223,7 @@
 
 {% block domready %}
 process_followers('{% url "get_followers" %}', 'first');
-paginateUsers('{% url "get_followers" %}');
+paginateFollowers('{% url "get_followers" %}');
+process_following('{% url "get_following" %}', 'first');
+paginateFollowing('{% url "get_following" %}');
 {% endblock domready %}
