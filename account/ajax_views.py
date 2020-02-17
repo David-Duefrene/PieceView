@@ -22,7 +22,6 @@ class GetFollowers(AuthAjaxOnlyMixin):
             prev_set = page_limit * (page_num)
             followers = []
             action = request.POST.get('action')
-            
 
             # Both statements keep us in bounds
             if prev_set < page_limit:
@@ -38,6 +37,8 @@ class GetFollowers(AuthAjaxOnlyMixin):
                 followers = CustomUser.paginate.previous_set(
                     user, page_limit, total_followers, prev_set, page_num)
                 page_num -= 1
+                if page_num < 1:
+                    page_num = 1
             elif action == 'first':
                 followers = CustomUser.paginate.first_set(
                     user, page_limit, total_followers, prev_set)
