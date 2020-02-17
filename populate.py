@@ -48,7 +48,8 @@ class Populate(object):
                 print("Duplicate name detected.")
                 continue
 
-    def followers(self, args):
+    @staticmethod
+    def followers(args):
         """
         Adds followers to DB. Need 2 arguments, first number of followers to
         generate and the second is the your username. Default is 5.
@@ -77,7 +78,7 @@ class Populate(object):
                 continue
 
             if counter >= number_of_followers:
-                print('I have finished adding followers')
+                # print('I have finished adding followers')
                 break
 
             if users in user.followers.all():

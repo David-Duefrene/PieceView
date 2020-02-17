@@ -13,7 +13,8 @@ class GetFollowers(AuthAjaxOnlyMixin):
     page number the requester wants.
     """
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         try:
             page_limit = int(request.POST.get('page_limit'))
             page_num = int(request.POST.get('page_num'))

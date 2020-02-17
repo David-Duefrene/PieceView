@@ -5,7 +5,8 @@ class PaginateManager(models.Manager):
     """ PaginateManager paginates results in the model for better client
     display."""
 
-    def _get_followers(self, user, prev_set: int, next_set: int):
+    @staticmethod
+    def _get_followers(user, prev_set: int, next_set: int):
         # cannot be negitive
         if prev_set < 0:
             prev_set = 0
