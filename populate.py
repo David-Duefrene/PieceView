@@ -33,6 +33,7 @@ class Populate():
         if args[0].isnumeric():
             number = int(args[0])
 
+        # skipcq: PYL-W0612
         for num in range(number):
             full_name = self.generator.name()
             full_name = full_name.split()
@@ -45,6 +46,7 @@ class Populate():
                     last_name=full_name[1],
                     password=self.password,
                     )
+            # skipcq: PYL-W0703
             except Exception:
                 print("Duplicate name detected.")
                 continue
@@ -64,6 +66,7 @@ class Populate():
 
         try:
             user = CustomUser.objects.get(username=args[1])
+        # skipcq: PYL-W0703
         except Exception:
             print(f'Incorrect username: {args[1]}')
             return False

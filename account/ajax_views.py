@@ -57,5 +57,6 @@ class GetFollowers(AuthAjaxOnlyMixin):
                 })
 
             return JsonResponse({'status': 'Bad Request: Bad Action.'})
-        except Exception as e:
+        # skipcq: PYL-W0703
+        except Exception:
             return JsonResponse({'status': 'Bad Data: 404'})
