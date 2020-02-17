@@ -23,9 +23,9 @@ class GetFollowersTest(TestCase):
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
-        self.assertEquals(data['status'], 'Bad Data: 404')
+        self.assertEqual(data['status'], 'Bad Data: 404')
 
     def test_post_rejects_bad_action(self):
         request = {'page_limit': 5, 'page_num': 1, 'user': self.user,
@@ -36,9 +36,9 @@ class GetFollowersTest(TestCase):
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
-        self.assertEquals(data['status'], 'Bad Request: Bad Action.')
+        self.assertEqual(data['status'], 'Bad Request: Bad Action.')
 
     def test_next_action(self):
         pop = Populate()
@@ -53,7 +53,7 @@ class GetFollowersTest(TestCase):
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
         self.assertEqual('OK', data['status'])
         self.assertEqual(5, len(data['followers']), 'message')
@@ -72,7 +72,7 @@ class GetFollowersTest(TestCase):
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
 
         self.assertEqual('OK', data['status'])
@@ -92,7 +92,7 @@ class GetFollowersTest(TestCase):
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
 
         self.assertEqual('OK', data['status'])
@@ -112,7 +112,7 @@ class GetFollowersTest(TestCase):
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
 
         self.assertEqual('OK', data['status'])
@@ -132,7 +132,7 @@ class GetFollowersTest(TestCase):
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
 
         self.assertEqual('OK', data['status'])
@@ -152,7 +152,7 @@ class GetFollowersTest(TestCase):
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
 
         self.assertEqual('OK', data['status'])
