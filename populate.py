@@ -37,7 +37,7 @@ class Populate(object):
             full_name = full_name.split()
             username = full_name[0][0] + full_name[1]
             try:
-                new_user = CustomUser.objects.get_or_create(
+                CustomUser.objects.get_or_create(
                     username=username,
                     email=username + '@mail.com',
                     first_name=full_name[0],
@@ -83,7 +83,7 @@ class Populate(object):
             if users in user.followers.all():
                 continue
 
-            follow = users.following.add(user)
+            users.following.add(user)
             # print(f'{users} follow: {user}')
             counter += 1
 
