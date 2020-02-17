@@ -40,3 +40,18 @@ h5 {
 .card{
   min-width: 20em;
 }
+
+/* Pagination Section */
+.deck-footer {
+  width: inherit;
+  width: -moz-available;
+  width: -webkit-fill-available;
+}
+
+.pagination {
+  margin: 1em;
+}
+
+.page-item {
+  overflow: hidden;
+}

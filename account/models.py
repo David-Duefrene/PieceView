@@ -1,6 +1,10 @@
 from django.db import models
+from django.db.models.manager import Manager
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import UserManager
+
+from common.manager import PaginateManager
 
 
 class CustomUser(AbstractUser):
@@ -8,8 +12,21 @@ class CustomUser(AbstractUser):
     email = models.EmailField(blank=False)
     photo = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
 
+    objects = UserManager()
+    paginate = PaginateManager()
+
     class Meta:
         ordering = ['-id']
+
+    def __str__(self):
+        if self.first_name:
+            if self.last_name:
+                return f'{self.first_name} {self.last_name}'
+            return self.first_name
+
+        if self.last_name:
+            return self.last_name
+        return self.username
 
     def get_absolute_url(self):
         return reverse('user_detail', kwargs={'slug': self.username})
@@ -29,6 +46,9 @@ class Contact(models.Model):
     to_user = models.ForeignKey(CustomUser, related_name='to_user',
                                 on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    objects = Manager()
+    paginate = PaginateManager()
 
     class Meta:
         ordering = ('-created',)

@@ -67,7 +67,7 @@ class UserListView(LoginRequiredMixin, ListView):
     """View displaying all users."""
     context_object_name = 'users'
     model = CustomUser
-    paginate_by = 25
+    paginate_by = 24
     template_name = 'user/people.html'
 
 
