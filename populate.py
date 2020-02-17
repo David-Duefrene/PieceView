@@ -6,10 +6,11 @@ from faker import Faker
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PieceView.settings')
 django.setup()
 
+# skipcq: FLK-E402
 from account.models import CustomUser
 
 
-class Populate(object):
+class Populate():
     """ Populate class describes various command to populate stuff. """
 
     def __init__(self):
@@ -87,16 +88,17 @@ class Populate(object):
             users.following.add(user)
             # print(f'{users} follow: {user}')
             counter += 1
+        return True
 
 
 if __name__ == "__main__":
-    Pop = Populate()
+    POP = Populate()
     if len(sys.argv) < 2:
         print('Type command and optional number of time to run said command.')
         print('For a list of commands Type: ')
 
     else:
-        if sys.argv[1] in Pop.command_list:
-            Pop.command_list[sys.argv[1]](sys.argv[2:])
+        if sys.argv[1] in POP.command_list:
+            POP.command_list[sys.argv[1]](sys.argv[2:])
         else:
             print(f"Invalid Command {sys.argv[1]}")
