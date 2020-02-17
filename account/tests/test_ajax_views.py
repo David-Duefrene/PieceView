@@ -19,7 +19,7 @@ class GetFollowersTest(TestCase):
         request = {'test': 'bad data'}
         self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.post(
-            reverse('get_followers'),
+            reverse('get_users'),
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
@@ -29,10 +29,10 @@ class GetFollowersTest(TestCase):
 
     def test_post_rejects_bad_action(self):
         request = {'page_limit': 5, 'page_num': 1, 'user': self.user,
-                   'action': 'bad'}
+                   'action': 'bad', 'request_type': 'followers'}
         self.client.login(username='alfred', password='Hads65ads1')
         response = self.client.post(
-            reverse('get_followers'),
+            reverse('get_users'),
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
@@ -45,11 +45,11 @@ class GetFollowersTest(TestCase):
         pop.users(['10'])
         pop.followers(['10', 'alfred'])
         request = {'page_limit': 5, 'page_num': 1, 'user': self.user,
-                   'action': 'next'}
+                   'action': 'next', 'request_type': 'followers'}
         self.client.login(username='alfred', password='Hads65ads1')
 
         response = self.client.post(
-            reverse('get_followers'),
+            reverse('get_users'),
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
@@ -64,11 +64,11 @@ class GetFollowersTest(TestCase):
         pop.users(['10'])
         pop.followers(['10', 'alfred'])
         request = {'page_limit': 5, 'page_num': 2, 'user': self.user,
-                   'action': 'first'}
+                   'action': 'first', 'request_type': 'followers'}
         self.client.login(username='alfred', password='Hads65ads1')
 
         response = self.client.post(
-            reverse('get_followers'),
+            reverse('get_users'),
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
@@ -84,11 +84,11 @@ class GetFollowersTest(TestCase):
         pop.users(['10'])
         pop.followers(['10', 'alfred'])
         request = {'page_limit': 5, 'page_num': 2, 'user': self.user,
-                   'action': 'first'}
+                   'action': 'first', 'request_type': 'followers'}
         self.client.login(username='alfred', password='Hads65ads1')
 
         response = self.client.post(
-            reverse('get_followers'),
+            reverse('get_users'),
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
@@ -104,11 +104,11 @@ class GetFollowersTest(TestCase):
         pop.users(['10'])
         pop.followers(['10', 'alfred'])
         request = {'page_limit': 5, 'page_num': 2, 'user': self.user,
-                   'action': 'last'}
+                   'action': 'last', 'request_type': 'followers'}
         self.client.login(username='alfred', password='Hads65ads1')
 
         response = self.client.post(
-            reverse('get_followers'),
+            reverse('get_users'),
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
@@ -124,11 +124,11 @@ class GetFollowersTest(TestCase):
         pop.users(['10'])
         pop.followers(['5', 'alfred'])
         request = {'page_limit': 5, 'page_num': 1, 'user': self.user,
-                   'action': 'previous'}
+                   'action': 'previous', 'request_type': 'followers'}
         self.client.login(username='alfred', password='Hads65ads1')
 
         response = self.client.post(
-            reverse('get_followers'),
+            reverse('get_users'),
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
@@ -144,11 +144,11 @@ class GetFollowersTest(TestCase):
         pop.users(['10'])
         pop.followers(['5', 'alfred'])
         request = {'page_limit': 5, 'page_num': 2, 'user': self.user,
-                   'action': 'next'}
+                   'action': 'next', 'request_type': 'followers'}
         self.client.login(username='alfred', password='Hads65ads1')
 
         response = self.client.post(
-            reverse('get_followers'),
+            reverse('get_users'),
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 

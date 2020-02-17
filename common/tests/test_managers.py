@@ -20,7 +20,8 @@ class PaginateManagerTest(TestCase):
 
         followers = self.user.followers.all()
         test_list = Contact.paginate.next_set(
-                    user=self.user, page_limit=5, prev_set=0)
+                    user=self.user, page_limit=5, prev_set=0,
+                    request_type='followers')
 
         counter = 0
         for case in test_list:
@@ -29,7 +30,8 @@ class PaginateManagerTest(TestCase):
             counter += 1
 
         test_list = Contact.paginate.next_set(
-                    user=self.user, page_limit=5, prev_set=5)
+                    user=self.user, page_limit=5, prev_set=5,
+                    request_type='followers')
         for case in test_list:
             self.assertEqual(followers[counter].get_absolute_url(),
                              case['url'])
@@ -42,7 +44,8 @@ class PaginateManagerTest(TestCase):
 
         followers = self.user.followers.all()
         test_list = Contact.paginate.next_set(
-                    user=self.user, page_limit=5, prev_set=10)
+                    user=self.user, page_limit=5,
+                    prev_set=10, request_type='followers')
 
         test_list.reverse()
         counter = 14
@@ -52,7 +55,8 @@ class PaginateManagerTest(TestCase):
             counter -= 1
 
         test_list = Contact.paginate.previous_set(
-                    user=self.user, page_limit=5, prev_set=10)
+                    user=self.user, page_limit=5, prev_set=10,
+                    request_type='followers')
 
         test_list.reverse()
         for case in test_list:
@@ -61,7 +65,8 @@ class PaginateManagerTest(TestCase):
             counter -= 1
 
         test_list = Contact.paginate.previous_set(
-                    user=self.user, page_limit=5, prev_set=5)
+                    user=self.user, page_limit=5, prev_set=5,
+                    request_type='followers')
 
         test_list.reverse()
         for case in test_list:
@@ -76,7 +81,8 @@ class PaginateManagerTest(TestCase):
 
         followers = self.user.followers.all()
         test_list = Contact.paginate.first_set(
-                    user=self.user, page_limit=5, prev_set=0)
+                    user=self.user, page_limit=5, prev_set=0,
+                    request_type='followers')
 
         counter = 0
         for case in test_list:
@@ -91,7 +97,8 @@ class PaginateManagerTest(TestCase):
 
         followers = self.user.followers.all()
         test_list = Contact.paginate.first_set(
-                    user=self.user, page_limit=5, prev_set=0)
+                    user=self.user, page_limit=5, prev_set=0,
+                    request_type='followers')
 
         counter = 0
         for case in test_list:
