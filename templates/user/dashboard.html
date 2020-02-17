@@ -222,8 +222,8 @@
 {% endblock %}
 
 {% block domready %}
-process_followers('{% url "get_followers" %}', 'first');
-paginateFollowers('{% url "get_followers" %}');
-process_following('{% url "get_following" %}', 'first');
-paginateFollowing('{% url "get_following" %}');
+process_followers('{% url "get_users" %}', 'first');
+paginateFollowers('{% url "get_users" %}');
+process_following('{% url "get_users" %}', 'first');
+paginateFollowing('{% url "get_users" %}');
 {% endblock domready %}

@@ -40,6 +40,5 @@ urlpatterns = [
     path('people/<slug>/', views.UserDetailView.as_view(), name='user_detail'),
 
     # Ajax requests
-    path('ajax/followers', ajax_views.GetFollowers.as_view(),
-         name='get_followers'),
+    path('ajax/users', ajax_views.GetUsers.as_view(), name='get_users'),
 ]
