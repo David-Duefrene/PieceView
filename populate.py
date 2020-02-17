@@ -6,10 +6,11 @@ from faker import Faker
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PieceView.settings')
 django.setup()
 
-from account.models import CustomUser, Contact
+# skipcq: FLK-E402
+from account.models import CustomUser
 
 
-class Populate(object):
+class Populate():
     """ Populate class describes various command to populate stuff. """
 
     def __init__(self):
@@ -19,7 +20,7 @@ class Populate(object):
         self.command_list = {'users': self.users, 'followers': self.followers,
                              'commands': self.commands}
 
-    def commands(self, args):
+    def commands(self):
         print(self.command_list)
 
     def users(self, args):
@@ -32,23 +33,26 @@ class Populate(object):
         if args[0].isnumeric():
             number = int(args[0])
 
+        # skipcq: PYL-W0612
         for num in range(number):
             full_name = self.generator.name()
             full_name = full_name.split()
             username = full_name[0][0] + full_name[1]
             try:
-                new_user = CustomUser.objects.get_or_create(
+                CustomUser.objects.get_or_create(
                     username=username,
                     email=username + '@mail.com',
                     first_name=full_name[0],
                     last_name=full_name[1],
                     password=self.password,
                     )
+            # skipcq: PYL-W0703
             except Exception:
                 print("Duplicate name detected.")
                 continue
 
-    def followers(self, args):
+    @staticmethod
+    def followers(args):
         """
         Adds followers to DB. Need 2 arguments, first number of followers to
         generate and the second is the your username. Default is 5.
@@ -62,6 +66,7 @@ class Populate(object):
 
         try:
             user = CustomUser.objects.get(username=args[1])
+        # skipcq: PYL-W0703
         except Exception:
             print(f'Incorrect username: {args[1]}')
             return False
@@ -77,25 +82,26 @@ class Populate(object):
                 continue
 
             if counter >= number_of_followers:
-                print('I have finished adding followers')
+                # print('I have finished adding followers')
                 break
 
             if users in user.followers.all():
                 continue
 
-            follow = users.following.add(user)
-            print(f'{users} follow: {user}')
+            users.following.add(user)
+            # print(f'{users} follow: {user}')
             counter += 1
+        return True
 
 
 if __name__ == "__main__":
-    Pop = Populate()
+    POP = Populate()
     if len(sys.argv) < 2:
         print('Type command and optional number of time to run said command.')
         print('For a list of commands Type: ')
 
     else:
-        if sys.argv[1] in Pop.command_list:
-            Pop.command_list[sys.argv[1]](sys.argv[2:])
+        if sys.argv[1] in POP.command_list:
+            POP.command_list[sys.argv[1]](sys.argv[2:])
         else:
             print(f"Invalid Command {sys.argv[1]}")
