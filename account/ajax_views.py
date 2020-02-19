@@ -3,9 +3,10 @@ from django.http import JsonResponse
 from .models import CustomUser
 
 from common.mixins import AuthAjaxOnlyMixin
+from django.views.generic.base import View
 
 
-class GetUsers(AuthAjaxOnlyMixin):
+class GetUsers(View):
     """
     Retrieves the current logged on user’s followers. Redirects
     unauthenticated users to login. Presently offers to paginate the data.
@@ -64,7 +65,16 @@ class GetUsers(AuthAjaxOnlyMixin):
                     'new_page': page_num,
                 })
 
-            return JsonResponse({'status': 'Bad Request: Bad Action.'})
+            return JsonResponse({'status': 'fuck Request: Bad Action.'})
         # skipcq: PYL-W0703
         except Exception:
             return JsonResponse({'status': 'Bad Data: 404'})
+
+    def get(self, request):
+        user = request.user
+        followers = CustomUser.paginate.first_set(user, 1, 1, 'followers')
+        return JsonResponse({
+            'status': 'OK',
+            'followers': followers,
+            'new_page': 1,
+        })

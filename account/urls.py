@@ -41,4 +41,6 @@ urlpatterns = [
 
     # Ajax requests
     path('ajax/users', ajax_views.GetUsers.as_view(), name='get_users'),
+
+    path('react/', views.TestView.as_view(), name='react'),
 ]

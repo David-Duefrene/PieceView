@@ -79,6 +79,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     template_name = 'user/profile.html'
 
 
+class TestView(TemplateView):
+    """View for a users dashboard."""
+    template_name = 'react.html'
+
+
 @ajax_required
 @require_POST
 @login_required
