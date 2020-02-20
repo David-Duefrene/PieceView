@@ -5,6 +5,8 @@ from .models import CustomUser
 from common.mixins import AuthAjaxOnlyMixin
 from django.views.generic.base import View
 
+import json
+
 
 class GetUsers(View):
     """
@@ -17,13 +19,16 @@ class GetUsers(View):
     @staticmethod
     def post(request):
         try:
-            page_limit = int(request.POST.get('page_limit'))
-            page_num = int(request.POST.get('page_num'))
+            # import pdb; pdb.set_trace()
+            jsonResponse = json.loads(request.body.decode('utf-8'))
+
+            page_limit = int(jsonResponse.get('page_limit'))
+            page_num = int(jsonResponse.get('page_num'))
             user = request.user
             prev_set = page_limit * (page_num)
             followers = []
-            request_type = request.POST.get('request_type')
-            action = request.POST.get('action')
+            request_type = jsonResponse.get('request_type')
+            action = jsonResponse.get('action')
 
             if request_type == 'followers':
                 total_followers = user.followers.count()
@@ -65,16 +70,70 @@ class GetUsers(View):
                     'new_page': page_num,
                 })
 
-            return JsonResponse({'status': 'fuck Request: Bad Action.'})
+            return JsonResponse({'status': 'Bad Request: Bad Action.'})
         # skipcq: PYL-W0703
         except Exception:
             return JsonResponse({'status': 'Bad Data: 404'})
 
     def get(self, request):
-        user = request.user
-        followers = CustomUser.paginate.first_set(user, 1, 1, 'followers')
-        return JsonResponse({
-            'status': 'OK',
-            'followers': followers,
-            'new_page': 1,
-        })
+        try:
+            page_limit = int(request.GET.get('page_limit'))
+            page_num = int(request.GET.get('page_num'))
+            user = request.user
+            prev_set = page_limit * (page_num)
+            followers = []
+            request_type = request.GET.get('request_type')
+            action = request.GET.get('action')
+
+            if request_type == 'followers':
+                total_followers = user.followers.count()
+            elif request_type == 'following':
+                total_followers = user.following.count()
+            else:
+                return JsonResponse({'status': 'Bad Data: 404',
+                                     'bad_data': request})
+
+            # Both statements keep us in bounds
+            if prev_set < page_limit:
+                action = 'first'
+            if prev_set > total_followers:
+                action = 'last'
+
+            if action == 'next':
+                followers = CustomUser.paginate.next_set(
+                    user, page_limit, prev_set, request_type)
+                page_num += 1
+            elif action == 'previous':
+                followers = CustomUser.paginate.previous_set(
+                    user, page_limit, prev_set, request_type)
+                page_num -= 1
+                if page_num < 1:
+                    page_num = 1
+            elif action == 'first':
+                followers = CustomUser.paginate.first_set(
+                    user, page_limit, prev_set, request_type)
+                page_num = 1
+            elif action == 'last':
+                followers = CustomUser.paginate.last_set(
+                    user, page_limit, total_followers, prev_set, request_type)
+                page_num = total_followers // page_limit
+
+            if followers:
+                return JsonResponse({
+                    'status': 'OK',
+                    'followers': followers,
+                    'new_page': page_num,
+                })
+
+            return JsonResponse({'status': 'Bad Request: Bad Action.'})
+        # skipcq: PYL-W0703
+        except Exception:
+            return JsonResponse({'status': 'Bad Data: 404',
+                                 'bad_data': request})
+        # user = request.user
+        # followers = CustomUser.paginate.first_set(user, 1, 1, 'followers')
+        # return JsonResponse({
+        #     'status': 'OK',
+        #     'followers': followers,
+        #     'new_page': 1,
+        # })

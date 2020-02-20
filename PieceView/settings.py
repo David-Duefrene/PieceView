@@ -31,6 +31,8 @@ SECRET_KEY = 'l&q(1neaf^mt-))3&^#b-_!p+@z4%n96u#q7gow-nqv%a1j!)o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# CSRF_USE_SESSIONS = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 # SECURITY WARNING: don't run local hosts test server ect during production
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'post',
     'debug_toolbar',
 ]
@@ -54,6 +57,7 @@ AUTH_USER_MODEL = 'account.CustomUser'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
