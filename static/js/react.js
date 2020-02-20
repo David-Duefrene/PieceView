@@ -13,6 +13,27 @@ function getCookie(name) {
     return cookieValue;
 }
 
+function Card(props) {
+    // Renders an individual card.
+    return (
+      <div className="card bg-transparent border-warning"
+           id={"Follower"+props.number}>
+        <img src="NULL" className="card-img-top img-responsive" />
+        <div className="card-body">
+          <h5 className="card-title">NULL</h5>
+          <p className="card-text">Lorem ipsum dolor sit amet, consectetur
+          adipiscing elit. Pellentesque dolor enim, facilisis a lectus ut,
+          auctor efficitur est. Orci varius natoque penatibus et magnis dis
+          parturient montes, nascetur ridiculus mus. Mauris et leo sapien.
+          Etiam fringilla ultricies fringilla.</p>
+        </div>
+        <div className="card-footer bg-transparent border-warning">
+          <a href="NULL" className="btn">Profile</a>
+        </div>
+      </div>
+    );
+  }
+
 function PaginateButtons() {
   return (
     <ul className="pagination">
@@ -47,7 +68,7 @@ function PaginateButtons() {
         </button>
       </li>
     </ul>
-  )
+  );
 }
 
 class Followers extends React.Component {
@@ -56,20 +77,20 @@ class Followers extends React.Component {
     this.state = {
       followers_list: [],
       isLoaded: false,
-      total_cards: 0,
+      page_limit: 4,
       card_deck: null,
       page_num: 1,
     };
     this.first = this.first.bind(this);
     this.previous = this.previous.bind(this);
     this.next = this.next.bind(this);
+    this.last = this.last.bind(this);
   }
 
   componentDidMount() {
     var data = JSON.stringify({
         page_limit: 500,
         page_num: 1,
-        action: 'first',
         request_type: 'followers'
     });
     var csrftoken = getCookie('csrftoken');
@@ -87,17 +108,13 @@ class Followers extends React.Component {
 
     fetch("/account/ajax/users", payload).then(res => res.json()).then(
       (result) => {
-
         this.setState({
           isLoaded: true,
           followers_list: result.followers,
           card_deck: result,
         });
-        console.log(this.state.card_deck);
-        console.log(this.state.followers_list);
-
-        for (var i = 0; i < 5; i++) {
-          $(".card-deck").append(this.Card(i));
+        console.log(this.state.page_limit);
+        for (var i = 0; i < this.state.page_limit; i++) {
           $('#Follower'+i+' img.card-img-top').attr("src",
             this.state.followers_list[i]['photo']);
           $('#Follower'+i+' div.card-footer a.btn').attr("href",
@@ -105,12 +122,11 @@ class Followers extends React.Component {
           $('#Follower'+i+' .card-body .card-title').text(
             this.state.followers_list[i]['name']);
         }
-        // this.change(5);
 
         $(".first").click(this.first);
         $(".previous").click(this.previous);
         $(".next").click(this.next);
-
+        $(".last").click(this.last);
       },
       (error) => {
         console.log(error);
@@ -123,10 +139,8 @@ class Followers extends React.Component {
   }
 
   change(start) {
-    console.log("start: "+start);
-    console.log(`length of deck: ${this.state.card_deck.length}`);
-    for (var i = 0; i < 5; i++) {
-      console.log(`i: ${i}`);
+    console.log(`in change, start: ${start}`);
+    for (var i = 0; i < this.state.page_limit; i++) {
       $('#Follower'+i+' img.card-img-top').attr("src",
         this.state.card_deck['followers'][i + start]['photo']);
       $('#Follower'+i+' div.card-footer a.btn').attr("href",
@@ -136,40 +150,10 @@ class Followers extends React.Component {
     }
   }
 
-  Card(number) {
-      // Renders an individual card.
-      var one =`<div className="card bg-transparent border-warning"
-                     style="max-width: min-content; border: 1px solid #ffc107;"" id="Follower${number}">
-                <img src="`
-      var two = this.state.followers_list[number]['photo'] +
-        `" className="card-img-top img-responsive" />
-          <div className="card-body">
-            <h5 className="card-title">`
-      var three = this.state.followers_list[number]['name']+`</h5>
-            <p className="card-text">Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit. Pellentesque dolor enim, facilisis a lectus ut,
-            auctor efficitur est. Orci varius natoque penatibus et magnis dis
-            parturient montes, nascetur ridiculus mus. Mauris et leo sapien.
-            Etiam fringilla ultricies fringilla.</p>
-          </div>
-
-          <div className="card-footer bg-transparent border-warning" style=" border-top: 1px solid #ffc107">
-            <a href="`
-      var four = this.state.followers_list[number]['url']+`"
-      className="btn" style="color: #fff; background-color: #007bff;
-      border-color: #007bff; display: inline-block; font-weight: 400;
-      padding: .375rem 6.75rem; font-size: 1rem; line-height: 1.5;
-      border-radius: .25rem;">
-      Profile</a>
-          </div>
-        </div>`
-      return one+two+three+four;
-    }
-
   first() {
     console.log("first method");
     this.change(0);
-    this.setState({"page_num": 1})
+    this.setState({"page_num": 1});
   }
 
   previous() {
@@ -179,29 +163,43 @@ class Followers extends React.Component {
       this.first();
     }
     else {
-      this.setState({"page_num": this.state.page_num - 1})
+      this.setState({"page_num": this.state.page_num - 1});
       console.log(`new page number: ${this.state.page_num}`);
-      this.change(this.state.page_num*5)
+      this.change(this.state.page_num*5);
     }
   }
 
   next() {
     console.log("next method");
-    if (this.state.page_num > this.state.followers_list.length / 5 + 1) {
+    var new_page = this.state.page_num + 1;
+    if (new_page * this.state.page_limit >=
+        this.state.followers_list.length) {
       console.log(`requesting more page than you have. redirected to last`);
+      this.last();
     }
     else {
-      this.change(this.state.page_num*5)
-      this.setState({"page_num": this.state.page_num + 1})
+      this.change(this.state.page_num * this.state.page_limit);
+      this.setState({"page_num": new_page});
       console.log(`new page number: ${this.state.page_num}`);
     }
+  }
+
+  last() {
+    console.log(`last method`);
+    var new_page = Math.ceil(this.state.followers_list.length / this.state.page_num);
+    this.change(this.state.followers_list.length - this.state.page_limit);
+    this.setState({"page_num": new_page});
+    console.log(`new page number: ${this.state.page_num}`);
   }
 
   render() {
     return (
       <div className="d-flex tab-content col-12">
         <div className="card-deck">
-
+          <Card number="0"/>
+          <Card number="1"/>
+          <Card number="2"/>
+          <Card number="3"/>
         </div>
         <div className="d-flex deck-footer">
           <PaginateButtons />
