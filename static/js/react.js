@@ -1,3 +1,7 @@
+/**
+ * Obtains a cookie from the users browser.
+ * @param {string} name - The name of the cookie needed.
+ */
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -13,80 +17,84 @@ function getCookie(name) {
     return cookieValue;
 }
 
+/**
+ * Renders an individual card.
+ * @param {int} props.number - The card ID number for the page.
+ */
 function Card(props) {
-    // Renders an individual card.
-    return (
-      <div className="card bg-transparent border-warning"
-           id={"Follower"+props.number}>
-        <img src="NULL" className="card-img-top img-responsive" />
-        <div className="card-body">
-          <h5 className="card-title">NULL</h5>
-          <p className="card-text">Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Pellentesque dolor enim, facilisis a lectus ut,
-          auctor efficitur est. Orci varius natoque penatibus et magnis dis
-          parturient montes, nascetur ridiculus mus. Mauris et leo sapien.
-          Etiam fringilla ultricies fringilla.</p>
-        </div>
-        <div className="card-footer bg-transparent border-warning">
-          <a href="NULL" className="btn">Profile</a>
-        </div>
+  return (
+    <div className="card bg-transparent border-warning"
+         id={"Follower"+props.number}>
+      <img src="NULL" className="card-img-top img-responsive" />
+      <div className="card-body">
+        <h5 className="card-title">NULL</h5>
+        <p className="card-text">Lorem ipsum dolor sit amet, consectetur
+        adipiscing elit. Pellentesque dolor enim, facilisis a lectus ut,
+        auctor efficitur est. Orci varius natoque penatibus et magnis dis
+        parturient montes, nascetur ridiculus mus. Mauris et leo sapien.
+        Etiam fringilla ultricies fringilla.</p>
       </div>
-    );
-  }
+      <div className="card-footer bg-transparent border-warning">
+        <a href="NULL" className="btn">Profile</a>
+      </div>
+    </div>
+  );
+}
 
+/**
+ * Renders the buttons to cycle through the card deck.
+ */
 function PaginateButtons() {
   return (
     <ul className="pagination">
       <li className="page-item">
-        <button className="page-link followers first">
-          &laquo; first
-        </button>
+        <button className="page-link first">&laquo; first</button>
       </li>
 
       <li className="page-item">
-        <button className="page-link followers previous">
-          Previous page
-        </button>
+        <button className="page-link previous">Previous page</button>
       </li>
 
       <li className="page-item disabled">
-        <button className="page-link follower-page centered-link"
-          data-limit="3">
+        <button className="page-link follower-page centered-link">
           Page <span className="follower-current-page">1</span> of TODO.
         </button>
       </li>
 
       <li className="page-item">
-        <button className="page-link followers next">
-          Next Page
-        </button>
+        <button className="page-link next">Next Page</button>
       </li>
 
       <li className="page-item">
-        <button className="page-link followers" data-action="last">
-          last &raquo;
-        </button>
+        <button className="page-link last">last &raquo;</button>
       </li>
     </ul>
   );
 }
 
+/* Class  representing followers */
 class Followers extends React.Component {
+  /**
+   * Constructor
+   */
   constructor(props) {
     super(props);
     this.state = {
       followers_list: [],
       isLoaded: false,
       page_limit: 4,
-      card_deck: null,
       page_num: 1,
     };
+    // Bind class methods here.
     this.first = this.first.bind(this);
     this.previous = this.previous.bind(this);
     this.next = this.next.bind(this);
     this.last = this.last.bind(this);
   }
 
+  /**
+   * Once page is loaded the function runs.
+   */
   componentDidMount() {
     var data = JSON.stringify({
         page_limit: 500,
@@ -111,9 +119,8 @@ class Followers extends React.Component {
         this.setState({
           isLoaded: true,
           followers_list: result.followers,
-          card_deck: result,
         });
-        console.log(this.state.page_limit);
+
         for (var i = 0; i < this.state.page_limit; i++) {
           $('#Follower'+i+' img.card-img-top').attr("src",
             this.state.followers_list[i]['photo']);
@@ -138,60 +145,70 @@ class Followers extends React.Component {
     )
   }
 
+  /**
+   * Changes teh cards to new set of users.
+   * @param start - the index in the followers_list the loop should start at.
+   */
   change(start) {
-    console.log(`in change, start: ${start}`);
     for (var i = 0; i < this.state.page_limit; i++) {
       $('#Follower'+i+' img.card-img-top').attr("src",
-        this.state.card_deck['followers'][i + start]['photo']);
+        this.state.followers_list[i + start]['photo']);
       $('#Follower'+i+' div.card-footer a.btn').attr("href",
-        this.state.card_deck['followers'][i + start]['url']);
+        this.state.followers_list[i + start]['url']);
       $('#Follower'+i+' .card-body .card-title').text(
-        this.state.card_deck['followers'][i + start]['name']);
+        this.state.followers_list[i + start]['name']);
     }
   }
 
+  /**
+   * Gets the first set of cards in followers_list.
+   */
   first() {
-    console.log("first method");
     this.change(0);
     this.setState({"page_num": 1});
   }
 
+  /**
+   * Gets the previous set of cards in followers_list.
+   */
   previous() {
-    console.log("previous method");
-    if (this.state.page_num < 2) {
-      console.log(`Trying to go to a negative page, redirected to first.`);
-      this.first();
-    }
+    var new_page = this.state.page_num - 1;
+    if (new_page < 1) { this.first(); }
     else {
-      this.setState({"page_num": this.state.page_num - 1});
-      console.log(`new page number: ${this.state.page_num}`);
-      this.change(this.state.page_num*5);
+      this.setState({"page_num": new_page});
+      new_page -= 1;
+      this.change(new_page * this.state.page_limit);
     }
   }
 
+  /**
+   * Gets the next set of cards in followers_list.
+   */
   next() {
-    console.log("next method");
     var new_page = this.state.page_num + 1;
-    if (new_page * this.state.page_limit >=
+    if (new_page * this.state.page_num >=
         this.state.followers_list.length) {
-      console.log(`requesting more page than you have. redirected to last`);
       this.last();
     }
     else {
       this.change(this.state.page_num * this.state.page_limit);
       this.setState({"page_num": new_page});
-      console.log(`new page number: ${this.state.page_num}`);
     }
   }
 
+  /**
+   * Gets the last set of cards in followers_list.
+   */
   last() {
-    console.log(`last method`);
-    var new_page = Math.ceil(this.state.followers_list.length / this.state.page_num);
+    var new_page = Math.ceil(this.state.followers_list.length /
+                             this.state.page_limit);
     this.change(this.state.followers_list.length - this.state.page_limit);
     this.setState({"page_num": new_page});
-    console.log(`new page number: ${this.state.page_num}`);
   }
 
+  /**
+   * Renders the class.
+   */
   render() {
     return (
       <div className="d-flex tab-content col-12">
