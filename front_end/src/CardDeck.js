@@ -84,11 +84,13 @@ class UserCards extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      followers_list: [],
+      user_list: [],
       isLoaded: false,
       page_limit: 4,
       page_num: 1,
+      user_type: props.user_type,
     };
+
     // Bind class methods here.
     this.first = this.first.bind(this);
     this.previous = this.previous.bind(this);
@@ -103,7 +105,7 @@ class UserCards extends React.Component {
     var data = JSON.stringify({
         page_limit: 500,
         page_num: 1,
-        request_type: 'followers'
+        request_type: this.state.user_type
     });
     var csrftoken = getCookie('csrftoken');
 
@@ -122,16 +124,16 @@ class UserCards extends React.Component {
       (result) => {
         this.setState({
           isLoaded: true,
-          followers_list: result.followers,
+          user_list: result.followers,
         });
 
         for (var i = 0; i < this.state.page_limit; i++) {
           $('#Follower'+i+' img.card-img-top').attr("src",
-            this.state.followers_list[i]['photo']);
+            this.state.user_list[i]['photo']);
           $('#Follower'+i+' div.card-footer a.btn').attr("href",
-            this.state.followers_list[i]['url']);
+            this.state.user_list[i]['url']);
           $('#Follower'+i+' .card-body .card-title').text(
-            this.state.followers_list[i]['name']);
+            this.state.user_list[i]['name']);
         }
 
         $(".first").click(this.first);
@@ -151,21 +153,21 @@ class UserCards extends React.Component {
 
   /**
    * Changes teh cards to new set of users.
-   * @param start - the index in the followers_list the loop should start at.
+   * @param start - the index in the user_list the loop should start at.
    */
   change(start) {
     for (var i = 0; i < this.state.page_limit; i++) {
       $('#Follower'+i+' img.card-img-top').attr("src",
-        this.state.followers_list[i + start]['photo']);
+        this.state.user_list[i + start]['photo']);
       $('#Follower'+i+' div.card-footer a.btn').attr("href",
-        this.state.followers_list[i + start]['url']);
+        this.state.user_list[i + start]['url']);
       $('#Follower'+i+' .card-body .card-title').text(
-        this.state.followers_list[i + start]['name']);
+        this.state.user_list[i + start]['name']);
     }
   }
 
   /**
-   * Gets the first set of cards in followers_list.
+   * Gets the first set of cards in user_list.
    */
   first() {
     this.change(0);
@@ -173,7 +175,7 @@ class UserCards extends React.Component {
   }
 
   /**
-   * Gets the previous set of cards in followers_list.
+   * Gets the previous set of cards in user_list.
    */
   previous() {
     var new_page = this.state.page_num - 1;
@@ -186,12 +188,12 @@ class UserCards extends React.Component {
   }
 
   /**
-   * Gets the next set of cards in followers_list.
+   * Gets the next set of cards in user_list.
    */
   next() {
     var new_page = this.state.page_num + 1;
     if (new_page * this.state.page_num >=
-        this.state.followers_list.length) {
+        this.state.user_list.length) {
       this.last();
     }
     else {
@@ -201,12 +203,12 @@ class UserCards extends React.Component {
   }
 
   /**
-   * Gets the last set of cards in followers_list.
+   * Gets the last set of cards in user_list.
    */
   last() {
-    var new_page = Math.ceil(this.state.followers_list.length /
+    var new_page = Math.ceil(this.state.user_list.length /
                              this.state.page_limit);
-    this.change(this.state.followers_list.length - this.state.page_limit);
+    this.change(this.state.user_list.length - this.state.page_limit);
     this.setState({"page_num": new_page});
   }
 
@@ -233,7 +235,7 @@ class UserCards extends React.Component {
 function CardDeck(props) {
   return (
     <div className="App">
-      <UserCards />
+      <UserCards user_type="followers"/>
     </div>
   );
 }
