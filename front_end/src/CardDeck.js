@@ -28,7 +28,7 @@ function getCookie(name) {
 function Card(props) {
   return (
     <div className="card bg-transparent border-warning"
-         id={"Follower"+props.number}>
+         id={props.user_type + props.number}>
       <img src="NULL" className="card-img-top img-responsive" />
       <div className="card-body">
         <h5 className="card-title">NULL</h5>
@@ -47,30 +47,40 @@ function Card(props) {
 
 /**
  * Renders the buttons to cycle through the card deck.
+ * @param {int} props.user_type - The user type to reference the buttons.
  */
-function PaginateButtons() {
+function PaginateButtons(props) {
   return (
     <ul className="pagination">
       <li className="page-item">
-        <button className="page-link first">&laquo; first</button>
-      </li>
-
-      <li className="page-item">
-        <button className="page-link previous">Previous page</button>
-      </li>
-
-      <li className="page-item disabled">
-        <button className="page-link follower-page centered-link">
-          Page <span className="follower-current-page">1</span> of TODO.
+        <button className={"page-link first-" + props.user_type}>
+          &laquo; first
         </button>
       </li>
 
       <li className="page-item">
-        <button className="page-link next">Next Page</button>
+        <button className={"page-link previous-" + props.user_type}>
+          Previous page
+        </button>
+      </li>
+
+      <li className="page-item disabled">
+        <button className="page-link follower-page centered-link">
+          Page <span className={"current-page-" + props.user_type}>1</span> of
+          TODO.
+        </button>
       </li>
 
       <li className="page-item">
-        <button className="page-link last">last &raquo;</button>
+        <button className={"page-link next-" + props.user_type}>
+          Next Page
+        </button>
+      </li>
+
+      <li className="page-item">
+        <button className={"page-link last-" + props.user_type}>
+          last &raquo;
+        </button>
       </li>
     </ul>
   );
@@ -127,19 +137,12 @@ class UserCards extends React.Component {
           user_list: result.followers,
         });
 
-        for (var i = 0; i < this.state.page_limit; i++) {
-          $('#Follower'+i+' img.card-img-top').attr("src",
-            this.state.user_list[i]['photo']);
-          $('#Follower'+i+' div.card-footer a.btn').attr("href",
-            this.state.user_list[i]['url']);
-          $('#Follower'+i+' .card-body .card-title').text(
-            this.state.user_list[i]['name']);
-        }
+        this.change(0);
 
-        $(".first").click(this.first);
-        $(".previous").click(this.previous);
-        $(".next").click(this.next);
-        $(".last").click(this.last);
+        $("button.first-" + this.state.user_type).click(this.first);
+        $("button.previous-" + this.state.user_type).click(this.previous);
+        $("button.next-" + this.state.user_type).click(this.next);
+        $("button.last-" + this.state.user_type).click(this.last);
       },
       (error) => {
         console.log(error);
@@ -157,11 +160,11 @@ class UserCards extends React.Component {
    */
   change(start) {
     for (var i = 0; i < this.state.page_limit; i++) {
-      $('#Follower'+i+' img.card-img-top').attr("src",
+      $('#' + this.state.user_type + i + ' img.card-img-top').attr("src",
         this.state.user_list[i + start]['photo']);
-      $('#Follower'+i+' div.card-footer a.btn').attr("href",
+      $('#' + this.state.user_type + i + ' div.card-footer a.btn').attr("href",
         this.state.user_list[i + start]['url']);
-      $('#Follower'+i+' .card-body .card-title').text(
+      $('#' + this.state.user_type + i + ' .card-body .card-title').text(
         this.state.user_list[i + start]['name']);
     }
   }
@@ -216,16 +219,19 @@ class UserCards extends React.Component {
    * Renders the class.
    */
   render() {
+    var cards = []
+
+    for (var i = 0; i < 4; i++) {
+      cards.push(<Card number={i} user_type={this.state.user_type} key={i} />)
+    }
+
     return (
       <div className="d-flex tab-content col-12">
-        <div className="card-deck">
-          <Card number="0"/>
-          <Card number="1"/>
-          <Card number="2"/>
-          <Card number="3"/>
+        <div className={"card-deck " + this.state.user_type}>
+          {cards}
         </div>
         <div className="d-flex deck-footer">
-          <PaginateButtons />
+          <PaginateButtons user_type={this.state.user_type} />
         </div>
       </div>
     );
@@ -235,7 +241,7 @@ class UserCards extends React.Component {
 function CardDeck(props) {
   return (
     <div className="App">
-      <UserCards user_type="followers"/>
+      <UserCards user_type={props.user_type}/>
     </div>
   );
 }
