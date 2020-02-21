@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import jQuery from "jquery";
 import $ from "jquery";
 
@@ -78,7 +77,7 @@ function PaginateButtons() {
 }
 
 /* Class  representing followers */
-class Followers extends React.Component {
+class UserCards extends React.Component {
   /**
    * Constructor
    */
@@ -231,14 +230,12 @@ class Followers extends React.Component {
   }
 }
 
-function App() {
+function CardDeck(props) {
   return (
     <div className="App">
-      <header className="App-header">
-        <Followers />
-      </header>
+      <UserCards />
     </div>
   );
 }
 
-export default App;
+export default CardDeck;
