@@ -1,8 +1,14 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
+from rest_framework import routers
+
 from . import views
 from . import ajax_views
+from .api import UserViewSet
+
+router = routers.DefaultRouter()
+router.register('api/account', UserViewSet, 'api_user')
 
 urlpatterns = [
     path('', views.DashboardTemplateView.as_view(), name='dashboard'),
@@ -43,4 +49,4 @@ urlpatterns = [
     path('ajax/users', ajax_views.GetUsers.as_view(), name='get_users'),
 
     path('react/', views.TestView.as_view(), name='react'),
-]
+] + router.urls
