@@ -24,6 +24,7 @@ function getCookie(name) {
 /**
  * Renders an individual card.
  * @param {int} props.number - The card ID number for the page.
+ * @param {string} props.user_type - The user type for the cards.
  */
 function Card(props) {
   return (
@@ -90,6 +91,7 @@ function PaginateButtons(props) {
 class UserCards extends React.Component {
   /**
    * Constructor
+   * @param props.user_type - The user type for this instance.
    */
   constructor(props) {
     super(props);
@@ -139,6 +141,7 @@ class UserCards extends React.Component {
 
         this.change(0);
 
+        // Bind button click events.
         $("button.first-" + this.state.user_type).click(this.first);
         $("button.previous-" + this.state.user_type).click(this.previous);
         $("button.next-" + this.state.user_type).click(this.next);
@@ -155,7 +158,7 @@ class UserCards extends React.Component {
   }
 
   /**
-   * Changes teh cards to new set of users.
+   * Changes the cards to new set of users.
    * @param start - the index in the user_list the loop should start at.
    */
   change(start) {
@@ -238,6 +241,10 @@ class UserCards extends React.Component {
   }
 }
 
+  /**
+  * Card Deck itself.
+  * @param props.user_type - type of user to display.
+  */
 function CardDeck(props) {
   return (
     <div className="App">

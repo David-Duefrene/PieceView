@@ -1,11 +1,7 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import CardDeck from './CardDeck';
+import Dashboard from './Dashboard';
 
 ReactDOM.render(
-  <div>
-    <CardDeck user_type="followers" />
-    <CardDeck user_type="following" />
-  </div>,
+  <Dashboard tabs={["Followers", "Following"]}/>,
   document.getElementById('root')
 );
