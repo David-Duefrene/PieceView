@@ -247,7 +247,7 @@ class UserCards extends React.Component {
   */
 function CardDeck(props) {
   return (
-    <div className="App">
+    <div className="CardDeckApp">
       <UserCards user_type={props.user_type}/>
     </div>
   );
