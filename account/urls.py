@@ -5,7 +5,7 @@ from rest_framework import routers
 
 from . import views
 from . import ajax_views
-from .api import UserViewSet
+from .api import UserViewSet, LoginAPI
 
 router = routers.DefaultRouter()
 router.register('api/account', UserViewSet, 'api_user')
@@ -49,4 +49,6 @@ urlpatterns = [
     path('ajax/users', ajax_views.GetUsers.as_view(), name='get_users'),
 
     path('react/', views.TestView.as_view(), name='react'),
+
+    path('api/login', LoginAPI.as_view(), name='Log_in_API'),
 ] + router.urls

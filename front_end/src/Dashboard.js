@@ -1,6 +1,8 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 
 import CardDeck from './CardDeck';
+import store from './store'
 
 
 class Dashboard extends React.Component {
@@ -19,7 +21,7 @@ class Dashboard extends React.Component {
    * For once page is loaded, change Followers tab as active by default for now.
    */
   componentDidMount() {
-    $("#Followers").attr("class", "nav-item active")
+    $("#Followers").attr("class", "nav-item active");
   }
 
   /**
@@ -36,17 +38,19 @@ class Dashboard extends React.Component {
     )
 
     return (
-    <div>
-      <ul className="nav nav-tabs">{listItems}</ul>
-      <div className="d-flex tab-content col-12">
-        <div className="tab-pane active" id="followers">
-          <CardDeck user_type="followers" />
-        </div>
-        <div className="tab-pane" id="following">
-          <CardDeck user_type="following" />
+    <Provider store={store}>
+      <div>
+        <ul className="nav nav-tabs">{listItems}</ul>
+        <div className="d-flex tab-content col-12">
+          <div className="tab-pane active" id="followers">
+            <CardDeck user_type="followers" />
+          </div>
+          <div className="tab-pane" id="following">
+            <CardDeck user_type="following" />
+          </div>
         </div>
       </div>
-    </div>
+    </Provider>
     );
   }
 }

@@ -51,8 +51,13 @@ INSTALLED_APPS = [
     'corsheaders',
     'post',
     'rest_framework',
+    'knox',
     'debug_toolbar',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
+}
 
 AUTH_USER_MODEL = 'account.CustomUser'
 
