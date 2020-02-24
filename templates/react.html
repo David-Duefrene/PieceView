@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <title>React</title>
+    <meta content="width=device-width, initial-scale=1 shrink-to-fit=no"
+          name="viewport" charset="utf-8">
+
+    <!-- fonts loaded here -->
+    <link rel="stylesheet" media="screen"
+              href="https://fontlibrary.org/face/code-new-roman" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Muli&display=swap"
+          rel="stylesheet">
+
+    <!-- Javascript links here -->
+    <!-- jquery Current ver: 3.4.1-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+            integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"
+            integrity="sha384-/fzlFUZom6xS9MDIM/aUQgYzL5J7DoVBOewwG5T3d+sDjQK7hQ7VyQiqfohXwUHK"
+            crossorigin="anonymous"></script>
+
+    <!-- Popper Current ver: 1.16.0 -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+
+    <!-- Bootstrap current ver: 4.4.1 -->
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"></script>
+
+      <!-- Load React. -->
+      <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+       <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+       <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js">
+       </script>
+      <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+
+      <!-- CSS links here -->
+      <!-- Bootstrap current ver: 4.4.1 -->
+      <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous">
+
+      <!-- Project CSS files -->
+      <link href="{% static "css/base.css" %}" rel="stylesheet">
+      <link href="{% static "css/user_cards_react.css" %}" rel="stylesheet">
+      <link href="{% static "css/tabs_react.css" %}" rel="stylesheet">
+  </head>
+  <body>
+
+<div id="root"></div>
+{% csrf_token %}
+<!-- Load our React component. -->
+<script src="{% static 'main.js' %}" type="text/babel" ></script>
+
+  </body>
+</html>

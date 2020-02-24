@@ -24,7 +24,6 @@ class GetUsersTest(TestCase):
             reverse('get_users'),
             request,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(data['status'], 'Bad Data: 404')
@@ -75,7 +74,7 @@ class GetUsersTest(TestCase):
         data = json.loads(response.content.decode('utf-8'))
 
         self.assertEqual('OK', data['status'])
-        self.assertEqual(5, len(data['followers']), 'message')
+        self.assertEqual(5, len(data['following']), 'message')
         self.assertEqual(1, data['new_page'])
 
     def test_next_action(self):

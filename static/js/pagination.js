@@ -33,13 +33,13 @@ function process_following(url, action){
       if (data['status'] != 'OK') {
         console.log(data);
       }
-      for (var i = 0; i < data['followers'].length; i++) {
+      for (var i = 0; i < data['following'].length; i++) {
         $('#Following'+[i]+' img.card-img-top').attr("src",
-          data['followers'][i]['photo']);
+          data['following'][i]['photo']);
         $('#Following'+[i]+' div.card-footer a.stretched-link').attr("href",
-          data['followers'][i]['url']);
+          data['following'][i]['url']);
         $('#Following'+[i]+' .card-body .card-title').text(
-          data['followers'][i]['name']);
+          data['following'][i]['name']);
       }
       $('span.following-current-page').text(data['new_page']);
     }

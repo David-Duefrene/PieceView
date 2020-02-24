@@ -20,7 +20,6 @@ class GetUsers(AuthAjaxOnlyMixin):
             page_num = int(request.POST.get('page_num'))
             user = request.user
             prev_set = page_limit * (page_num)
-            followers = []
             request_type = request.POST.get('request_type')
             action = request.POST.get('action')
 
@@ -60,11 +59,12 @@ class GetUsers(AuthAjaxOnlyMixin):
             if followers:
                 return JsonResponse({
                     'status': 'OK',
-                    'followers': followers,
+                    request_type: followers,
                     'new_page': page_num,
                 })
 
             return JsonResponse({'status': 'Bad Request: Bad Action.'})
         # skipcq: PYL-W0703
-        except Exception:
+        except Exception as e:
+            print(f'Exeption in GetUsers.post: {e}')
             return JsonResponse({'status': 'Bad Data: 404'})

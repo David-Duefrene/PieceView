@@ -2,15 +2,16 @@ from django.db import models
 
 
 class PaginateManager(models.Manager):
-    """ PaginateManager paginates results in the model for better client
-    display."""
+    # skipcq FLK-D200
+    """
+    PaginateManager paginates results in the model for better client display.
+    """
 
     @staticmethod
     def _get_followers(user, prev_set: int, next_set: int, request_type: str):
         # cannot be negitive
         if prev_set < 0:
             prev_set = 0
-
         if request_type == 'followers':
             list = user.followers.order_by("-date_joined")[
                         prev_set:next_set]
@@ -21,12 +22,10 @@ class PaginateManager(models.Manager):
         for people in list:
             result.append({
                 'photo': people.photo_url,
-                'url': people.get_absolute_url(),
+                'url': people.get_absolute_url,
                 'name': str(people),
                 })
         return result
-
-# Removed get_query_set due to Contacts model not having an active status
 
     def next_set(
             self, user, page_limit: int, prev_set: int, request_type: str):

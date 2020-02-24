@@ -1,8 +1,16 @@
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
+
+from rest_framework import routers
+
+from knox import views as knox_views
 
 from . import views
 from . import ajax_views
+from .api import UserViewSet, LoginAPI, UserAPI, RegisterAPI, ContactsAPI
+
+router = routers.DefaultRouter()
+router.register('api/account', UserViewSet, 'api_user')
 
 urlpatterns = [
     path('', views.DashboardTemplateView.as_view(), name='dashboard'),
@@ -41,4 +49,16 @@ urlpatterns = [
 
     # Ajax requests
     path('ajax/users', ajax_views.GetUsers.as_view(), name='get_users'),
-]
+
+    # Main React app.
+    path('react/', views.TestView.as_view(), name='react'),
+
+    # paths for API calls
+    path('api/auth', include('knox.urls')),
+    path('api/auth/register', RegisterAPI.as_view(), name='register_API'),
+    path('api/auth/login', LoginAPI.as_view(), name='log_API'),
+    path('api/auth/user', UserAPI.as_view(), name='user_API'),
+    path('api/contacts', ContactsAPI.as_view({'get': 'list'}),
+         name='contacts_API'),
+    path('api/auth/logout', knox_views.LogoutView.as_view(), name='logout_API')
+] + router.urls

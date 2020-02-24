@@ -13,9 +13,9 @@ h5 {
 }
 
 .card-deck {
-  margin-bottom: 1%;
-  min-width: 100%;
-  padding-left: 15%;
+  margin: 1%;
+  min-width: 145%;
+  margin-left: 25em;
 }
 
 .card-deck .card {
