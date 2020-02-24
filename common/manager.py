@@ -2,6 +2,7 @@ from django.db import models
 
 
 class PaginateManager(models.Manager):
+    # skipcq FLK-D200
     """
     PaginateManager paginates results in the model for better client display.
     """

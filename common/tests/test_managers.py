@@ -25,7 +25,7 @@ class PaginateManagerTest(TestCase):
 
         counter = 0
         for case in test_list:
-            self.assertEqual(followers[counter].get_absolute_url(),
+            self.assertEqual(followers[counter].get_absolute_url,
                              case['url'])
             counter += 1
 
@@ -33,7 +33,7 @@ class PaginateManagerTest(TestCase):
                     user=self.user, page_limit=5, prev_set=5,
                     request_type='followers')
         for case in test_list:
-            self.assertEqual(followers[counter].get_absolute_url(),
+            self.assertEqual(followers[counter].get_absolute_url,
                              case['url'])
             counter += 1
 
@@ -50,7 +50,7 @@ class PaginateManagerTest(TestCase):
         test_list.reverse()
         counter = 14
         for case in test_list:
-            self.assertEqual(followers[counter].get_absolute_url(),
+            self.assertEqual(followers[counter].get_absolute_url,
                              case['url'])
             counter -= 1
 
@@ -60,7 +60,7 @@ class PaginateManagerTest(TestCase):
 
         test_list.reverse()
         for case in test_list:
-            self.assertEqual(followers[counter].get_absolute_url(),
+            self.assertEqual(followers[counter].get_absolute_url,
                              case['url'])
             counter -= 1
 
@@ -70,7 +70,7 @@ class PaginateManagerTest(TestCase):
 
         test_list.reverse()
         for case in test_list:
-            self.assertEqual(followers[counter].get_absolute_url(),
+            self.assertEqual(followers[counter].get_absolute_url,
                              case['url'])
             counter -= 1
 
@@ -86,7 +86,7 @@ class PaginateManagerTest(TestCase):
 
         counter = 0
         for case in test_list:
-            self.assertEqual(followers[counter].get_absolute_url(),
+            self.assertEqual(followers[counter].get_absolute_url,
                              case['url'])
             counter += 1
 
@@ -102,6 +102,6 @@ class PaginateManagerTest(TestCase):
 
         counter = 0
         for case in test_list:
-            self.assertEqual(followers[counter].get_absolute_url(),
+            self.assertEqual(followers[counter].get_absolute_url,
                              case['url'])
             counter += 1

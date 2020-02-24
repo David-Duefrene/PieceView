@@ -28,7 +28,8 @@ class RegisterSerializer(serializers.ModelSerializer):
                   'last_name')
         extra_kwargs = {'password': {'write_only': True}}
 
-    def create(self, validated_data):
+    @staticmethod
+    def create(validated_data):
         user = CustomUser.objects.create_user(
             validated_data['username'],
             validated_data['email'],
@@ -43,7 +44,8 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
 
-    def validate(self, data):
+    @staticmethod
+    def validate(data):
         user = authenticate(**data)
         if user and user.is_active:
             return user

@@ -5,7 +5,6 @@ from .models import CustomUser
 from common.mixins import AuthAjaxOnlyMixin
 
 
-
 class GetUsers(AuthAjaxOnlyMixin):
     """
     Retrieves the current logged on user’s followers. Redirects
@@ -68,4 +67,4 @@ class GetUsers(AuthAjaxOnlyMixin):
         # skipcq: PYL-W0703
         except Exception as e:
             print(f'Exeption in GetUsers.post: {e}')
-            return JsonResponse({'status': 'Bad Data: 404', 'exception': e})
+            return JsonResponse({'status': 'Bad Data: 404'})
