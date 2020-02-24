@@ -3,12 +3,10 @@ from django.http import JsonResponse
 from .models import CustomUser
 
 from common.mixins import AuthAjaxOnlyMixin
-from django.views.generic.base import View
-
-import json
 
 
-class GetUsers(View):
+
+class GetUsers(AuthAjaxOnlyMixin):
     """
     Retrieves the current logged on user’s followers. Redirects
     unauthenticated users to login. Presently offers to paginate the data.
@@ -19,16 +17,12 @@ class GetUsers(View):
     @staticmethod
     def post(request):
         try:
-            # import pdb; pdb.set_trace()
-            jsonResponse = json.loads(request.body.decode('utf-8'))
-
-            page_limit = int(jsonResponse.get('page_limit'))
-            page_num = int(jsonResponse.get('page_num'))
+            page_limit = int(request.POST.get('page_limit'))
+            page_num = int(request.POST.get('page_num'))
             user = request.user
             prev_set = page_limit * (page_num)
-            followers = []
-            request_type = jsonResponse.get('request_type')
-            action = jsonResponse.get('action')
+            request_type = request.POST.get('request_type')
+            action = request.POST.get('action')
 
             if request_type == 'followers':
                 total_followers = user.followers.count()
@@ -66,11 +60,12 @@ class GetUsers(View):
             if followers:
                 return JsonResponse({
                     'status': 'OK',
-                    'followers': followers,
+                    request_type: followers,
                     'new_page': page_num,
                 })
 
             return JsonResponse({'status': 'Bad Request: Bad Action.'})
         # skipcq: PYL-W0703
-        except Exception:
-            return JsonResponse({'status': 'Bad Data: 404'})
+        except Exception as e:
+            print(f'Exeption in GetUsers.post: {e}')
+            return JsonResponse({'status': 'Bad Data: 404', 'exception': e})

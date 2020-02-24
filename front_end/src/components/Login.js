@@ -1,23 +1,38 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { login } from "../../actions/auth";
 
-export class Login extends Component {
-  state = { username: "", password: "" };
+import { login, loadUser } from "../actions/auth";
+import store from '../store'
 
-  static propTypes = {
-    login: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool
-  };
+export class Login extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+      isAuthenticated: false,
+      login: PropTypes.func.isRequired
+    };
 
-  onSubmit = e => {
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
+
+  onSubmit(e) {
     e.preventDefault();
     this.props.login(this.state.username, this.state.password);
-  };
+  }
 
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  onChange(e) {
+    console.log(e);
+    this.setState({ [e.target.name]: e.target.value });
+  }
 
   render() {
     if (this.props.isAuthenticated) {

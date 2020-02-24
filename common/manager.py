@@ -21,12 +21,10 @@ class PaginateManager(models.Manager):
         for people in list:
             result.append({
                 'photo': people.photo_url,
-                'url': people.get_absolute_url(),
+                'url': people.get_absolute_url,
                 'name': str(people),
                 })
         return result
-
-# Removed get_query_set due to Contacts model not having an active status
 
     def next_set(
             self, user, page_limit: int, prev_set: int, request_type: str):

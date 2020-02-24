@@ -36,7 +36,7 @@ DEBUG = True
 CORS_ORIGIN_ALLOW_ALL = True
 
 # SECURITY WARNING: don't run local hosts test server ect during production
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+ALLOWED_HOSTS = ['*']
 FIXTURE_DIRS = ('/fixtures/',)
 
 # Application definition

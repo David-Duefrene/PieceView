@@ -1,25 +1,9 @@
 import React from 'react';
-import jQuery from "jquery";
+import axios from 'axios';
+
 import $ from "jquery";
 
-/**
- * Obtains a cookie from the users browser.
- * @param {string} name - The name of the cookie needed.
- */
-function getCookie(name) {
-  var cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    var cookies = document.cookie.split(';');
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = jQuery.trim(cookies[i]);
-      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
+import store from './store'
 
 /**
  * Renders an individual card.
@@ -87,6 +71,7 @@ function PaginateButtons(props) {
   );
 }
 
+
 /* Class  representing followers */
 class UserCards extends React.Component {
   /**
@@ -114,38 +99,21 @@ class UserCards extends React.Component {
    * Once page is loaded the function runs.
    */
   componentDidMount() {
-    var data = JSON.stringify({
-        page_limit: 500,
-        page_num: 1,
-        request_type: this.state.user_type
-    });
-    var csrftoken = getCookie('csrftoken');
-
-    var payload = {
-      method: 'POST',
-      mode:'same-origin',
-      body: data,
-      headers: new Headers({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        "X-CSRFToken": csrftoken}),
-      credentials: 'include',
+    // Headers
+    const rstate = store.getState()
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${rstate.auth['token']}`
+      }
     };
 
-    fetch("/account/ajax/users", payload).then(res => res.json()).then(
-      (result) => {
-        this.setState({
-          isLoaded: true,
-          user_list: result.followers,
-        });
-
-        this.change(0);
-
-        // Bind button click events.
-        $("button.first-" + this.state.user_type).click(this.first);
-        $("button.previous-" + this.state.user_type).click(this.previous);
-        $("button.next-" + this.state.user_type).click(this.next);
-        $("button.last-" + this.state.user_type).click(this.last);
+    // Request Body
+    axios.get('http://localhost:8000/account/api/contacts', config).then(
+      result => {
+        this.setState({isLoaded: true, user_list: result.data});
+        console.log(`Get result: ${JSON.stringify(this.state.user_list[0]["url"])}`);
+        this.change(0)
       },
       (error) => {
         console.log(error);
@@ -164,11 +132,11 @@ class UserCards extends React.Component {
   change(start) {
     for (var i = 0; i < this.state.page_limit; i++) {
       $('#' + this.state.user_type + i + ' img.card-img-top').attr("src",
-        this.state.user_list[i + start]['photo']);
+        this.state.user_list[i + start]['photo_url']);
       $('#' + this.state.user_type + i + ' div.card-footer a.btn').attr("href",
-        this.state.user_list[i + start]['url']);
+        this.state.user_list[i + start]["get_absolute_url"]);
       $('#' + this.state.user_type + i + ' .card-body .card-title').text(
-        this.state.user_list[i + start]['name']);
+        this.state.user_list[i + start]["first_name"] + " " + this.state.user_list[i + start]["last_name"]);
     }
   }
 

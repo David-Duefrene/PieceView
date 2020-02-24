@@ -1,8 +1,8 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+
+import $ from "jquery";
 
 import CardDeck from './CardDeck';
-import store from './store'
 
 
 class Dashboard extends React.Component {
@@ -38,7 +38,6 @@ class Dashboard extends React.Component {
     )
 
     return (
-    <Provider store={store}>
       <div>
         <ul className="nav nav-tabs">{listItems}</ul>
         <div className="d-flex tab-content col-12">
@@ -50,7 +49,6 @@ class Dashboard extends React.Component {
           </div>
         </div>
       </div>
-    </Provider>
     );
   }
 }
