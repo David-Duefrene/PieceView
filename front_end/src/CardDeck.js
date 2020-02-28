@@ -2,8 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import $ from "jquery";
-
-import store from './store'
+import store from './store';
 
 /**
  * Renders an individual card.
@@ -71,9 +70,8 @@ function PaginateButtons(props) {
   );
 }
 
-
 /* Class  representing followers */
-class UserCards extends React.Component {
+export class UserCards extends React.Component {
   /**
    * Constructor
    * @param props.user_type - The user type for this instance.
@@ -93,12 +91,14 @@ class UserCards extends React.Component {
     this.previous = this.previous.bind(this);
     this.next = this.next.bind(this);
     this.last = this.last.bind(this);
+    this.change = this.change.bind(this);
+    this.getFollowers = this.getFollowers.bind(this);
   }
 
   /**
    * Once page is loaded the function runs.
    */
-  componentDidMount() {
+  async componentDidMount() {
     // Headers
     const rstate = store.getState()
     const config = {
@@ -107,22 +107,17 @@ class UserCards extends React.Component {
         "Authorization": `Token ${rstate.auth['token']}`
       }
     };
+    await this.getFollowers(config);
+    if (this.state.isLoaded) { 
+      this.change(0);
+    }
+  }
 
-    // Request Body
-    axios.get('http://localhost:8000/account/api/contacts', config).then(
-      result => {
-        this.setState({isLoaded: true, user_list: result.data});
-        console.log(`Get result: ${JSON.stringify(this.state.user_list[0]["url"])}`);
-        this.change(0)
-      },
-      (error) => {
-        console.log(error);
-        this.setState({
-          "isLoaded": true,
-          error,
-        });
-      }
-    )
+  async getFollowers(config) {
+    await axios.get('http://localhost:8000/account/api/contacts', config).then( result => {
+      console.log(`${JSON.stringify(result)}`);
+      this.setState({isLoaded: true,  user_list: result.data})}
+      );
   }
 
   /**
@@ -130,6 +125,8 @@ class UserCards extends React.Component {
    * @param start - the index in the user_list the loop should start at.
    */
   change(start) {
+    console.log(`State in change: ${JSON.stringify(this.state)}`);
+    
     for (var i = 0; i < this.state.page_limit; i++) {
       $('#' + this.state.user_type + i + ' img.card-img-top').attr("src",
         this.state.user_list[i + start]['photo_url']);
@@ -138,7 +135,7 @@ class UserCards extends React.Component {
       $('#' + this.state.user_type + i + ' .card-body .card-title').text(
         this.state.user_list[i + start]["first_name"] + " " + this.state.user_list[i + start]["last_name"]);
     }
-  }
+  }  
 
   /**
    * Gets the first set of cards in user_list.
@@ -207,6 +204,10 @@ class UserCards extends React.Component {
       </div>
     );
   }
+
+  componentWillUnmount() {
+    this.setState({isLoaded: false});
+  }
 }
 
   /**
@@ -216,7 +217,7 @@ class UserCards extends React.Component {
 function CardDeck(props) {
   return (
     <div className="CardDeckApp">
-      <UserCards user_type={props.user_type}/>
+      <UserCards user_type={props.user_type} />
     </div>
   );
 }

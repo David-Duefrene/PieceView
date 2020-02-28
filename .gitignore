@@ -116,6 +116,7 @@ dmypy.json
 
 # vscode
 .vscode/
+.VSCodeCounter/
 
 /media/
 
