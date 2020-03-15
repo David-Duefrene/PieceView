@@ -2,7 +2,7 @@ import React from 'react';
 
 import $ from "jquery";
 
-import CardDeck from './CardDeck';
+import CardDeck from '../containers/CardDeck';
 
 
 class Dashboard extends React.Component {

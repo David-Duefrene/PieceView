@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 import $ from "jquery";
-import store from './store';
+import store from '../store';
 
 /**
  * Renders an individual card.
