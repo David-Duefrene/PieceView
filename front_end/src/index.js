@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import React from 'react';
+import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import {
   HashRouter as Router,
@@ -12,10 +12,9 @@ import PrivateRoute from './common/PrivateRoute'
 import store from './store'
 
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
+class ErrorBoundary extends Component {
+  state = {
+    hasError: false
   }
 
   static getDerivedStateFromError(error) {
@@ -38,7 +37,7 @@ class ErrorBoundary extends React.Component {
 }
 
 
-class Index extends React.Component {
+class Index extends Component {
   render(){
     return (
       <ErrorBoundary>
