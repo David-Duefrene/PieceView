@@ -42,7 +42,7 @@ class Dashboard extends React.Component {
         <ul className="nav nav-tabs">{listItems}</ul>
         <div className="d-flex tab-content col-12">
           <div className="tab-pane active" id="followers">
-            <CardDeck user_type="followers" />
+            <CardDeck className='col' user_type="followers" />
           </div>
           <div className="tab-pane" id="following">
             <CardDeck user_type="following" />
