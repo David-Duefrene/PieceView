@@ -2,77 +2,12 @@ import React from 'react';
 import axios from 'axios';
 
 import $ from "jquery";
-import store from '../store';
 
-/**
- * Renders an individual card.
- * @param {int} props.number - The card ID number for the page.
- * @param {string} props.user_type - The user type for the cards.
- */
-function Card(props) {
-  return (
-    <div className="card bg-transparent border-warning"
-         id={props.user_type + props.number}>
-      <img src="NULL" className="card-img-top" />
-      <div className="card-body">
-        <h5 className="card-title">NULL</h5>
-        <p className="card-text">Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Pellentesque dolor enim, facilisis a lectus ut,
-        auctor efficitur est. Orci varius natoque penatibus et magnis dis
-        parturient montes, nascetur ridiculus mus. Mauris et leo sapien.
-        Etiam fringilla ultricies fringilla.</p>
-      </div>
-      <div className="card-footer bg-transparent border-warning">
-        <a href="NULL" className="btn btn-primary col">Profile</a>
-      </div>
-    </div>
-  );
-}
+import store from '../../store';
+import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
+import Card from './Card/Card';
 
-/**
- * Renders the buttons to cycle through the card deck.
- * @param {int} props.user_type - The user type to reference the buttons.
- */
-function PaginateButtons(props) {
-  return (
-    <div className="d-flex deck-footer">
-      <ul className="pagination">
-        <li className="page-item">
-          <button className={"page-link first-" + props.user_type}>
-            &laquo; first
-          </button>
-        </li>
 
-        <li className="page-item">
-          <button className={"page-link previous-" + props.user_type}>
-            Previous page
-          </button>
-        </li>
-
-        <li className="page-item disabled">
-          <button className="page-link follower-page centered-link">
-            Page <span className={"current-page-" + props.user_type}>1</span> of
-            TODO.
-          </button>
-        </li>
-
-        <li className="page-item">
-          <button className={"page-link next-" + props.user_type}>
-            Next Page
-          </button>
-        </li>
-
-        <li className="page-item">
-          <button className={"page-link last-" + props.user_type}>
-            last &raquo;
-          </button>
-        </li>
-      </ul>
-    </div>
-  );
-}
-
-/* Class  representing followers */
 export class UserCards extends React.Component {
   /**
    * Constructor

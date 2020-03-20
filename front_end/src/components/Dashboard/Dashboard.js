@@ -2,7 +2,7 @@ import React from 'react';
 
 import $ from "jquery";
 
-import CardDeck from '../../containers/CardDeck';
+import CardDeck from '../CardDeck/CardDeck';
 import CSS from './Dashboard.module.css';
 
 
