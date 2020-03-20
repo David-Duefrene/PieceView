@@ -2,7 +2,8 @@ import React from 'react';
 
 import $ from "jquery";
 
-import CardDeck from '../containers/CardDeck';
+import CardDeck from '../../containers/CardDeck';
+import CSS from './Dashboard.module.css';
 
 
 class Dashboard extends React.Component {
@@ -21,7 +22,7 @@ class Dashboard extends React.Component {
    * For once page is loaded, change Followers tab as active by default for now.
    */
   componentDidMount() {
-    $("#Followers").attr("class", "nav-item active");
+    $("#Followers").attr("class", CSS.NavItem);
   }
 
   /**
@@ -29,9 +30,11 @@ class Dashboard extends React.Component {
    */
   render() {
     var listItems = this.state.tabs.map((item) =>
-      <li key={item} id={item} className="nav-item col-4-md">
-        <a className="nav-link" data-toggle="tab"
-           href={"#" + item.toLowerCase()}>
+      <li key={item} id={item} className={CSS.NavItem}>
+        <a
+          className={CSS.NavLink}
+          data-toggle="tab"
+          href={"#" + item.toLowerCase()}>
           {item}
         </a>
       </li>
@@ -39,12 +42,12 @@ class Dashboard extends React.Component {
 
     return (
       <div>
-        <ul className="nav nav-tabs">{listItems}</ul>
-        <div className="d-flex tab-content col-12">
-          <div className="tab-pane active" id="followers">
-            <CardDeck className='col' user_type="followers" />
+        <ul className={CSS.NavTabs}>{listItems}</ul>
+        <div className={CSS.TabContent}>
+          <div className={CSS.TabPane} id="followers">
+            <CardDeck className='' user_type="followers" />
           </div>
-          <div className="tab-pane" id="following">
+          <div className={CSS.TabPane} id="following">
             <CardDeck user_type="following" />
           </div>
         </div>

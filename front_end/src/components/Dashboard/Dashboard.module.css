@@ -1,0 +1,50 @@
+.NavTabs{
+  margin-bottom: 2px;
+  margin-left: 41em;
+  border-bottom: unset;
+}
+.NavTabs .NavItem {
+  background-color: #eae9e9;
+}
+
+.NavTabs .NavItem:hover {
+  background-color: #b09999;
+}
+
+.NavTabs .NavItem .active {
+  color: white;
+  background-color: navy;
+}
+
+.NavTabs .NavItem .active:hover {
+  color:#464646;
+}
+
+.NavLink {
+  color: black;
+}
+
+/* Content */
+.TabContent {
+  width: 90%;
+}
+
+.TabPane {
+  width: inherit;
+}
+
+.list-group {
+  width: 80%;
+  margin-left: 10%;
+}
+
+/* Computer Screens */
+@media (min-width: 701px) {
+  .NavTabs {
+    min-width: 70%;
+  }
+
+  .NavTabs .NavItem {
+    min-width: 11%;
+  }
+}
