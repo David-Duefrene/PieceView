@@ -68,7 +68,7 @@ export class UserCards extends React.Component {
   /**
    * Gets the first set of cards in user_list.
    */
-  first() {
+  first = () => {
     this.change(0);
     this.setState({"page_num": 1});
   }
@@ -76,7 +76,7 @@ export class UserCards extends React.Component {
   /**
    * Gets the previous set of cards in user_list.
    */
-  previous() {
+  previous = () => {
     var new_page = this.state.page_num - 1;
     if (new_page < 1) { this.first(); }
     else {
@@ -89,7 +89,7 @@ export class UserCards extends React.Component {
   /**
    * Gets the next set of cards in user_list.
    */
-  next() {
+  next = () => {
     var new_page = this.state.page_num + 1;
     if (new_page * this.state.page_num >=
         this.state.user_list.length) {
@@ -104,7 +104,7 @@ export class UserCards extends React.Component {
   /**
    * Gets the last set of cards in user_list.
    */
-  last() {
+  last = () => {
     var new_page = Math.ceil(this.state.user_list.length /
                              this.state.page_limit);
     this.change(this.state.user_list.length - this.state.page_limit);
@@ -117,14 +117,20 @@ export class UserCards extends React.Component {
   render() {
     var cards = []
 
-    for (var i = 0; i < 4; i++) {
-      cards.push(
-        <Card
-          number={i}
-          user={this.state.user_list[i]}
-          user_type={this.state.user_type}
-          key={i} />)
+    if (this.state.isLoaded) {
+      let temp = (this.state.page_num - 1) * this.state.page_limit;
+      const max = temp + this.state.page_limit;
+
+      for (var i = temp; i < max; i++) {
+        cards.push(
+          <Card
+            number={i}
+            user={this.state.user_list[i]}
+            user_type={this.state.user_type}
+            key={i} />)
+      }
     }
+    else { cards = <h1>LOADING!!!</h1>}
 
     return (
       <div className="d-flex tab-content col-12">
