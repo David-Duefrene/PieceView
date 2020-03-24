@@ -9,33 +9,20 @@ import Card from './Card/Card';
 
 
 export class UserCards extends React.Component {
+  state = {
+    user_list: [],
+    isLoaded: false,
+    page_limit: 4,
+    page_num: 1,
+    user_type: null
+  };
+
   /**
    * Constructor
    * @param props.user_type - The user type for this instance.
    */
   constructor(props) {
     super(props);
-    this.state = {
-      user_list: [],
-      isLoaded: false,
-      page_limit: 4,
-      page_num: 1,
-      user_type: props.user_type,
-    };
-
-    // Bind class methods here.
-    this.first = this.first.bind(this);
-    this.previous = this.previous.bind(this);
-    this.next = this.next.bind(this);
-    this.last = this.last.bind(this);
-    this.change = this.change.bind(this);
-    this.getFollowers = this.getFollowers.bind(this);
-  }
-
-  /**
-   * Once page is loaded the function runs.
-   */
-  async componentDidMount() {
     // Headers
     const rstate = store.getState()
     const config = {
@@ -44,33 +31,37 @@ export class UserCards extends React.Component {
         "Authorization": `Token ${rstate.auth['token']}`
       }
     };
-    await this.getFollowers(config);
-    if (this.state.isLoaded) { 
+
+    axios.get('http://localhost:8000/account/api/contacts', config)
+    .then( result => {
+      this.setState({
+        user_list: result.data,
+        isLoaded: true,
+        user_type: props.user_type});
       this.change(0);
-    }
+    });
   }
 
-  async getFollowers(config) {
-    await axios.get('http://localhost:8000/account/api/contacts', config).then( result => {
-      console.log(`${JSON.stringify(result)}`);
-      this.setState({isLoaded: true,  user_list: result.data})}
-      );
+  getFollowers(config) {
+    axios.get('http://localhost:8000/account/api/contacts', config)
+    .then( result => {
+      this.setState({isLoaded: true,  user_list: result.data});
+    });
   }
 
   /**
    * Changes the cards to new set of users.
    * @param start - the index in the user_list the loop should start at.
    */
-  change(start) {
-    console.log(`State in change: ${JSON.stringify(this.state)}`);
-    
+  change = (start) => {
     for (var i = 0; i < this.state.page_limit; i++) {
       $('#' + this.state.user_type + i + ' img.card-img-top').attr("src",
         this.state.user_list[i + start]['photo_url']);
       $('#' + this.state.user_type + i + ' div.card-footer a.btn').attr("href",
         this.state.user_list[i + start]["get_absolute_url"]);
       $('#' + this.state.user_type + i + ' .card-body .card-title').text(
-        this.state.user_list[i + start]["first_name"] + " " + this.state.user_list[i + start]["last_name"]);
+        this.state.user_list[i + start]["first_name"] + " " +
+          this.state.user_list[i + start]["last_name"]);
     }
   }  
 
@@ -127,7 +118,12 @@ export class UserCards extends React.Component {
     var cards = []
 
     for (var i = 0; i < 4; i++) {
-      cards.push(<Card number={i} user_type={this.state.user_type} key={i} />)
+      cards.push(
+        <Card
+          number={i}
+          user={this.state.user_list[i]}
+          user_type={this.state.user_type}
+          key={i} />)
     }
 
     return (
