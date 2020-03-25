@@ -1,0 +1,27 @@
+.Card {
+  border: 1px solid yellow;
+  margin-left: 25%;
+}
+
+.CardImage {
+  height: 50%;
+}
+
+.CardBody {
+  overflow: hidden;
+}
+
+.CardTitle {
+  margin-left: 25%;
+}
+
+.CardFooter {
+  border: 1px solid yellow;
+}
+
+.Button {
+  width: 100%;
+  background-color: #1557f2c7;
+  color: white;
+  height: 3em;
+}

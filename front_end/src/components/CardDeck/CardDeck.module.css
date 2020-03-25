@@ -1,0 +1,4 @@
+.CardDeck {
+  display: flex;
+  flex-direction: row;
+}

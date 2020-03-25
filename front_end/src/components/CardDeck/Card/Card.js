@@ -1,29 +1,28 @@
 import React from 'react';
 
+import CSS from './Card.module.css';
+
 /**
  * Renders an individual card.
  * @param {int} props.number - The card ID number for the page.
  * @param {string} props.user_type - The user type for the cards.
  */
 function card(props) {
-  // console.log(props);
-  
   return (
-    <div className="card bg-transparent border-warning"
+    <div className={CSS.Card}
          id={props.user_type + props.number}>
-      <img src={props.user.photo_url} className="card-img-top" />
-      <div className="card-body">
-        <h5 className="card-title">
-          {props.user.first_name + ' ' + props.user.last_name}
-        </h5>
-        <p className="card-text">Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Pellentesque dolor enim, facilisis a lectus ut,
-        auctor efficitur est. Orci varius natoque penatibus et magnis dis
-        parturient montes, nascetur ridiculus mus. Mauris et leo sapien.
-        Etiam fringilla ultricies fringilla.</p>
-      </div>
-      <div className="card-footer bg-transparent border-warning">
-        <a href="NULL" className="btn btn-primary col">Profile</a>
+      <img src={props.user.photo_url} className={CSS.CardImage} />
+      <h5 className={CSS.CardTitle}>
+        {props.user.first_name + ' ' + props.user.last_name}
+      </h5>
+      <p className={CSS.CardBody}>Lorem ipsum dolor sit amet, consectetur
+      adipiscing elit. Pellentesque dolor enim, facilisis a lectus ut,
+      auctor efficitur est. Orci varius natoque penatibus et magnis dis
+      parturient montes, nascetur ridiculus mus. Mauris et leo sapien.
+      Etiam fringilla ultricies fringilla.</p>
+      <div className={CSS.CardFooter}>
+        <button
+          className={CSS.Button}>Profile</button>
       </div>
     </div>
   );

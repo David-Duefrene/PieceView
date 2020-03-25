@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import axios from 'axios';
 
 import store from '../../store';
 import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
 import Card from './Card/Card';
+import CSS from './CardDeck.module.css';
 
 
 export class CardDeck extends React.Component {
@@ -99,21 +100,17 @@ export class CardDeck extends React.Component {
     else { cards = <h1>LOADING!!!</h1>}
 
     return (
-      <div className="CardDeckApp">
-        <div className="d-flex tab-content col-12">
-          <div className={"card-deck " + this.state.user_type}>
-            {cards}
-          </div>
-          <div className="d-flex deck-footer">
-            <PaginateButtons
-              user_type={this.state.user_type}
-              first={this.first}
-              next={this.next}
-              prev={this.previous}
-              last={this.last} />
-          </div>
+      <Fragment>
+        <div className={CSS.CardDeck + this.state.user_type}>
+          {cards}
         </div>
-      </div>
+        <PaginateButtons
+          user_type={this.state.user_type}
+          first={this.first}
+          next={this.next}
+          prev={this.previous}
+          last={this.last} />
+      </Fragment>
     );
   }
 }
