@@ -8,7 +8,7 @@ import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
 import Card from './Card/Card';
 
 
-export class UserCards extends React.Component {
+export class CardDeck extends React.Component {
   state = {
     user_list: [],
     isLoaded: false,
@@ -17,12 +17,7 @@ export class UserCards extends React.Component {
     user_type: null
   };
 
-  /**
-   * Constructor
-   * @param props.user_type - The user type for this instance.
-   */
-  constructor(props) {
-    super(props);
+  componentDidMount() {
     // Headers
     const rstate = store.getState()
     const config = {
@@ -37,15 +32,7 @@ export class UserCards extends React.Component {
       this.setState({
         user_list: result.data,
         isLoaded: true,
-        user_type: props.user_type});
-      this.change(0);
-    });
-  }
-
-  getFollowers(config) {
-    axios.get('http://localhost:8000/account/api/contacts', config)
-    .then( result => {
-      this.setState({isLoaded: true,  user_list: result.data});
+        user_type: this.props.user_type});
     });
   }
 
@@ -133,12 +120,14 @@ export class UserCards extends React.Component {
     else { cards = <h1>LOADING!!!</h1>}
 
     return (
-      <div className="d-flex tab-content col-12">
-        <div className={"card-deck " + this.state.user_type}>
-          {cards}
-        </div>
-        <div className="d-flex deck-footer">
-          <PaginateButtons user_type={this.state.user_type} />
+      <div className="CardDeckApp">
+        <div className="d-flex tab-content col-12">
+          <div className={"card-deck " + this.state.user_type}>
+            {cards}
+          </div>
+          <div className="d-flex deck-footer">
+            <PaginateButtons user_type={this.state.user_type} />
+          </div>
         </div>
       </div>
     );
@@ -147,18 +136,6 @@ export class UserCards extends React.Component {
   componentWillUnmount() {
     this.setState({isLoaded: false});
   }
-}
-
-  /**
-  * Card Deck itself.
-  * @param props.user_type - type of user to display.
-  */
-function CardDeck(props) {
-  return (
-    <div className="CardDeckApp">
-      <UserCards user_type={props.user_type} />
-    </div>
-  );
 }
 
 export default CardDeck;

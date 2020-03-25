@@ -6,13 +6,15 @@ import React from 'react';
  * @param {string} props.user_type - The user type for the cards.
  */
 function card(props) {
+  console.log(props);
+  
   return (
     <div className="card bg-transparent border-warning"
          id={props.user_type + props.number}>
-      <img src="NULL" className="card-img-top" />
+      <img src={props.user.photo_url} className="card-img-top" />
       <div className="card-body">
         <h5 className="card-title">
-          {props.first_name + ' ' + props.last_name}
+          {props.user.first_name + ' ' + props.user.last_name}
         </h5>
         <p className="card-text">Lorem ipsum dolor sit amet, consectetur
         adipiscing elit. Pellentesque dolor enim, facilisis a lectus ut,
