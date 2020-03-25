@@ -6,7 +6,7 @@ import React from 'react';
  * @param {string} props.user_type - The user type for the cards.
  */
 function card(props) {
-  console.log(props);
+  // console.log(props);
   
   return (
     <div className="card bg-transparent border-warning"

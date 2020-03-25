@@ -25,7 +25,7 @@ export class Login extends React.Component {
   }
 
   onChange = (event) => {
-    console.log(event);
+    // console.log(event);
     this.setState({ [event.target.name]: event.target.value });
   }
 

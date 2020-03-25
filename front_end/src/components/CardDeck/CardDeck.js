@@ -1,8 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 
-import $ from "jquery";
-
 import store from '../../store';
 import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
 import Card from './Card/Card';
@@ -37,26 +35,9 @@ export class CardDeck extends React.Component {
   }
 
   /**
-   * Changes the cards to new set of users.
-   * @param start - the index in the user_list the loop should start at.
-   */
-  change = (start) => {
-    for (var i = 0; i < this.state.page_limit; i++) {
-      $('#' + this.state.user_type + i + ' img.card-img-top').attr("src",
-        this.state.user_list[i + start]['photo_url']);
-      $('#' + this.state.user_type + i + ' div.card-footer a.btn').attr("href",
-        this.state.user_list[i + start]["get_absolute_url"]);
-      $('#' + this.state.user_type + i + ' .card-body .card-title').text(
-        this.state.user_list[i + start]["first_name"] + " " +
-          this.state.user_list[i + start]["last_name"]);
-    }
-  }  
-
-  /**
    * Gets the first set of cards in user_list.
    */
   first = () => {
-    this.change(0);
     this.setState({"page_num": 1});
   }
 
@@ -69,7 +50,6 @@ export class CardDeck extends React.Component {
     else {
       this.setState({"page_num": new_page});
       new_page -= 1;
-      this.change(new_page * this.state.page_limit);
     }
   }
 
@@ -83,7 +63,6 @@ export class CardDeck extends React.Component {
       this.last();
     }
     else {
-      this.change(this.state.page_num * this.state.page_limit);
       this.setState({"page_num": new_page});
     }
   }
@@ -94,7 +73,6 @@ export class CardDeck extends React.Component {
   last = () => {
     var new_page = Math.ceil(this.state.user_list.length /
                              this.state.page_limit);
-    this.change(this.state.user_list.length - this.state.page_limit);
     this.setState({"page_num": new_page});
   }
 
@@ -114,7 +92,8 @@ export class CardDeck extends React.Component {
             number={i}
             user={this.state.user_list[i]}
             user_type={this.state.user_type}
-            key={i} />)
+            key={i} />
+        )
       }
     }
     else { cards = <h1>LOADING!!!</h1>}
@@ -126,15 +105,16 @@ export class CardDeck extends React.Component {
             {cards}
           </div>
           <div className="d-flex deck-footer">
-            <PaginateButtons user_type={this.state.user_type} />
+            <PaginateButtons
+              user_type={this.state.user_type}
+              first={this.first}
+              next={this.next}
+              prev={this.previous}
+              last={this.last} />
           </div>
         </div>
       </div>
     );
-  }
-
-  componentWillUnmount() {
-    this.setState({isLoaded: false});
   }
 }
 
