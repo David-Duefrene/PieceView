@@ -1,7 +1,7 @@
 .NavTabs{
   margin-bottom: 2px;
-  margin-left: 41em;
   border-bottom: unset;
+  width: 100%;
 }
 .NavTabs .NavItem {
   background-color: #eae9e9;
@@ -25,14 +25,6 @@
 }
 
 /* Content */
-.TabContent {
-  width: 90%;
-}
-
-.TabPane {
-  width: inherit;
-}
-
 .list-group {
   width: 80%;
   margin-left: 10%;

@@ -1,4 +1,12 @@
 .CardDeck {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (min-width: 700px){
+  .CardDeck {
+    flex-direction: row;
+    overflow: hidden;
+  }
 }

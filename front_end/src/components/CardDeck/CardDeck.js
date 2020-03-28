@@ -31,7 +31,9 @@ export class CardDeck extends React.Component {
       this.setState({
         user_list: result.data,
         isLoaded: true,
-        user_type: this.props.user_type});
+        user_type: this.props.user_type,
+        page_limit: parseInt(window.innerWidth / 280),
+      });      
     });
   }
 
@@ -101,7 +103,7 @@ export class CardDeck extends React.Component {
 
     return (
       <Fragment>
-        <div className={CSS.CardDeck + this.state.user_type}>
+        <div className={CSS.CardDeck + ' ' + this.state.user_type}>
           {cards}
         </div>
         <PaginateButtons
