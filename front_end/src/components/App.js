@@ -1,12 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {Route, Switch} from 'react-router-dom';
 
 import Dashboard from './Dashboard/Dashboard';
+import Login from '../components/Login'
+import PrivateRoute from '../common/PrivateRoute'
 
-
-class App extends React.Component {
+class App extends Component {
   render() {
     return (
-      <Dashboard tabs={['Followers', 'Following']} />
+      <div className="container">
+        <Switch>
+          <PrivateRoute exact path="/" component={Dashboard} />
+          <Route exact path="/login" component={Login} />
+        </Switch>
+      </div>
     );
   }
 }

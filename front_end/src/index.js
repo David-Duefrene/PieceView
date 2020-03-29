@@ -1,14 +1,9 @@
 import ReactDOM from 'react-dom';
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import {
-  HashRouter as Router,
-  Route, Switch
-} from 'react-router-dom';
+import React, {Component} from 'react';
+import {Provider} from 'react-redux';
+import {HashRouter as Router} from 'react-router-dom';
 
 import App from './components/App'
-import Login from './components/Login'
-import PrivateRoute from './common/PrivateRoute'
 import store from './store'
 
 
@@ -41,18 +36,11 @@ class Index extends Component {
   render(){
     return (
       <ErrorBoundary>
-      <Provider store={store}>
-        <Router>
-        <React.Fragment>
-          <div className="container">
-            <Switch>
-              <PrivateRoute exact path="/" component={App} />
-              <Route exact path="/login" component={Login} />
-            </Switch>
-          </div>
-        </React.Fragment>
-        </Router>
-      </Provider>
+        <Provider store={store}>
+          <Router>
+            <App />
+          </Router>
+        </Provider>
       </ErrorBoundary>
     )
   }

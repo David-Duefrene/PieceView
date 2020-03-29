@@ -1,7 +1,5 @@
 import React from 'react';
 
-import $ from "jquery";
-
 import CardDeck from '../CardDeck/CardDeck';
 import CSS from './Dashboard.module.css';
 
@@ -14,15 +12,8 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabs: props.tabs,
+      tabs: ['Followers', 'Following'],
     };
-  }
-
-  /**
-   * For once page is loaded, change Followers tab as active by default for now.
-   */
-  componentDidMount() {
-    $("#Followers").attr("class", CSS.NavItem);
   }
 
   /**
