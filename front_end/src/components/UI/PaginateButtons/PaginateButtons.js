@@ -1,5 +1,7 @@
 import React from 'react';
 
+import CSS from './PaginateButtons.module.css';
+
 /**
  * Renders the buttons to cycle through the card deck.
  * @param {int} props.user_type - The user type to reference the buttons.
@@ -10,42 +12,42 @@ import React from 'react';
  */
 function paginateButtons(props) {  
   return (
-    <div className="d-flex deck-footer">
-      <ul className="pagination">
-        <li className="page-item">
+    <div className={CSS.ButtonBox}>
+      <ul className={CSS.ButtonList}>
+        <li>
           <button
-            className={"page-link first-" + props.user_type}
+            className={CSS.Button}
             onClick={props.first}>
             &laquo; first
           </button>
         </li>
 
-        <li className="page-item">
+        <li>
           <button
-            className={"page-link previous-" + props.user_type}
+            className={CSS.Button}
             onClick={props.prev}>
             Previous page
           </button>
         </li>
 
-        <li className="page-item disabled">
-          <button className="page-link follower-page centered-link">
+        <li>
+          <button className={CSS.PageNum}>
             Page <span className={"current-page-" + props.user_type}>1</span> of
             TODO.
           </button>
         </li>
 
-        <li className="page-item">
+        <li>
           <button
-            className={"page-link next-" + props.user_type}
+            className={CSS.Button}
             onClick={props.next}>
             Next Page
           </button>
         </li>
 
-        <li className="page-item">
+        <li>
           <button
-            className={"page-link last-" + props.user_type}
+            className={CSS.Button}
             onClick={props.last}>
             last &raquo;
           </button>

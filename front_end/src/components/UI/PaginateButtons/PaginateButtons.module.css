@@ -1,0 +1,23 @@
+.ButtonBox {
+  background-color: blue;
+  width: 110%;
+  margin-left: -10px;
+}
+
+.ButtonList {
+  display: flex;
+  list-style-type: none;
+  margin: 1% 6% 0 -8%;
+}
+
+.Button {
+  background-color: dodgerblue;
+  border-radius: 7px;
+  margin: 2px;
+}
+
+.PageNum {
+  border-radius: 7px;
+  margin: 2px;
+  background-color: gold;
+}
