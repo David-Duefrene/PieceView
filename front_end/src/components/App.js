@@ -8,12 +8,10 @@ import PrivateRoute from '../common/PrivateRoute'
 class App extends Component {
   render() {
     return (
-      <div className="container">
-        <Switch>
-          <PrivateRoute exact path="/" component={Dashboard} />
-          <Route exact path="/login" component={Login} />
-        </Switch>
-      </div>
+      <Switch>
+        <PrivateRoute exact path="/" component={Dashboard} />
+        <Route exact path="/login" component={Login} />
+      </Switch>
     );
   }
 }

@@ -5,42 +5,69 @@ import CSS from './Dashboard.module.css';
 
 
 class Dashboard extends React.Component {
-  /**
-   * Constructor
-   * @param props.tabs - the names of the tabs for this instance.
-   */
-  constructor(props) {
-    super(props);
-    this.state = {
-      tabs: ['Followers', 'Following'],
-    };
-  }
+  state = {
+    tabs: ['Followers', 'Following'],
+    activeTab: 'Followers',
+  };
+
+   onTabClickedHandler = (tabName) => {
+    this.setState({activeTab: tabName});
+  };
 
   /**
    * Renders the class.
    */
   render() {
-    var listItems = this.state.tabs.map((item) =>
+    const tabLinks = this.state.tabs.map((item) =>
       <li key={item} id={item} className={CSS.NavItem}>
-        <a
-          className={CSS.NavLink}
-          data-toggle="tab"
-          href={"#" + item.toLowerCase()}>
+        <button
+          className={this.state.activeTab === item ? CSS.Active + ' ' + CSS.NavLink : CSS.NavLink}
+          onClick={() => this.onTabClickedHandler(item)} >
           {item}
-        </a>
+        </button>
       </li>
     )
 
+    let currentDeck =(
+      <React.Fragment>
+        <h1>Followers initial.</h1>
+        <CardDeck className='Followers' user_type='followers' />
+      </React.Fragment>
+    );
+    switch(this.state.activeTab){
+      case 'Followers':
+        currentDeck =(
+          <React.Fragment>
+            <h1>Followers clicked.</h1>
+            <CardDeck className='Followers' user_type='followers' />
+          </React.Fragment>
+        );
+        break;
+      case 'Following':
+        currentDeck = (
+          <React.Fragment>
+            <h1>Following Clicked.</h1>
+            <CardDeck className='Following' user_type="following" />
+          </React.Fragment>
+        );
+        break;
+      default:
+        currentDeck =(
+          <React.Fragment>
+            <h1>Followers defaulted.</h1>
+            <CardDeck className='Followers' user_type='followers' />
+          </React.Fragment>
+        );
+        break;
+    }
+
     return (
       <div>
-        <ul className={CSS.NavTabs}>{listItems}</ul>
+        <div className={CSS.TabBar}>
+          <ul className={CSS.NavTabs}>{tabLinks}</ul>
+        </div>
         <div className={CSS.TabContent}>
-          <div className={CSS.TabPane} id="followers">
-            <CardDeck className='' user_type="followers" />
-          </div>
-          <div className={CSS.TabPane} id="following">
-            <CardDeck user_type="following" />
-          </div>
+          {currentDeck}
         </div>
       </div>
     );

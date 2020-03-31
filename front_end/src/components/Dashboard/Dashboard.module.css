@@ -1,39 +1,38 @@
+.TabBar {
+  background-color: cadetblue;
+  width: 110%;
+  margin-left: -10px;
+}
+
 .NavTabs{
-  margin-bottom: 2px;
-  border-bottom: unset;
-  width: 100%;
-}
-.NavTabs .NavItem {
-  background-color: #eae9e9;
+  display: flex;
+  list-style-type: none;
+  margin-left: 15%;
 }
 
-.NavTabs .NavItem:hover {
-  background-color: #b09999;
-}
-
-.NavTabs .NavItem .active {
-  color: white;
-  background-color: navy;
-}
-
-.NavTabs .NavItem .active:hover {
-  color:#464646;
+.NavLink:hover {
+  background-color: #d31db5;
 }
 
 .NavLink {
   color: black;
+  background-color: aqua;
+  border-radius: 7px;
+  height: 4em;
 }
 
-/* Content */
-.list-group {
-  width: 80%;
-  margin-left: 10%;
+.Active {
+  background-color: lime;
+}
+
+.NavItem .active:hover {
+  color:#464646;
 }
 
 /* Computer Screens */
 @media (min-width: 701px) {
   .NavTabs {
-    min-width: 70%;
+    margin-left: 33%;
   }
 
   .NavTabs .NavItem {
