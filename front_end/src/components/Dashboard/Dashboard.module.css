@@ -1,13 +1,13 @@
 .TabBar {
   background-color: cadetblue;
-  width: 110%;
   margin-left: -10px;
+  display: flex;
+  justify-content: center;
 }
 
 .NavTabs{
   display: flex;
   list-style-type: none;
-  margin-left: 15%;
 }
 
 .NavLink:hover {
@@ -19,6 +19,8 @@
   background-color: aqua;
   border-radius: 7px;
   height: 4em;
+  width: 10vw;
+  min-width: 8em;
 }
 
 .Active {
@@ -27,15 +29,4 @@
 
 .NavItem .active:hover {
   color:#464646;
-}
-
-/* Computer Screens */
-@media (min-width: 701px) {
-  .NavTabs {
-    margin-left: 33%;
-  }
-
-  .NavTabs .NavItem {
-    min-width: 11%;
-  }
 }
