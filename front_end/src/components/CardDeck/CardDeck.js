@@ -87,6 +87,9 @@ export class CardDeck extends React.Component {
 
     if (this.state.isLoaded) {
       let temp = (this.state.page_num - 1) * this.state.page_limit;
+      if (temp >= this.state.user_list.length - 1) {
+        temp = this.state.user_list.length - this.state.page_limit;
+      }
       const max = temp + this.state.page_limit;
 
       for (var i = temp; i < max; i++) {

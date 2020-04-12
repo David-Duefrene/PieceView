@@ -117,22 +117,24 @@ const data = {
 };
 configure({adapter: new Adapter()});
 jest.mock('axios');
-axios.get.mockResolvedValue({data: data})
+axios.get.mockResolvedValue({data: data['user_list']})
 
 
 describe('CardDeck', () => {
   let wrapper;
-  const deck = (userType) => {
-    return (<CardDeck user_type={userType} />)
-  }
 
   beforeEach(() => {
-    wrapper = shallow(deck('test-batch'));
+    wrapper = shallow(<CardDeck user_type='test-batch' />);
   });
 
   it('should be loading header if isLoaded is false', async () => {
     wrapper.setState({isLoaded: false});
     expect(wrapper.find('h1').text()).toEqual('LOADING!!!');
+  });
+
+  it('should load first page by default', async () => {
+    const cardNums = wrapper.find('card').map((node) => node.prop('number'));
+    expect(cardNums).toEqual([0,1,2]);
   });
 
   it('should have a div with a class called CardDeck, 3 Cards and a PaginateButtons if loaded', () => {
@@ -145,6 +147,46 @@ describe('CardDeck', () => {
     expect(wrapper.find('div.test-batch')).toHaveLength(1);
     wrapper.setState({user_type: 'what'})
     expect(wrapper.find('div.what')).toHaveLength(1);
+  });
+
+  it('should move to next page when next is called', () => {
+      wrapper.instance().next();
+      const cardNums = wrapper.find('card').map((node) => node.prop('number'));
+      expect(cardNums).toEqual([3,4,5]);
+  });
+
+  it('should move to last page when last is called', () => {
+      wrapper.instance().last();
+      const cardNums = wrapper.find('card').map((node) => node.prop('number'));
+      expect(cardNums).toEqual([7,8,9]);
+  });
+
+  it('should move to previous page when previous is called', () => {
+      wrapper.instance().last();
+      wrapper.instance().previous();
+      const cardNums = wrapper.find('card').map((node) => node.prop('number'));
+      expect(cardNums).toEqual([6,7,8]);
+  });
+
+  it('should move to first page when first is called', () => {
+      wrapper.instance().last();
+      wrapper.instance().first();
+      const cardNums = wrapper.find('card').map((node) => node.prop('number'));
+      expect(cardNums).toEqual([0,1,2]);
+  });
+
+  it('should not move past last page when next is called', () => {
+      wrapper.instance().next();
+      wrapper.instance().next();
+      wrapper.instance().next();
+      const cardNums = wrapper.find('card').map((node) => node.prop('number'));
+      expect(cardNums).toEqual([7,8,9]);
+  });
+
+  it('should not move past first page when previous is called', () => {
+      wrapper.instance().previous();
+      const cardNums = wrapper.find('card').map((node) => node.prop('number'));
+      expect(cardNums).toEqual([0,1,2]);
   });
 });
 
