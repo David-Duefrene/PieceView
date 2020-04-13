@@ -1,5 +1,5 @@
 import messages from './messages';
-import * as actions from '../actions/types';
+import * as actions from '../actions/actionTypes';
 
 
 describe('messages reducer', () => {

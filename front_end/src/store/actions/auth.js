@@ -4,7 +4,7 @@ import { returnErrors } from "./messages";
 import {
   USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL,
   LOGOUT_SUCCESS,
-} from "./types"
+} from "./actionTypes"
 
 export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });

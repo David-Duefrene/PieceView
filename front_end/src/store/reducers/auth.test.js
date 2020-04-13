@@ -1,5 +1,5 @@
 import auth from './auth';
-import * as actions from '../actions/types';
+import * as actions from '../actions/actionTypes';
 
 
 describe('auth reducer', () => {

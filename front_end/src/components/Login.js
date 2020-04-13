@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { login, loadUser } from "../actions/auth";
+import { login, loadUser } from "../store/actions/auth";
 import store from '../store';
 
 

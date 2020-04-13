@@ -1,4 +1,4 @@
-import { GET_ERRORS } from "./types";
+import { GET_ERRORS } from "./actionTypes";
 
 export const returnErrors = (msg, status) => {
   return {
