@@ -1,23 +1,20 @@
 import axios from "axios";
 
 import { returnErrors } from "./messages";
-import {
-  USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-} from "./actionTypes"
+import * as actions from "./actionTypes"
 
 export const loadUser = () => (dispatch, getState) => {
-  dispatch({ type: USER_LOADING });
+  dispatch({ type: actions.USER_LOADING });
 
   axios.get("http://localhost:8000/account/api/auth/user", tokenConfig(getState)).then(res => {
     dispatch({
-      type: USER_LOADED,
+      type: actions.USER_LOADED,
       payload: res.data
     });
   }).catch(err => {
     dispatch(returnErrors(err.response.data, err.response.status));
     dispatch({
-      type: AUTH_ERROR
+      type: actions.AUTH_ERROR
     });
   });
 };
@@ -41,7 +38,7 @@ export const login = (username, password) => dispatch => {
   }).catch(err => {
     dispatch(returnErrors(err.response.data, err.response.status));
     dispatch({
-      type: LOGIN_FAIL
+      type: actions.LOGIN_FAIL
     });
   });
 };
@@ -84,7 +81,7 @@ export const logout = () => (dispatch, getState) => {
   }).then(result => {
     console.log(`Result: ${result}`);
     dispatch({
-      type: LOGOUT_SUCCESS
+      type: actions.LOGOUT_SUCCESS
     });
   },
   (error) => {
