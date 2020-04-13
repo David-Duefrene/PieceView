@@ -19,4 +19,6 @@ const navItem = (props) => {
 
 const NavItem = withRouter(navItem);
 
+export const NavItemTest = navItem;
+
 export default NavItem;

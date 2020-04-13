@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import NavItem from './NavItem/NavItem';
 import CSS from './NavBar.module.css';
 
-class navBar extends Component{
+export class NavBar extends Component{
    render() {
     return (
       <ul className={CSS.NavBar}>
@@ -23,4 +23,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(navBar);
+export default connect(mapStateToProps)(NavBar);
