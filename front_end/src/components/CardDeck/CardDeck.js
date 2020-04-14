@@ -18,7 +18,7 @@ export class CardDeck extends React.Component {
 
   componentDidMount() {
     // Headers
-    const rstate = store.getState()
+    const rstate = store.getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -40,69 +40,67 @@ export class CardDeck extends React.Component {
   /**
    * Gets the first set of cards in user_list.
    */
-  first = () => {
-    this.setState({"page_num": 1});
-  }
+  first = () => { this.setState({"page_num": 1}) };
 
   /**
    * Gets the previous set of cards in user_list.
    */
   previous = () => {
-    var new_page = this.state.page_num - 1;
-    if (new_page < 1) { this.first(); }
-    else {
-      this.setState({"page_num": new_page});
-      new_page -= 1;
-    }
+    const new_page = this.state.page_num - 1;
+    if (new_page < 1) { this.first() }
+    else { this.setState({"page_num": new_page}) }
   }
 
   /**
    * Gets the next set of cards in user_list.
    */
   next = () => {
-    var new_page = this.state.page_num + 1;
-    if (new_page * this.state.page_num >=
-        this.state.user_list.length) {
+    const new_page = this.state.page_num + 1;
+    if (new_page * this.state.page_num >= this.state.user_list.length) {
       this.last();
     }
-    else {
-      this.setState({"page_num": new_page});
-    }
+    else { this.setState({"page_num": new_page}) };
   }
 
   /**
    * Gets the last set of cards in user_list.
    */
   last = () => {
-    var new_page = Math.ceil(this.state.user_list.length /
+    const new_page = Math.ceil(this.state.user_list.length /
                              this.state.page_limit);
     this.setState({"page_num": new_page});
+  }
+
+  pageBoundsCheck = () => {
+    let min = (this.state.page_num) * this.state.page_limit;
+    if (min >= this.state.user_list.length) {
+      min = this.state.user_list.length - this.state.page_limit;
+    }
+    else { min = min - this.state.page_limit };
+
+    const max = min + this.state.page_limit;
+    return {min: min, max: max};
   }
 
   /**
    * Renders the class.
    */
   render() {
-    var cards = []
+    const cards = [];
 
     if (this.state.isLoaded) {
-      let temp = (this.state.page_num - 1) * this.state.page_limit;
-      if (temp >= this.state.user_list.length - 1) {
-        temp = this.state.user_list.length - this.state.page_limit;
-      }
-      const max = temp + this.state.page_limit;
-
-      for (var i = temp; i < max; i++) {
+      const bounds = this.pageBoundsCheck();
+      for (let i = bounds['min']; i < bounds['max']; i++) {
         cards.push(
           <Card
             number={i}
             user={this.state.user_list[i]}
             user_type={this.state.user_type}
             key={i} />
-        )
+        );
       }
     }
-    else { cards = <h1>LOADING!!!</h1>}
+    else { cards.push(<h1>LOADING!!!</h1>) };
 
     return (
       <Fragment>

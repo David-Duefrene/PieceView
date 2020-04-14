@@ -3,17 +3,16 @@ import React, {Component} from 'react';
 import {Provider} from 'react-redux';
 import {HashRouter as Router} from 'react-router-dom';
 
-import App from './components/App'
+import App from './App'
 import store from './store'
 
 
 class ErrorBoundary extends Component {
-  state = {
-    hasError: false
-  }
+  state = { hasError: false };
 
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
+    console.log(error);
     return { hasError: true };
   }
 
@@ -33,7 +32,7 @@ class ErrorBoundary extends Component {
 
 
 class Index extends Component {
-  render(){
+  render() {
     return (
       <ErrorBoundary>
         <Provider store={store}>
@@ -42,7 +41,7 @@ class Index extends Component {
           </Router>
         </Provider>
       </ErrorBoundary>
-    )
+    );
   }
 }
 

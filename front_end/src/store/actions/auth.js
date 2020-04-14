@@ -1,18 +1,18 @@
 import axios from "axios";
 
 import { returnErrors } from "./messages";
-import * as actions from "./actionTypes"
+import * as actions from "./actionTypes";
 
 export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: actions.USER_LOADING });
 
-  axios.get("http://localhost:8000/account/api/auth/user", tokenConfig(getState)).then(res => {
+  axios.get("http://localhost:8000/account/api/auth/user", tokenConfig(getState)).then(result => {
     dispatch({
       type: actions.USER_LOADED,
-      payload: res.data
+      payload: result.data,
     });
-  }).catch(err => {
-    dispatch(returnErrors(err.response.data, err.response.status));
+  }).catch(error => {
+    dispatch(returnErrors(error.response.data, error.response.status));
     dispatch({
       type: actions.AUTH_ERROR
     });
@@ -22,35 +22,28 @@ export const loadUser = () => (dispatch, getState) => {
 export const login = (username, password) => dispatch => {
   // Headers
   const config = {
-    headers: {
-      "Content-Type": "application/json"
-    }
+    headers: {"Content-Type": "application/json"}
   };
 
   // Request Body
   const body = JSON.stringify({ username, password });
 
-  axios.post("http://localhost:8000/account/api/auth/login", body, config).then(res => {
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data
+  axios.post("http://localhost:8000/account/api/auth/login", body, config)
+    .then(result => {
+      dispatch({
+        type: actions.LOGIN_SUCCESS,
+        payload: result.data,
+      });
+    }).catch(error => {
+      dispatch(returnErrors(error.response.data, error.response.status));
+      dispatch({ type: actions.LOGIN_FAIL });
     });
-  }).catch(err => {
-    dispatch(returnErrors(err.response.data, err.response.status));
-    dispatch({
-      type: actions.LOGIN_FAIL
-    });
-  });
 };
 
-export const register = ({
-  username, password, email, first_name, last_name
-  }) => dispatch => {
+export const register = ({ username, password, email }) => dispatch => {
   // Headers
   const config = {
-    headers: {
-      "Content-Type": "application/json"
-    }
+    headers: { "Content-Type": "application/json" }
   };
 
   // Request Body
@@ -64,7 +57,6 @@ export const register = ({
   };
 
   fetch('http://localhost:8000/api/auth/register', payload).then(raw => {
-    console.log(`Raw response: ${raw}`);
     return raw.json();
   }).then(result => {
     console.log(`Result: ${result}`);
@@ -76,13 +68,9 @@ export const register = ({
 
 export const logout = () => (dispatch, getState) => {
   fetch('http://localhost:8000', null, tokenConfig(getState)).then(raw => {
-    console.log(`Raw results: ${raw}`);
     return raw.json();
-  }).then(result => {
-    console.log(`Result: ${result}`);
-    dispatch({
-      type: actions.LOGOUT_SUCCESS
-    });
+  }).then(() => {
+    dispatch({ type: actions.LOGOUT_SUCCESS });
   },
   (error) => {
     console.log(`Error in actions.auth.js line 100.\nError:  ${error}`);
@@ -96,13 +84,11 @@ export const tokenConfig = getState => {
 
   // Headers
   const config = {
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   };
 
   // If token, add to headers config
-  if (token) {
-    config.headers["Authorization"] = `Token ${token}`;
-  }
+  if (token) { config.headers["Authorization"] = `Token ${token}` };
 
   return config;
 };
