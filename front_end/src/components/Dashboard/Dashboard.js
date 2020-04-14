@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CardDeck from '../CardDeck/CardDeck';
+import CardDeck from '../../containers/CardDeck/CardDeck';
 import CSS from './Dashboard.module.css';
 
 

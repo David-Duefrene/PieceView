@@ -4,8 +4,9 @@ import {configure, shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import {CardDeck} from './CardDeck';
-import Card from './Card/Card';
-import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
+import Card from '../../components/Card/Card';
+import PaginateButtons from
+  '../../components/UI/PaginateButtons/PaginateButtons';
 
 const data = {
   user_list: [
