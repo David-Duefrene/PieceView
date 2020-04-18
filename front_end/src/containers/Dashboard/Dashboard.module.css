@@ -23,3 +23,10 @@
 .Active {
   background-image: linear-gradient(180deg, #11f967 0%, #5a8aa2 100%);
 }
+
+.TabContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
