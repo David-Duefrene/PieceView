@@ -1,11 +1,12 @@
 from rest_framework import viewsets, permissions, generics
 from rest_framework.response import Response
+from rest_framework.generics import RetrieveUpdateAPIView
 
 from knox.models import AuthToken
 
 from .models import CustomUser
 from .serializers import (
-    UserSerializer, LoginSerializer, RegisterSerializer
+    UserSerializer, LoginSerializer, RegisterSerializer, UserEditSerializer
 )
 
 
@@ -21,6 +22,18 @@ class RegisterAPI(generics.GenericAPIView):
             user, context=self.get_serializer_context()).data,
           "token": AuthToken.objects.create(user)[1]
         })
+
+
+class EditProfileAPI(RetrieveUpdateAPIView):
+    serializer_class = UserEditSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return user
+
+    def get_object(self):
+        obj = self.request.user
+        return obj
 
 
 class UserViewSet(viewsets.ModelViewSet):

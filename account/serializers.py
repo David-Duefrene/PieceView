@@ -12,6 +12,12 @@ class UserSerializer(serializers.ModelSerializer):
                   'followers', 'photo_url', 'get_absolute_url']
 
 
+class UserEditSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'first_name', 'last_name', 'photo']
+
+
 class ContactSerializer(serializers.ModelSerializer):
     from_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
     to_user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
