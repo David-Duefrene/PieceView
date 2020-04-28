@@ -1,6 +1,9 @@
-from rest_framework import viewsets, permissions, generics
+from rest_framework import permissions
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import (
+    GenericAPIView, UpdateAPIView, RetrieveAPIView
+)
 
 from knox.models import AuthToken
 
@@ -10,7 +13,7 @@ from .serializers import (
 )
 
 
-class RegisterAPI(generics.GenericAPIView):
+class RegisterAPI(GenericAPIView):
     serializer_class = RegisterSerializer
 
     def post(self, request, *args, **kwargs):
@@ -24,25 +27,36 @@ class RegisterAPI(generics.GenericAPIView):
         })
 
 
-class EditProfileAPI(RetrieveUpdateAPIView):
+class EditProfileAPI(UpdateAPIView):
+    queryset = CustomUser.objects.all()
     serializer_class = UserEditSerializer
 
-    def get_queryset(self):
-        user = self.request.user
-        return user
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.first_name = request.data['first_name']
+        instance.last_name = request.data['last_name']
+        instance.email = request.data['email']
+        instance.save()
 
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    # To avoid needing a pk in the URL or a lookup_field
     def get_object(self):
         obj = self.request.user
-        return obj
+        return CustomUser.objects.get(username=obj.username)
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(ModelViewSet):
     queryset = CustomUser.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = UserSerializer
 
 
-class LoginAPI(generics.GenericAPIView):
+class LoginAPI(GenericAPIView):
     serializer_class = LoginSerializer
 
     def post(self, request, *args, **kwargs):
@@ -57,7 +71,7 @@ class LoginAPI(generics.GenericAPIView):
         })
 
 
-class UserAPI(generics.RetrieveAPIView):
+class UserAPI(RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
 
@@ -65,7 +79,7 @@ class UserAPI(generics.RetrieveAPIView):
         return self.request.user
 
 
-class ContactsAPI(viewsets.ModelViewSet):
+class ContactsAPI(ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserSerializer
 
