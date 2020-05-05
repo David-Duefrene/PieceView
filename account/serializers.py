@@ -15,6 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserEditSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
+        photo = serializers.FileField(required=False)
         fields = ['email', 'first_name', 'last_name']
 
 
