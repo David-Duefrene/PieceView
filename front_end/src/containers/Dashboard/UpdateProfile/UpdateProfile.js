@@ -11,28 +11,28 @@ class UpdateProfile extends Component {
                 label: 'First Name',
                 dataType: 'text',
                 value: '',
-                name: 'firstName',
+                id: 'firstName',
             },
             lastName: {
                 elementType: 'input',
                 label: 'Last Name',
                 dataType: 'text',
                 value: '',
-                name: 'lastName',
+                id: 'lastName',
             },
             email: {
                 elementType: 'input',
                 label: 'E-mail Address',
                 dataType: 'email',
                 value: '',
-                name: 'email',
+                id: 'email',
             },
             photo: {
                 elementType: 'input',
                 label: 'photo',
                 dataType: 'file',
                 value: '',
-                name: 'photo',
+                id: 'photo',
             },
         },
     };
@@ -73,30 +73,29 @@ class UpdateProfile extends Component {
         const formElementsArray = [];
         for (const key in this.state.form) {
             formElementsArray.push({
-                id: key,
-                config: this.state.form[key],
+                ...this.state.form[key],
             });
         }
 
         let photo = null;
         const form = (
             formElementsArray.map(element => {
-                if (element['config']['name'] == 'photo') {
+                if (element['id'] == 'photo') {
                     photo = <img src={this.props.user.photo_url} />
                 }
                 return (
                     <div
                         className={CSS.inputGroup}
-                        key={element['config']['name']}>
+                        key={element['id']}>
                         <label className={CSS.formLabel}>
-                            {element['config']['label']}</label>
+                            {element['label']}</label>
                         {photo}
                         <input
-                            type={element['config']['dataType']}
-                            name={element['config']['name']}
+                            type={element['dataType']}
+                            name={element['id']}
                             className={CSS.input}
                             onChange={this.onTextChangeHandler}
-                            value={element['config']['value']} />
+                            value={element['value']} />
                     </div>
                 );
             })
