@@ -3,18 +3,18 @@ import * as actions from '../actions/actionTypes';
 
 
 describe('messages reducer', () => {
-  let initialState = {};
+    let initialState = {};
 
-  beforeEach(() => {
-    initialState = {};
-  });
+    beforeEach(() => {
+        initialState = {};
+    });
 
-  it('should return initial state', () => {
-    expect(messages(undefined, {})).toEqual(initialState);
-  });
+    it('should return initial state', () => {
+        expect(messages(undefined, {})).toEqual(initialState);
+    });
 
-  it('should return payload as state', () => {
-    const action = {payload: {test: 'test'}, type: actions.CREATE_MESSAGE};
-    expect(messages(undefined, action)).toEqual(action['payload']);
-  });
+    it('should return payload as state', () => {
+        const action = {payload: {test: 'test'}, type: actions.CREATE_MESSAGE};
+        expect(messages(undefined, action)).toEqual(action['payload']);
+    });
 });

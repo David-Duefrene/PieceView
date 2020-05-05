@@ -8,17 +8,17 @@ import NavBar from './containers/NavBar/NavBar';
 import CSS from './App.module.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className={CSS.App}>
-        <NavBar />
-        <Switch>
-          <PrivateRoute exact path="/" component={Dashboard} />
-          <Route exact path="/login" component={Login} />
-        </Switch>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className={CSS.App}>
+            <NavBar />
+            <Switch>
+                <PrivateRoute exact path="/" component={Dashboard} />
+                <Route exact path="/login" component={Login} />
+            </Switch>
+            </div>
+        );
+    }
 }
 
 export default App;

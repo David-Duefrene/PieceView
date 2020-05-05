@@ -1,36 +1,36 @@
 .ButtonBox {
-  display: flex;
-  background-color: blue;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  width: 110%;
-  margin: 10% -3%;
-  min-height: 100px;
+    display: flex;
+    background-color: blue;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 110%;
+    margin: 10% -3%;
+    min-height: 100px;
 }
 
 .ButtonList {
-  display: flex;
-  list-style-type: none;
-  margin: 1% 6% 0 -8vw;
+    display: flex;
+    list-style-type: none;
+    margin: 1% 6% 0 -8vw;
 }
 
 .Button {
-  background-color: dodgerblue;
-  border-radius: 7px;
-  margin: 2px;
-  height: 5em;
+    background-color: dodgerblue;
+    border-radius: 7px;
+    margin: 2px;
+    height: 5em;
 }
 
 .PageNum {
-  border-radius: 7px;
-  margin: 2px;
-  background-color: gold;
-  height: 5em;
+    border-radius: 7px;
+    margin: 2px;
+    background-color: gold;
+    height: 5em;
 }
 
 @media (min-width: 700px) {
-  .ButtonList {
-    margin-left: 0;
-  }
+    .ButtonList {
+        margin-left: 0;
+    }
 }

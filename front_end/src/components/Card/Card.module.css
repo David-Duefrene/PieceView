@@ -1,39 +1,39 @@
 .Card {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid yellow;
-  width: 90%;
-  align-self: center;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid yellow;
+    width: 90%;
+    align-self: center;
 }
 
 .CardImage {
-  width: 100%;
-  width: -moz-available;
+    width: 100%;
+    width: -moz-available;
 }
 
 .CardBody {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 .CardTitle {
-  margin-left: 25%;
+    margin-left: 25%;
 }
 
 .CardFooter {
-  border: 1px solid yellow;
+    border: 1px solid yellow;
 }
 
 .Button {
-  width: 100%;
-  background-color: #1557f2c7;
-  color: white;
-  height: 3em;
+    width: 100%;
+    background-color: #1557f2c7;
+    color: white;
+    height: 3em;
 }
 
 @media (min-width: 700px){
-  .Card  {
-    margin: 5px;
-    width: min-content;
-    width: -moz-min-content;
-  }
+    .Card {
+        margin: 5px;
+        width: min-content;
+        width: -moz-min-content;
+    }
 }

@@ -1,12 +1,12 @@
 .CardDeck {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 @media (min-width: 700px){
-  .CardDeck {
-    flex-direction: row;
-    overflow: hidden;
-  }
+    .CardDeck {
+        flex-direction: row;
+        overflow: hidden;
+    }
 }

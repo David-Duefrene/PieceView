@@ -10,51 +10,46 @@ import CSS from './PaginateButtons.module.css';
  * @param {func} props.prev - The function to move to the previous page.
  * @param {func} props.last - The function to move to the last page.
  */
-function paginateButtons(props) {  
-  return (
-    <div className={CSS.ButtonBox}>
-      <ul className={CSS.ButtonList}>
-        <li>
-          <button
-            className={CSS.Button}
-            onClick={props.first}>
-            &laquo; first
-          </button>
-        </li>
+function paginateButtons(props) {
+    return (
+        <div className={CSS.ButtonBox}>
+            <ul className={CSS.ButtonList}>
+                <li>
+                    <button className={CSS.Button} onClick={props.first}>
+                        &laquo; first
+                    </button>
+                </li>
 
-        <li>
-          <button
-            className={CSS.Button}
-            onClick={props.prev}>
-            Previous page
-          </button>
-        </li>
+                <li>
+                    <button className={CSS.Button} onClick={props.prev}>
+                        Previous page
+                    </button>
+                </li>
 
-        <li>
-          <button className={CSS.PageNum}>
-            Page <span className={"current-page-" + props.user_type}>1</span> of
-            TODO.
-          </button>
-        </li>
+                <li>
+                    <button className={CSS.PageNum}>Page
+                        <span
+                            className={"current-page-" + props.user_type}>
+                            1
+                        </span>
+                        of TODO.
+                    </button>
+                </li>
 
-        <li>
-          <button
-            className={CSS.Button}
-            onClick={props.next}>
-            Next Page
-          </button>
-        </li>
+                <li>
+                    <button className={CSS.Button} onClick={props.next}>
+                        Next Page
+                    </button>
+                </li>
 
-        <li>
-          <button
-            className={CSS.Button}
-            onClick={props.last}>
-            last &raquo;
-          </button>
-        </li>
-      </ul>
-    </div>
-  );
+                <li>
+                    <button className={CSS.Button} onClick={props.last}>
+                        last &raquo;
+                    </button>
+                </li>
+            </ul>
+        </div>
+    );
 }
 
 export default paginateButtons;

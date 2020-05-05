@@ -8,23 +8,22 @@ import Card from './Card';
 configure({adapter: new Adapter()});
 
 describe('<Card />', () => {
-  let wrapper;
+    let wrapper;
 
-  beforeEach(() => {
-  const testUser = {
-    first_name: 'fName',
-    last_name:  'lName',
-    photo_url: '/static/icons/no-picture.jpg'
-  }
-    wrapper = shallow(<Card user={testUser} />)
-  });
+    beforeEach(() => {
+        const testUser = {
+            first_name: 'fName',
+            last_name:  'lName',
+            photo_url: '/static/icons/no-picture.jpg'
+        }
+        wrapper = shallow(<Card user={testUser} />)
+    });
 
-  it('shoud have', () => {
-    expect(wrapper.find('img.CardImage')).toHaveLength(1);
-    expect(wrapper.find('h5.CardTitle').text()).toEqual('fName lName');
-    expect(wrapper.find('p.CardBody')).toHaveLength(1);
-    expect(wrapper.find('div.CardFooter')).toHaveLength(1);
-    expect(wrapper.find('button.Button').text()).toEqual('Profile');
+    it('should have', () => {
+        expect(wrapper.find('img.CardImage')).toHaveLength(1);
+        expect(wrapper.find('h5.CardTitle').text()).toEqual('fName lName');
+        expect(wrapper.find('p.CardBody')).toHaveLength(1);
+        expect(wrapper.find('div.CardFooter')).toHaveLength(1);
+        expect(wrapper.find('button.Button').text()).toEqual('Profile');
   });
-  
 });

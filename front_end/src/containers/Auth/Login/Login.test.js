@@ -7,15 +7,15 @@ import {Login} from './Login';
 configure({adapter: new Adapter()});
 
 describe('<Login />', () => {
-  let wrapper;
+    let wrapper;
 
-  beforeEach(() => {
-    wrapper = shallow(<Login />);
-  });
+    beforeEach(() => {
+        wrapper = shallow(<Login />);
+    });
 
-  it('should render login form with 2 seperate fields', () => {
-    expect(wrapper.find('form')).toHaveLength(1);
-    expect(wrapper.find('input.form-control')).toHaveLength(2);
-    expect(wrapper.find('button')).toHaveLength(1);
-  });
+    it('should render login form with 2 separate fields', () => {
+        expect(wrapper.find('form')).toHaveLength(1);
+        expect(wrapper.find('input.form-control')).toHaveLength(2);
+        expect(wrapper.find('button')).toHaveLength(1);
+    });
 });
