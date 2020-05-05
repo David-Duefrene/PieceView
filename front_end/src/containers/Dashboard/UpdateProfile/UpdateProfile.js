@@ -78,23 +78,30 @@ class UpdateProfile extends Component {
             });
         }
 
-
+        let photo = null;
         const form = (
             formElementsArray.map(element => {
+                if (element['config']['name'] == 'photo') {
+                    photo = <img src={this.props.user.photo_url} />
+                }
                 return (
-                    <div className={CSS.inputGroup}>
-                    <label className={CSS.formLabel}>
-                        {element['config']['label']}</label>
-                    <input
-                        type={element['config']['dataType']}
-                        name={element['config']['name']}
-                        className={CSS.input}
-                        onChange={this.onTextChangeHandler}
-                        value={element['config']['value']} />
+                    <div
+                        className={CSS.inputGroup}
+                        key={element['config']['name']}>
+                        <label className={CSS.formLabel}>
+                            {element['config']['label']}</label>
+                        {photo}
+                        <input
+                            type={element['config']['dataType']}
+                            name={element['config']['name']}
+                            className={CSS.input}
+                            onChange={this.onTextChangeHandler}
+                            value={element['config']['value']} />
                     </div>
                 );
             })
         );
+
 
         return (
             <form className={CSS.ProfileForm}>
