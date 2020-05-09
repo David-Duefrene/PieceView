@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
-import axios from 'axios';
 
-import store from '../../store';
+import axios from '../../axios-auth';
 import PaginateButtons from
     '../../components/UI/PaginateButtons/PaginateButtons';
 import Card from '../../components/Card/Card';
@@ -12,30 +11,21 @@ export class CardDeck extends React.Component {
     state = {
         user_list: [],
         isLoaded: false,
-        page_limit: 4,
+        page_limit: 3,
         page_num: 1,
         user_type: null
     };
 
     componentDidMount() {
-        // Headers
-        const rstate = store.getState();
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Token ${rstate.auth['token']}`
-            }
-    };
-
-    axios.get('http://localhost:8000/account/api/contacts', config)
-    .then( result => {
-        this.setState({
-        user_list: result.data,
-        isLoaded: true,
-        user_type: this.props.user_type,
-        page_limit: parseInt(window.innerWidth / 280),
-        });
-    });
+    axios.get('account/api/contacts')
+        .then( result => {
+            this.setState({
+                user_list: result.data,
+                isLoaded: true,
+                user_type: this.props.user_type,
+                page_limit: parseInt(window.innerWidth / 280),
+            });
+        }).catch(error => console.log(error));
     }
 
     /**
@@ -101,7 +91,7 @@ export class CardDeck extends React.Component {
                 );
             }
         }
-        else { cards.push(<h1>LOADING!!!</h1>) };
+        else { cards.push(<h1 key='1'>LOADING!!!</h1>) };
 
         return (
             <Fragment>
