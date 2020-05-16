@@ -80,9 +80,9 @@ class UpdateProfile extends Component {
                     <div
                         className={CSS.inputGroup}
                         key={element[0]}>
+                        {photo}
                         <label className={CSS.formLabel}>
                             {element[1]['label']}</label>
-                        {photo}
                         <input
                             type={element[1]['dataType']}
                             name={element[0]}
