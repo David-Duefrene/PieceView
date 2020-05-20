@@ -8,9 +8,10 @@ import * as actions from '../../store/actions/index';
 import CSS from './NavBar.module.css';
 
 
+/**
+ * The navigation bar for the user to navigate the app.
+ */
 export class NavBar extends Component {
-    static defaultProps = { onLogout: null };
-
     render() {
         return (
             <ul className={CSS.NavBar}>
@@ -25,10 +26,16 @@ export class NavBar extends Component {
     };
 };
 
+/**
+ * @prop {bool} isAuth If the user is authenticated.
+ */
 const mapStateToProps = state => {
     return { isAuth: state.auth.isAuthenticated };
 };
 
+/**
+ * @prop {func} onLogout Function to logout the user.
+ */
 const madDispatchToProps = dispatch => {
     return { onLogout: ()=> dispatch(actions.logout()) };
 };

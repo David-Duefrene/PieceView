@@ -23,7 +23,7 @@ describe('<NavBar />', () => {
     });
 
     it('should have Login link instead of Logout if auth', () => {
-        wrapper.setProps({isAuth: true})
+        wrapper.setProps({isAuth: true});
         const links = wrapper.find('withRouter(navItem)').map(node => node);
         expect(links[links.length - 1].prop('path')).toEqual('/');
     });
