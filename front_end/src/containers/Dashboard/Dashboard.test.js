@@ -3,7 +3,7 @@ import {configure, shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import {Dashboard} from './Dashboard';
-import CardDeck from '../CardDeck/CardDeck';
+import CardDeck from '../../components/CardDeck/CardDeck';
 
 configure({adapter: new Adapter()});
 

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-import CardDeck from '../CardDeck/CardDeck';
+import CardDeck from '../../components/CardDeck/CardDeck';
 import UpdateProfile from './UpdateProfile/UpdateProfile';
 import CSS from './Dashboard.module.css';
 

@@ -2,8 +2,8 @@ import React, { Fragment, Component } from 'react';
 
 import axios from '../../axios-auth';
 import PaginateButtons from
-    '../../components/UI/PaginateButtons/PaginateButtons';
-import Card from '../../components/Card/Card';
+    '../UI/PaginateButtons/PaginateButtons';
+import Card from './Card/Card';
 import CSS from './CardDeck.module.css';
 
 
