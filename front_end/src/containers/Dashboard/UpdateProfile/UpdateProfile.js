@@ -3,6 +3,18 @@ import React, { Component } from 'react';
 import CSS from './UpdateProfile.module.css';
 
 
+/**
+ * Form for a user to update their profile.
+ * @prop {object} form The form the user will use
+ * @prop {string} form.firstName Field for the user's first name. It is a text
+ *  input and is optional.
+ * @prop {string} form.lastName Field for the user's last name. It is a text
+ *  input and is optional.
+ * @prop {string} form.email Field for the user's email address. It is a text
+ *  input and is a required field.
+ * @prop {file} form.photo Field for the user's profile photo. It is a file
+ *  input field and is optional.
+ */
 class UpdateProfile extends Component {
     state= {
         form: {
@@ -37,6 +49,9 @@ class UpdateProfile extends Component {
         },
     };
 
+    /**
+     * Sets the state.
+     */
     componentDidMount() {
         this.setState({
             ...this.state,
@@ -62,10 +77,13 @@ class UpdateProfile extends Component {
         });
     }
 
+    /**
+     * Called when the user updates a field.
+     * @param {object} input The input field itself.
+     */
     onTextChangeHandler = (input) => {
-        let newForm = {...this.state.form}
-        newForm[input.target.name]['value'] = input.target.value
-
+        let newForm = {...this.state.form};
+        newForm[input.target.name]['value'] = input.target.value;
         this.setState({'form': {...newForm}});
     }
 
