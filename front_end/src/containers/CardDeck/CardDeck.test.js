@@ -6,7 +6,7 @@ import Card from '../../components/Card/Card';
 import PaginateButtons from
     '../../components/UI/PaginateButtons/PaginateButtons';
 
-configure({adapter: new Adapter()});
+configure({ adapter: new Adapter() });
 jest.mock('../../axios-auth')
 
 
@@ -36,7 +36,7 @@ describe('CardDeck', () => {
 
     it('should name card deck after user_type', () => {
         expect(wrapper.find('div.test-batch')).toHaveLength(1);
-        wrapper.setState({user_type: 'what'})
+        wrapper.setState({user_type: 'what'});
         expect(wrapper.find('div.what')).toHaveLength(1);
     });
 

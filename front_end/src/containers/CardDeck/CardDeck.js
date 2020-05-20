@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 
 import axios from '../../axios-auth';
 import PaginateButtons from
@@ -7,7 +7,16 @@ import Card from '../../components/Card/Card';
 import CSS from './CardDeck.module.css';
 
 
-export class CardDeck extends React.Component {
+export class CardDeck extends Component {
+    /**
+    * Displays a set of users
+    * @extends Component
+    * @param {string} user_type The type of users that the component is
+    *   displaying.
+    * @example
+    * // Returns a users followers list
+    * <CardDeck user_type='Followers' />
+    */
     state = {
         user_list: [],
         isLoaded: false,
@@ -16,6 +25,10 @@ export class CardDeck extends React.Component {
         user_type: null
     };
 
+    /**
+     * Loads the contacts from the server.
+     * @async
+     */
     componentDidMount() {
     axios.get('account/api/contacts')
         .then( result => {
@@ -31,15 +44,21 @@ export class CardDeck extends React.Component {
     /**
      * Gets the first set of cards in user_list.
      */
-    first = () => { this.setState({"page_num": 1}) };
+    first = () => {
+        this.setState({ "page_num": 1 });
+    }
 
     /**
      * Gets the previous set of cards in user_list.
      */
     previous = () => {
         const new_page = this.state.page_num - 1;
-        if (new_page < 1) { this.first() }
-        else { this.setState({"page_num": new_page}) }
+        if (new_page < 1) {
+            this.first();
+        }
+        else {
+            this.setState({"page_num": new_page});
+        }
     }
 
     /**
@@ -62,6 +81,10 @@ export class CardDeck extends React.Component {
         this.setState({"page_num": new_page});
     }
 
+    /**
+     * Ensures the page does not try and access and users that are not
+     * available.
+     */
     pageBoundsCheck = () => {
         let min = (this.state.page_num) * this.state.page_limit;
         if (min >= this.state.user_list.length) {
@@ -70,11 +93,12 @@ export class CardDeck extends React.Component {
         else { min = min - this.state.page_limit };
 
         const max = min + this.state.page_limit;
-        return {min: min, max: max};
+        return { min: min, max: max };
     }
 
     /**
-     * Renders the class.
+     * Renders the CardDeck if the page is loaded, will load a default loading
+     * tag if the page has not finished loading.
      */
     render() {
         const cards = [];
@@ -84,10 +108,10 @@ export class CardDeck extends React.Component {
             for (let i = bounds['min']; i < bounds['max']; i++) {
                 cards.push(
                     <Card
-                    number={i}
-                    user={this.state.user_list[i]}
-                    user_type={this.state.user_type}
-                    key={i} />
+                        number={i}
+                        user={this.state.user_list[i]}
+                        user_type={this.state.user_type}
+                        key={i} />
                 );
             }
         }
