@@ -29,7 +29,7 @@
 
 $('button.ajax').click(function(e){
   e.preventDefault();
-  $.post('{% url "get_followers" %}',{
+  $.post('{% url "get_users" %}',{
       id: $(this).data('id'),
       page_limit: 10,
       page_num: 1

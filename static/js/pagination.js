@@ -1,8 +1,9 @@
-function process_data(url, action){
+function process_followers(url, action){
   $.post(url, {
-      page_limit: $('button.centered-link').attr('data-limit'),
-      page_num: $('span.current-page').text(),
-      action: action
+      page_limit: $('button.follower-page').attr('data-limit'),
+      page_num: $('span.follower-current-page').text(),
+      action: action,
+      request_type: 'followers'
     },
     function(data){
       if (data['status'] != 'OK') {
@@ -16,15 +17,45 @@ function process_data(url, action){
         $('#Follower'+[i]+' .card-body .card-title').text(
           data['followers'][i]['name']);
       }
-      $('span.current-page').text(data['new_page']);
+      $('span.follower-current-page').text(data['new_page']);
     }
   )
 }
 
-function paginateUsers(url) {
-  $('button.page-link').click(function(e){
-    e.preventDefault();
-    process_data(url, $(this).data('action'))
+function process_following(url, action){
+  $.post(url, {
+      page_limit: $('button.following-page').attr('data-limit'),
+      page_num: $('span.following-current-page').text(),
+      action: action,
+      request_type: 'following'
+    },
+    function(data){
+      if (data['status'] != 'OK') {
+        console.log(data);
+      }
+      for (var i = 0; i < data['following'].length; i++) {
+        $('#Following'+[i]+' img.card-img-top').attr("src",
+          data['following'][i]['photo']);
+        $('#Following'+[i]+' div.card-footer a.stretched-link').attr("href",
+          data['following'][i]['url']);
+        $('#Following'+[i]+' .card-body .card-title').text(
+          data['following'][i]['name']);
+      }
+      $('span.following-current-page').text(data['new_page']);
+    }
+  )
+}
 
+function paginateFollowers(url) {
+  $('button.followers').click(function(e){
+    e.preventDefault();
+    process_followers(url, $(this).data('action'))
+  })
+}
+
+function paginateFollowing(url) {
+  $('button.following').click(function(e){
+    e.preventDefault();
+    process_following(url, $(this).data('action'))
   })
 }

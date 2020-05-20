@@ -15,7 +15,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),
+                    os.path.join(BASE_DIR, 'front_end', 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
@@ -31,9 +32,11 @@ SECRET_KEY = 'l&q(1neaf^mt-))3&^#b-_!p+@z4%n96u#q7gow-nqv%a1j!)o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# CSRF_USE_SESSIONS = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 # SECURITY WARNING: don't run local hosts test server ect during production
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver']
+ALLOWED_HOSTS = ['*']
 FIXTURE_DIRS = ('/fixtures/',)
 
 # Application definition
@@ -45,15 +48,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'post',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'knox',
     'debug_toolbar',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
 
 AUTH_USER_MODEL = 'account.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

@@ -14,12 +14,20 @@ h5 {
 
 .card-deck {
   margin-bottom: 1%;
+  min-width: 100%;
+  padding-left: 15%;
 }
 
+.card-deck .card {
+  max-width: min-content;
+}
 .card-img-top {
   height: 50%;
 }
 
+.card-body {
+  overflow: hidden;
+}
 /* Used in Post List only */
 .card-deck .card-posts {
   min-width: 20em;
