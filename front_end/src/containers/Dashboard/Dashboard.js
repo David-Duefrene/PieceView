@@ -22,7 +22,7 @@ export class Dashboard extends Component {
      * @param {string} tabName - The tab to make active.
      */
     onTabClickedHandler = (tabName) => {
-        this.setState({activeTab: tabName});
+        this.setState({ activeTab: tabName });
     };
 
     /**
@@ -36,15 +36,15 @@ export class Dashboard extends Component {
                 className={ this.state.activeTab === item ?
                 CSS.Active.concat(' ', CSS.NavLink) :
                 CSS.NavLink }
-                onClick={ () => this.onTabClickedHandler(item) } >
-                { item }
+                onClick={() => this.onTabClickedHandler(item)} >
+                {item}
             </button>
             </li>
         );
 
         // Generate content here
         let tabContent = undefined;
-        switch( this.state.activeTab ) {
+        switch(this.state.activeTab) {
             case 'Followers':
                 tabContent = (
                     <Fragment>
