@@ -1,24 +1,48 @@
-import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { login, loadUser } from "../../../store/actions/auth";
+import { login, loadUser } from '../../../store/actions/auth';
 import store from '../../../store';
+import CSS from './Login.module.css';
 
-
+/**
+ * Login form to authenticate a user.
+ * @extends Component
+ * @prop {object} form The form the user will fill out.
+ * @prop {string} form.username The user's username.
+ * @prop {string} form.password The user's password.
+ * @prop {bool} isAuth If the user is authenticated.
+ * @prop {func} login The function to log a user in.
+ */
 export class Login extends Component {
-    /**
-     * Login form to authenticate a user.
-     * @extends Component
-     */
     state = {
-        username: "",
-        password: "",
-        isAuthenticated: false,
-        login: PropTypes.func.isRequired
+        form: {
+            username: {
+                elementType: 'input',
+                label: 'Username',
+                dataType: 'text',
+                value: '',
+                id: 'username',
+            },
+            password: {
+                elementType: 'input',
+                label: 'Password',
+                dataType: 'password',
+                value: '',
+                id: 'password',
+            },
+        },
+        username: '',
+        password: '',
+        isAuth: false,
+        login: PropTypes.func.isRequired,
     };
 
+    /**
+     * Loads user from local storage. If its not their it will set user to null.
+     */
     componentDidMount() {
         store.dispatch(loadUser());
     }
@@ -28,14 +52,19 @@ export class Login extends Component {
      */
     onSubmit = event => {
         event.preventDefault();
-        this.props.login(this.state.username, this.state.password);
+        this.props.login(
+            this.state.form.username.value,
+            this.state.form.password.value
+        );
     }
 
     /**
      * Function for when a user types into the form.
      */
     onChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+        let newForm = { ...this.state.form };
+        newForm[event.target.name]['value'] = event.target.value;
+        this.setState({ 'form': { ...newForm } });
     }
 
     /**
@@ -43,55 +72,46 @@ export class Login extends Component {
      * If the user is already authenticated form will redirect to homepage.
      */
     render() {
-        if (this.props.isAuthenticated) {
-            return <Redirect to="/" />;
-    }
+        if (this.props.isAuth) {
+            return <Redirect to='/' />;
+        }
 
-    const { username, password } = this.state;
+        const form = this.state.form;
+        const newForm = (Object.entries(this.state.form).map(element => {
+            return(
+                <div className={CSS.inputGroup} key={element[0]} >
+                    <label className={CSS.label} > {element[1].label} </label>
+                    <input
+                        type={element[1].type}
+                        className={CSS.input}
+                        name={element[0]}
 
-    return (
-        <div className="col-md-6 m-auto">
-            <div className="card card-body mt-5">
-                <h2 className="text-center">Login</h2>
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label>Username</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="username"
-                            onChange={this.onChange}
-                            value={username} />
-                    </div>
+                        onChange={this.onChange}
+                        value={element[1].value} />
+                </div>
+            )
+        }))
 
-                    <div className="form-group">
-                        <label>Password</label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            name="password"
-                            onChange={this.onChange}
-                            value={password} />
-                    </div>
-
-                    <div className="form-group">
-                        <button type="submit" className="btn btn-primary">
-                            Login
-                        </button>
-                    </div>
-                    <p>
-                        Don't have an account?
-                        <Link to="/register">Register</Link>
-                    </p>
-                </form>
-            </div>
-        </div>
-    );
+        return (
+            <form className={CSS.form} onSubmit={this.onSubmit}>
+                <h2>Login</h2>
+                {newForm}
+                <div className={CSS.inputGroup}>
+                    <button type='submit' >
+                        Login
+                    </button>
+                </div>
+                <p>
+                    Don't have an account?
+                    <Link to='/register'>Register</Link>
+                </p>
+            </form>
+        );
     }
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuth: state.auth.isAuthenticated
 });
 
 export default connect(mapStateToProps, { login })(Login);
