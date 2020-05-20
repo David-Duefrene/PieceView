@@ -3,12 +3,16 @@ import axios from 'axios';
 import { returnErrors } from './messages';
 import * as actions from './actionTypes';
 
-export const loadUser = () => (dispatch, getState) => {
+
+/**
+ * Loads a user object from the server.
+ */
+export const loadUser = () => (dispatch, state) => {
     dispatch({ type: actions.USER_LOADING });
 
     axios.get(
-        "http://localhost:8000/account/api/auth/user",
-        tokenConfig(getState)).then(result => {
+        'http://localhost:8000/account/api/auth/user',
+        tokenConfig(state)).then(result => {
             dispatch({
                 type: actions.USER_LOADED,
                 payload: result.data,
@@ -21,20 +25,26 @@ export const loadUser = () => (dispatch, getState) => {
         });
 };
 
+
+/**
+ * Logs a user in and get the authentication token from the server.
+ * @param {string} username The user's username.
+ * @param {string} password The user's password.
+ */
 export const login = (username, password) => dispatch => {
     // Headers
         const config = {
-        headers: { "Content-Type": "application/json" }
+        headers: { 'Content-Type': 'application/json' }
     };
 
     // Request Body
     const body = JSON.stringify({ username, password });
 
-    axios.post("http://localhost:8000/account/api/auth/login", body, config)
+    axios.post('http://localhost:8000/account/api/auth/login', body, config)
     .then(result => {
         dispatch({
-        type: actions.LOGIN_SUCCESS,
-        payload: result.data,
+            type: actions.LOGIN_SUCCESS,
+            payload: result.data,
         });
     }).catch(error => {
         dispatch(returnErrors(error.response.data, error.response.status));
@@ -42,10 +52,17 @@ export const login = (username, password) => dispatch => {
     });
 };
 
+
+/**
+ * Registers the user with the server.
+ * @param {string} username The user's username.
+ * @param {string} password The user's password.
+ * @param {string} email The user's email.
+ */
 export const register = ({ username, password, email }) => dispatch => {
     // Headers
         const config = {
-        headers: { "Content-Type": "application/json" }
+        headers: { 'Content-Type': 'application/json' }
     };
 
     // Request Body
@@ -68,31 +85,39 @@ export const register = ({ username, password, email }) => dispatch => {
     })
 };
 
+
+/**
+ * Logs the user out and invalidates the authentication key with the server.
+ */
 export const logout = () => ( dispatch, getState ) => {
     fetch('http://localhost:8000/account/api/auth/logout',
         null,
         tokenConfig(getState)).then(raw => {
-        return raw.json();
-    }).then(() => {
-        dispatch({ type: actions.LOGOUT_SUCCESS });
-    },
-    ( error ) => {
+            return raw.json();
+        }).then(() => {
+            dispatch({ type: actions.LOGOUT_SUCCESS });
+        },
+    (error) => {
         console.log(`Error in actions.auth.js in logout().\nError:  ${error}`);
     });
 };
 
-// Setup config with token
+
+/**
+ * Sets the config with the user's token.
+ * @param {object} getState Current state.
+ */
 export const tokenConfig = getState => {
     // Get token from state
     const token = getState().auth.token;
 
     // Headers
     const config = {
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
     };
 
     // If token, add to headers config
-    if (token) { config.headers["Authorization"] = `Token ${token}` };
+    if (token) { config.headers['Authorization'] = `Token ${token}` };
 
     return config;
 };
