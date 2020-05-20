@@ -9,10 +9,16 @@ import CSS from './CardDeck.module.css';
 
 export class CardDeck extends Component {
     /**
-    * Displays a set of users
+    * Displays a set of users.
     * @extends Component
-    * @param {string} user_type The type of users that the component is
+    * @param {string} user_type The type of users that the CardDeck is
     *   displaying.
+    * @prop {list} user_list The list of users the CardDeck is displaying.
+    * @prop {bool} isLoaded If the page is currently fully loaded.
+    * @prop {number} pageLimit The max number of cards per page.
+    * @prop {number} pageNum The current page number.
+    * @prop {string} userType The type of users that the CardDeck is
+    *   displaying
     * @example
     * // Returns a users followers list
     * <CardDeck user_type='Followers' />
