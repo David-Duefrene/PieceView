@@ -15,7 +15,7 @@ describe('<Login />', () => {
 
     it('should render login form with 2 separate fields', () => {
         expect(wrapper.find('form')).toHaveLength(1);
-        expect(wrapper.find('input.form-control')).toHaveLength(2);
+        expect(wrapper.find('input.input')).toHaveLength(2);
         expect(wrapper.find('button')).toHaveLength(1);
     });
 });
