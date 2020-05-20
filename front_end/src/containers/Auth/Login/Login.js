@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -7,7 +7,11 @@ import { login, loadUser } from "../../../store/actions/auth";
 import store from '../../../store';
 
 
-export class Login extends React.Component {
+export class Login extends Component {
+    /**
+     * Login form to authenticate a user.
+     * @extends Component
+     */
     state = {
         username: "",
         password: "",
@@ -19,15 +23,25 @@ export class Login extends React.Component {
         store.dispatch(loadUser());
     }
 
-    onSubmit = (event) => {
+    /**
+     * Function for when the user submits the form.
+     */
+    onSubmit = event => {
         event.preventDefault();
         this.props.login(this.state.username, this.state.password);
     }
 
-    onChange = (event) => {
+    /**
+     * Function for when a user types into the form.
+     */
+    onChange = event => {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    /**
+     * Function to render the form.
+     * If the user is already authenticated form will redirect to homepage.
+     */
     render() {
         if (this.props.isAuthenticated) {
             return <Redirect to="/" />;
