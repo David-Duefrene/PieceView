@@ -4,7 +4,7 @@
     display: block;
     width: 100%;
     background-image: linear-gradient(
-        to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
+        to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100% );
 }
 
 .NavItem :hover,

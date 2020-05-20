@@ -1,0 +1,26 @@
+.LogoutButton {
+    margin: 10px 0;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    background-image: linear-gradient(
+        to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100% );
+}
+
+.LogoutButton :hover {
+    background-image: linear-gradient(180deg, #11f967 0%, #5a8aa2 100%);
+}
+
+.LogoutButton a {
+    color: white;
+    padding: 16px 10px;
+}
+
+@media (min-width: 500px) {
+    .LogoutButton {
+        margin: 0;
+        display: flex;
+        height: 100%;
+        width: auto;
+    }
+}

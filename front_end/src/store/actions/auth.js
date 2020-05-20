@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { returnErrors } from "./messages";
-import * as actions from "./actionTypes";
+import { returnErrors } from './messages';
+import * as actions from './actionTypes';
 
 export const loadUser = () => (dispatch, getState) => {
     dispatch({ type: actions.USER_LOADING });
@@ -68,15 +68,17 @@ export const register = ({ username, password, email }) => dispatch => {
     })
 };
 
-export const logout = () => (dispatch, getState) => {
-    fetch('http://localhost:8000', null, tokenConfig(getState)).then(raw => {
+export const logout = () => ( dispatch, getState ) => {
+    fetch('http://localhost:8000/account/api/auth/logout',
+        null,
+        tokenConfig(getState)).then(raw => {
         return raw.json();
     }).then(() => {
         dispatch({ type: actions.LOGOUT_SUCCESS });
     },
-    (error) => {
-        console.log(`Error in actions.auth.js line 100.\nError:  ${error}`);
-    })
+    ( error ) => {
+        console.log(`Error in actions.auth.js in logout().\nError:  ${error}`);
+    });
 };
 
 // Setup config with token
