@@ -1,9 +1,13 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import CSS from './LogoutButton.module.css'
+import CSS from './LogoutButton.module.css';
 
 
+/**
+ * Renders an individual navigation item for the navigation bar.
+ * @param {func} props.logoutReducer - The function to logout the user.
+ */
 const logoutButton = props => {
     return (
         <li className={CSS.LogoutButton} >
