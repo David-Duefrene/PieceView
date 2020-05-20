@@ -10,7 +10,7 @@ import CSS from './PaginateButtons.module.css';
  * @param {func} props.prev - The function to move to the previous page.
  * @param {func} props.last - The function to move to the last page.
  */
-function paginateButtons(props) {
+const paginateButtons = props => {
     return (
         <div className={CSS.ButtonBox}>
             <ul className={CSS.ButtonList}>
