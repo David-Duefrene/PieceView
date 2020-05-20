@@ -12,9 +12,7 @@ describe('<NavItem />', () => {
 
     beforeEach(() => {
         const props = {
-            match: {
-            url: 'test'
-            },
+            match: { url: 'test' },
             path: 'test'
         };
         wrapper = shallow(<NavItemTest {...props} />);
