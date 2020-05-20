@@ -19,7 +19,8 @@ describe('<Card />', () => {
         wrapper = shallow(<Card user={testUser} />)
     });
 
-    it('should have', () => {
+    it('should have a CardImage, CardTitle, CardBody,CardFooter, and a Button',
+        () => {
         expect(wrapper.find('img.CardImage')).toHaveLength(1);
         expect(wrapper.find('h5.CardTitle').text()).toEqual('fName lName');
         expect(wrapper.find('p.CardBody')).toHaveLength(1);

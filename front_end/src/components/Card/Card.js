@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import CSS from './Card.module.css';
 
@@ -7,7 +8,7 @@ import CSS from './Card.module.css';
  * @param {int} props.number - The card ID number for the page.
  * @param {string} props.user_type - The user type for the cards.
  */
-function card(props) {
+const card = props => {
     return (
         <div
             className={CSS.Card}
@@ -28,5 +29,7 @@ function card(props) {
         </div>
     );
 }
+
+card.propTypes = { number: PropTypes.number, user_type: PropTypes.string }
 
 export default card;
