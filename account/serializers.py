@@ -31,20 +31,9 @@ class ContactSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'email', 'password', 'first_name',
-                  'last_name')
-        extra_kwargs = {'password': {'write_only': True}}
-
-    @staticmethod
-    def create(validated_data):
-        user = CustomUser.objects.create_user(
-            validated_data['username'],
-            validated_data['email'],
-            validated_data['password'])
-        user.first_name = validated_data['first_name']
-        user.last_name = validated_data['last_name']
-
-        return user
+        first_name = serializers.CharField(required=False)
+        last_name = serializers.CharField(required=False)
+        fields = ('id', 'username', 'email', 'password')
 
 
 class LoginSerializer(serializers.Serializer):
