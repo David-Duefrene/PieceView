@@ -19,8 +19,9 @@ class RegisterAPI(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
 
-        hashedPass = make_password(request.data['password'])
-        request.data['password'] = hashedPass
+        if request.data['password'] is not None:
+            hashedPass = make_password(request.data['password'])
+            request.data['password'] = hashedPass
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
