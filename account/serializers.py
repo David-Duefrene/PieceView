@@ -1,8 +1,9 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 
 from rest_framework import serializers
 
 from .models import CustomUser, Contact
+User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -30,10 +31,9 @@ class ContactSerializer(serializers.ModelSerializer):
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
-        first_name = serializers.CharField(required=False)
-        last_name = serializers.CharField(required=False)
-        fields = ('id', 'username', 'email', 'password')
+        model = User
+        fields = ('username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
 
 
 class LoginSerializer(serializers.Serializer):
