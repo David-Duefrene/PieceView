@@ -59,29 +59,23 @@ export const login = (username, password) => dispatch => {
  * @param {string} password The user's password.
  * @param {string} email The user's email.
  */
-export const register = ({ username, password, email }) => dispatch => {
+export const register = newUser => dispatch => {
     // Headers
         const config = {
         headers: { 'Content-Type': 'application/json' }
     };
 
-    // Request Body
-    const body = JSON.stringify({ username, email, password });
-
-    const payload = {
-        method: 'POST',
-        mode: 'same-origin',
-        body: body,
-        headers: config,
-    };
-
-    fetch('http://localhost:8000/api/auth/register', payload).then(raw => {
-        return raw.json();
-    }).then(result => {
-        console.log(`Result: ${result}`);
-    },
-    (error) =>  {
-        console.log(`Error in actions.auth.js line 86.\nError ${error}`)
+    axios.post(
+        'http://localhost:8000/account/api/auth/register',
+        newUser,
+        config
+    ).then(result => {
+        dispatch({
+            type: actions.LOGIN_SUCCESS,
+            payload: result.data,
+        });
+    }).catch(error =>  {
+        console.log(error.response);
     })
 };
 

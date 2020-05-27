@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Button from '../../../components/UI/Button/Button'
 import { login, loadUser } from '../../../store/actions/auth';
 import store from '../../../store';
 import CSS from './Login.module.css';
@@ -97,9 +98,9 @@ export class Login extends Component {
                 <h2>Login</h2>
                 {newForm}
                 <div className={CSS.inputGroup}>
-                    <button type='submit' >
+                    <Button type='submit' >
                         Login
-                    </button>
+                    </Button>
                 </div>
                 <p>
                     Don't have an account?

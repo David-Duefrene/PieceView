@@ -1,0 +1,42 @@
+@keyframes clicked {
+    from {
+        background-color: #4CAF50;
+        box-shadow: 0 17px 50px 0 rgb(225, 138, 26);
+    }
+
+    to {
+        box-shadow: 5px 10px 2px 3px rgba(1, 2, 11, 0.52),
+            0 17px 50px 0 rgba(238, 13, 13, 0.42);
+    }
+}
+
+@keyframes flicker {
+    from {
+        box-shadow: 0 17px 50px 0 rgb(225, 138, 26);
+    }
+
+    to {
+        box-shadow: 5px 10px 2px 3px rgba(1, 2, 11, 0.05),
+            0 17px 50px 0 rgb(225, 138, 26);
+    }
+}
+
+.Button {
+    border-radius: 15px;
+    padding: 15px 25px;
+    background-color: #4CAF50;
+    font-size: 1.5em;
+    color: white;
+}
+
+.Button:hover {
+    box-shadow: 0 17px 50px 0 rgb(225, 138, 26);
+    animation: flicker .7s normal 0s infinite forwards;
+}
+
+.Button:active {
+    animation: clicked .2s normal 0s 1 forwards;
+    background-color: #14e11b;
+    box-shadow: 0 17px 50px 0 rgb(225, 138, 26);
+    transform: translateY(4px);
+}
