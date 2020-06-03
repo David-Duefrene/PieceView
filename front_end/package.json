@@ -9,7 +9,7 @@
     "axios": "^0.19.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
@@ -40,5 +40,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000"
+  "proxy": "http://127.0.0.1:8000",
+  "devDependencies": {
+    "redux-mock-store": "^1.5.4"
+  }
 }

@@ -40,7 +40,7 @@ export const login = (username, password) => dispatch => {
     // Request Body
     const body = JSON.stringify({ username, password });
 
-    axios.post('http://localhost:8000/account/api/auth/login', body, config)
+    axios.post('http://127.0.0.1:8000/account/api/auth/login', body, config)
     .then(result => {
         dispatch({
             type: actions.LOGIN_SUCCESS,
