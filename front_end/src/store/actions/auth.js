@@ -11,7 +11,7 @@ export const loadUser = () => (dispatch, state) => {
     dispatch({ type: actions.USER_LOADING });
 
     axios.get(
-        'http://localhost:8000/account/api/auth/user',
+        'http://127.0.0.1:8000/account/api/auth/user',
         tokenConfig(state)).then(result => {
             dispatch({
                 type: actions.USER_LOADED,
@@ -66,7 +66,7 @@ export const register = newUser => dispatch => {
     };
 
     axios.post(
-        'http://localhost:8000/account/api/auth/register',
+        'http://127.0.0.1:8000/account/api/auth/register',
         newUser,
         config
     ).then(result => {
@@ -84,7 +84,7 @@ export const register = newUser => dispatch => {
  * Logs the user out and invalidates the authentication key with the server.
  */
 export const logout = () => ( dispatch, getState ) => {
-    fetch('http://localhost:8000/account/api/auth/logout',
+    fetch('http://127.0.0.1:8000/account/api/auth/logout',
         null,
         tokenConfig(getState)).then(raw => {
             return raw.json();
