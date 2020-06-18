@@ -1,7 +1,6 @@
 from django.urls import reverse
 
 from rest_framework.test import APITestCase, APIClient
-from rest_framework.exceptions import ErrorDetail
 
 from account.models import CustomUser
 

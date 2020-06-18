@@ -1,23 +1,35 @@
 version: "3.2"
 services:
-  backend:
-    build: ./
+    test-backend:
+            build:
+                context: .
+            environment:
+                - CI=true
+            command: python3 manage.py test
+    test-frontend:
+        build:
+            context: ./front_end
+        environment:
+            - CI=true
+        command: npm run test
 
-    ports:
-      - "8000:8000"
-    stdin_open: true
-    tty: true
-    command: python3 manage.py runserver 0.0.0.0:8000
-  front_end:
-    build: ./front_end
-    volumes:
-      - ./front_end:/app
-      # One-way volume to use node_modules from inside image
-      - /app/node_modules
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-    depends_on:
-      - backend
-    command: npm start
+    backend:
+        build: ./
+        ports:
+            - "8000:8000"
+        stdin_open: true
+        tty: true
+        command: python3 manage.py runserver 0.0.0.0:8000
+    front_end:
+        build: ./front_end
+        volumes:
+            - ./front_end:/app
+            # One-way volume to use node_modules from inside image
+            - /app/node_modules
+        ports:
+            - "3000:3000"
+        environment:
+            - NODE_ENV=development
+        depends_on:
+            - backend
+        command: npm start
