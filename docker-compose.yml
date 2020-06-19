@@ -3,14 +3,11 @@ services:
     test-backend:
             build:
                 context: .
-            environment:
-                - CI=true
             command: python3 manage.py test
     test-frontend:
         build:
             context: ./front_end
-        environment:
-            - CI=true
+
         command: npm run test
 
     backend:
