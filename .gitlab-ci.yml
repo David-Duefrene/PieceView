@@ -1,19 +1,18 @@
 stages:
     - test-backend
     - test-frontend
-  
-  test-backend:
+
+test-backend:
     stage: test-backend
     image: python:3.7
     script:
-      - pip install --no-cache-dir -r requirements.txt
-      - python manage.py test
-  
-  test-frontend:
+        - pip install --no-cache-dir -r requirements.txt
+        - python manage.py test
+
+test-frontend:
     stage: test-frontend
     image: node:14.4
-    script: 
-      - cd front_end
-      - npm install
-      - npm test
-  
+    script:
+    - cd front_end
+    - npm install
+    - npm test
