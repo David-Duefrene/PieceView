@@ -1,14 +1,12 @@
-from rest_framework.generics import RetrieveAPIView
+from rest_framework import permissions
+from rest_framework.viewsets import ModelViewSet
 
 from .models import Post
 from .serializers import PostSerializer
 
 
-class PostAPI(RetrieveAPIView):
+class PostAPI(ModelViewSet):
+    'Retrieves posts via ModelViewSet. Allows access to all.'
     queryset = Post.objects.all()
+    permission_classes = [permissions.AllowAny]
     serializer_class = PostSerializer
-
-    def get_object(self):
-        queryset = self.get_queryset()
-        obj = get_object_or_404(queryset)
-        return obj
