@@ -8,7 +8,6 @@ urlpatterns = [
     path('list/', views.PostListView.as_view(), name='post_list'),
     path('<pk>/', views.PostDetailView.as_view(), name='post_detail'),
 
-
     # Paths for API calls
-    path('api/postList', PostAPI.as_view({'get': 'list'}), name='post_API'),
+    path('api/postList', PostAPI.as_view(), name='post_API'),
 ]
