@@ -72,3 +72,7 @@ class PostAPITest(APITestCase):
                 response.data[index]['content'], post[1]['content'])
             self.assertEqual(
                 response.data[index]['authors'], post[1]['authors'])
+
+    def test_anon_gets_rejected_when_creating_post(self):
+        response = self.client.post(reverse('post_API'))
+        self.assertEqual(response.status_code, 401)
