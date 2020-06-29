@@ -117,3 +117,22 @@ class PostAPITest(APITestCase):
         data = {'content': self.generator.paragraph()}
         response = self.client.post(reverse('post_API'), data)
         self.assertEqual(response.data['Error'], 'Title cannot be None')
+
+    def test_invalid_content_gets_error(self):
+        full_name = self.generator.name()
+        full_name = full_name.split()
+        username = full_name[0][0] + full_name[1]
+
+        test_user = CustomUser.objects.create(username=username)
+        test_user.set_password('password')
+        test_user.save()
+        token = self.client.post(
+            reverse('log_API'), {
+                'username': username,
+                'password': 'password'},
+            format='json').data['token']
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+        data = {'content': self.generator.paragraph()}
+        response = self.client.post(reverse('post_API'), data)
+        self.assertEqual(response.data['Error'], 'Content cannot be None')
