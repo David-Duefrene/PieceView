@@ -7,7 +7,7 @@ from .serializers import PostSerializer
 
 
 class PostAPI(ListCreateAPIView):
-    '''Handles posts. Allows view access to all but will restrict
+    """Handles posts. Allows view access to all but will restrict
     creating/editing a post to an authenticated user.
 
     Attributes:
@@ -17,13 +17,14 @@ class PostAPI(ListCreateAPIView):
 
     Methods:
         post(self, request, *args, **kwargs): Allows a authenticated user to
-        create a post.'''
+        create a post
+    """
     queryset = Post.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
 
     def post(self, request, *args, **kwargs):
-        '''Post function for the PostAPI. Takes in the request from the user.
+        """Post function for the PostAPI. Takes in the request from the user.
             User needs authentication token.
 
             Request Data:
@@ -33,24 +34,18 @@ class PostAPI(ListCreateAPIView):
             Return Response:
                 status (string): The status of the post submitted
                 URL (string): CONDITIONAL will only appear if status is
-                    a success'''
-        if request.data['title'] is None:
+                    a success
+        """
+        try:
+            author = request.user
+            new_posts = Post.objects.create(
+                authors=author,
+                title=request.data['title'],
+                content=request.data['content']
+            )
             return Response({
-                'Error': 'Title cannot be None'
+                'status': 'Success! Post created',
+                'URL': new_posts.get_absolute_url()
             })
-
-        if request.data['content'] is None:
-            return Response({
-                'Error': 'Content cannot be None'
-            })
-
-        author = request.user
-        new_posts = Post.objects.create(
-            authors=author,
-            title=request.data['title'],
-            content=request.data['content']
-        )
-        return Response({
-            'status': 'Success! Post created',
-            'URL': new_posts.get_absolute_url()
-        })
+        except KeyError as error:
+            return Response({'Error': str(error) + ' cannot be None'})
