@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 from .api import PostAPI
@@ -9,5 +9,6 @@ urlpatterns = [
     path('<pk>/', views.PostDetailView.as_view(), name='post_detail'),
 
     # Paths for API calls
-    path('api/postList', PostAPI.as_view(), name='post_API'),
+    # path('api/postList/', PostAPI.as_view(), name='post_API'),
+    re_path(r'^api/postList/$', PostAPI.as_view(), name='post_API'),
 ]

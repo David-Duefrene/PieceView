@@ -1,4 +1,7 @@
+from django.core.paginator import Paginator
+
 from rest_framework import permissions
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView
 
@@ -22,6 +25,10 @@ class PostAPI(ListCreateAPIView):
     queryset = Post.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
+    pagination_class = PageNumberPagination
+    page_size = 2
+    # page_query_param = 'page_size'
+    # max_page_by = 100
 
     def post(self, request, *args, **kwargs):
         """Post function for the PostAPI. Takes in the request from the user.
