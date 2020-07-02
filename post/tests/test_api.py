@@ -66,12 +66,13 @@ class PostAPITest(APITestCase):
         """
         self.generate_posts(5)
         response = self.client.get(reverse('post_API'))
+
         for index, post in enumerate(self.post_list.items()):
-            self.assertEqual(response.data[index]['title'], post[1]['title'])
+            self.assertEqual(response.data['results'][index]['title'], post[1]['title'])
             self.assertEqual(
-                response.data[index]['content'], post[1]['content'])
+                response.data['results'][index]['content'], post[1]['content'])
             self.assertEqual(
-                response.data[index]['authors'], post[1]['authors'])
+                response.data['results'][index]['authors'], post[1]['authors'])
 
     def test_anon_gets_rejected_when_creating_post(self):
         response = self.client.post(reverse('post_API'))
