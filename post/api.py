@@ -25,10 +25,6 @@ class PostAPI(ListCreateAPIView):
     queryset = Post.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
-    pagination_class = PageNumberPagination
-    page_size = 2
-    # page_query_param = 'page_size'
-    # max_page_by = 100
 
     def post(self, request, *args, **kwargs):
         """Post function for the PostAPI. Takes in the request from the user.
