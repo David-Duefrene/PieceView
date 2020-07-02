@@ -7,7 +7,11 @@ from account.models import CustomUser, Contact
 
 
 class CustomUserModelTest(TestCase):
-    """Tests the CustomUser model"""
+    """Tests the CustomUser model.
+
+        Attributes:
+        Methods:
+    """
     def test_default_photo_url(self):
         """Tests the photo url"""
         test_user = CustomUser()
@@ -31,12 +35,10 @@ class ContactModelTest(TestCase):
     """Tests the Contact model"""
     def setUp(self):
         self.user = CustomUser.objects.create_user(
-            username='alfred',
-            password='Hads65ads1',  # skipcq: PTC-W1006
+            username='alfred', password='Hads65ads1',  # skipcq: PTC-W1006
         )
         self.user2 = CustomUser.objects.create_user(
-            username='Tommy',
-            password='Kasdf452'  # skipcq: PTC-W1006
+            username='Tommy', password='Kasdf452'  # skipcq: PTC-W1006
         )
 
     def test_follow(self):
