@@ -8,9 +8,6 @@ from account.models import CustomUser, Contact
 
 class CustomUserModelTest(TestCase):
     """Tests the CustomUser model.
-
-        Attributes:
-        Methods:
     """
     def test_default_photo_url(self):
         """Tests the photo url"""
@@ -32,7 +29,11 @@ class CustomUserModelTest(TestCase):
 
 
 class ContactModelTest(TestCase):
-    """Tests the Contact model"""
+    """Tests the Contact model
+
+        Methods:
+            setUp(self): creates 2 users every test
+    """
     def setUp(self):
         self.user = CustomUser.objects.create_user(
             username='alfred', password='Hads65ads1',  # skipcq: PTC-W1006
