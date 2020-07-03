@@ -14,6 +14,30 @@ from .serializers import (
 )
 
 
+class UserAPIT(ModelViewSet):
+    """API to allow a user to create, edit and delete account.
+    """
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        print('InCreate')
+        if request.data['password'] is not None:
+            hashedPass = make_password(request.data['password'])
+            request.data['password'] = hashedPass
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+
+        return Response({
+          "user": UserSerializer(
+            user, context=self.get_serializer_context()).data,
+          "token": AuthToken.objects.create(user)[1]
+        })
+
+
 class RegisterAPI(GenericAPIView):
     serializer_class = RegisterSerializer
 
