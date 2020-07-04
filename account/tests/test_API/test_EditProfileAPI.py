@@ -44,7 +44,7 @@ class EditProfileAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
 
         self.response = self.client.put(
-            reverse('edit_account'), self.updated_data, format='json'
+            reverse('api_account'), self.updated_data, format='json'
         )
         self.user = CustomUser.objects.get(username=default_data['username'])
 

@@ -1,9 +1,7 @@
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import (
-    GenericAPIView, UpdateAPIView, RetrieveAPIView
-)
+from rest_framework.generics import GenericAPIView, UpdateAPIView
 from django.contrib.auth.hashers import make_password
 
 from knox.models import AuthToken
@@ -14,7 +12,7 @@ from .serializers import (
 )
 
 
-class UserAPIT(ModelViewSet):
+class UserAPI(ModelViewSet):
     """API to allow a user to create, edit and delete account.
     """
     queryset = CustomUser.objects.all()
@@ -22,32 +20,11 @@ class UserAPIT(ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
-        print('InCreate')
         if request.data['password'] is not None:
             hashedPass = make_password(request.data['password'])
             request.data['password'] = hashedPass
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-
-        return Response({
-          "user": UserSerializer(
-            user, context=self.get_serializer_context()).data,
-          "token": AuthToken.objects.create(user)[1]
-        })
-
-
-class RegisterAPI(GenericAPIView):
-    serializer_class = RegisterSerializer
-
-    def post(self, request, *args, **kwargs):
-
-        if request.data['password'] is not None:
-            hashedPass = make_password(request.data['password'])
-            request.data['password'] = hashedPass
-
-        serializer = self.get_serializer(data=request.data)
+        serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
@@ -81,12 +58,6 @@ class EditProfileAPI(UpdateAPIView):
         return CustomUser.objects.get(username=obj.username)
 
 
-class UserViewSet(ModelViewSet):
-    queryset = CustomUser.objects.all()
-    permission_classes = [permissions.AllowAny]
-    serializer_class = UserSerializer
-
-
 class LoginAPI(GenericAPIView):
     serializer_class = LoginSerializer
 
@@ -100,14 +71,6 @@ class LoginAPI(GenericAPIView):
                 user, context=self.get_serializer_context()).data,
             "token": AuthToken.objects.create(user)[1]
         })
-
-
-class UserAPI(RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = UserSerializer
-
-    def get_object(self):
-        return self.request.user
 
 
 class ContactsAPI(ModelViewSet):
