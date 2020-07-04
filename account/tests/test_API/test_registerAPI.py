@@ -25,7 +25,7 @@ class RegisterAPITest(APITestCase):
             Returns: server response
         """
         return self.client.post(
-            reverse('register_API'), self.user_data, format='json')
+            reverse('api_account'), self.user_data, format='json')
 
     def test_can_create_account(self):
         """Tests that we can create an account"""
@@ -85,7 +85,6 @@ class RegisterAPITest(APITestCase):
         """
         self.user_data['password'] = None
         response = self.register()
-
         self.assertEqual(
             response.data['password'],
             [ErrorDetail(string='This field may not be null.', code='null')]

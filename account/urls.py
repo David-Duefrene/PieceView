@@ -7,12 +7,9 @@ from knox import views as knox_views
 
 from . import views
 from . import ajax_views
-from .api import (
-  UserViewSet, LoginAPI, UserAPI, RegisterAPI, ContactsAPI, EditProfileAPI
-)
+from .api import LoginAPI, ContactsAPI, UserAPI
 
 router = routers.DefaultRouter()
-router.register('api/account', UserViewSet, 'api_user')
 
 urlpatterns = [
     path('', views.DashboardTemplateView.as_view(), name='dashboard'),
@@ -57,11 +54,12 @@ urlpatterns = [
 
     # Paths for API calls
     path('api/auth', include('knox.urls')),
-    path('api/auth/register', RegisterAPI.as_view(), name='register_API'),
+    path('api/account',
+         UserAPI.as_view({'post': 'create', 'get': 'list', 'put': 'update'}),
+         name='api_account'),
     path('api/auth/login', LoginAPI.as_view(), name='log_API'),
-    path('api/auth/user', UserAPI.as_view(), name='user_API'),
     path('api/contacts', ContactsAPI.as_view({'get': 'list'}),
          name='contacts_API'),
-    path('api/auth/logout', knox_views.LogoutView.as_view(), name='logout_API'),
-    path('api/account/edit', EditProfileAPI.as_view(), name='edit_account')
+    path('api/auth/logout', knox_views.LogoutView.as_view(),
+         name='logout_API'),
 ] + router.urls

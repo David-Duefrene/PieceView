@@ -29,4 +29,4 @@ class UserViewSetAPITest(APITestCase):
         create_user(self.data3)
 
     def test_able_to_retrieve_user_list(self):
-        self.client.post(reverse('user_API'))
+        self.client.get(reverse('api_account'))

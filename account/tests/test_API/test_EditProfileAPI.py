@@ -36,6 +36,7 @@ class EditProfileAPITest(APITestCase):
            update the user profile with self.updated_data. Will assign the user
            and the server response to self.user and self.response respectively.
         """
+        self.user = CustomUser.objects.get(username=default_data['username'])
         token = self.client.post(
             reverse('log_API'), {
                 'username': default_data['username'],
@@ -44,7 +45,7 @@ class EditProfileAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
 
         self.response = self.client.put(
-            reverse('edit_account'), self.updated_data, format='json'
+            reverse('api_account'), self.updated_data, format='json'
         )
         self.user = CustomUser.objects.get(username=default_data['username'])
 
