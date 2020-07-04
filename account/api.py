@@ -1,15 +1,13 @@
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import GenericAPIView, UpdateAPIView
+from rest_framework.generics import GenericAPIView
 from django.contrib.auth.hashers import make_password
 
 from knox.models import AuthToken
 
 from .models import CustomUser
-from .serializers import (
-    UserSerializer, LoginSerializer, RegisterSerializer, UserEditSerializer
-)
+from .serializers import UserSerializer, LoginSerializer, RegisterSerializer
 
 
 class UserAPI(ModelViewSet):
@@ -34,13 +32,8 @@ class UserAPI(ModelViewSet):
           "token": AuthToken.objects.create(user)[1]
         })
 
-
-class EditProfileAPI(UpdateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserEditSerializer
-
     def update(self, request, *args, **kwargs):
-        instance = self.get_object()
+        instance = request.user
         instance.first_name = request.data['first_name']
         instance.last_name = request.data['last_name']
         instance.email = request.data['email']
@@ -51,11 +44,6 @@ class EditProfileAPI(UpdateAPIView):
 
         self.perform_update(serializer)
         return Response(serializer.data)
-
-    # To avoid needing a pk in the URL or a lookup_field
-    def get_object(self):
-        obj = self.request.user
-        return CustomUser.objects.get(username=obj.username)
 
 
 class LoginAPI(GenericAPIView):

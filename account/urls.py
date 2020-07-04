@@ -54,12 +54,12 @@ urlpatterns = [
 
     # Paths for API calls
     path('api/auth', include('knox.urls')),
-    path('api/account', UserAPI.as_view({'post': 'create', 'get': 'list'}),
+    path('api/account',
+         UserAPI.as_view({'post': 'create', 'get': 'list', 'put': 'update'}),
          name='api_account'),
     path('api/auth/login', LoginAPI.as_view(), name='log_API'),
     path('api/contacts', ContactsAPI.as_view({'get': 'list'}),
          name='contacts_API'),
     path('api/auth/logout', knox_views.LogoutView.as_view(),
          name='logout_API'),
-    # path('api/account/edit', EditProfileAPI.as_view(), name='edit_account')
 ] + router.urls
