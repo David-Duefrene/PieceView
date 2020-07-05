@@ -30,15 +30,8 @@ describe('auth reducer', () => {
     });
 
     it(`should return state with isAuthenticated set true and user set to
-        action.payload if user is loaded`, () => {
-        const act = {type: actions.USER_LOADED, payload: 'test'};
-        const newState = {...initialState, isAuthenticated: true, user: 'test'};
-        expect(auth(initialState, act)).toEqual(newState);
-    });
-
-    it(`should return state with isAuthenticated set true and user set to
         action.payload if user has successfully loaded`, () => {
-        const act = {type: actions.REGISTER_SUCCESS, payload: 'test'};
+        const act = {type: actions.REGISTER_SUCCESS, payload: {'user': 'test'}};
         const newState = {...initialState, ...act.payload, isAuthenticated: true};
         expect(auth(initialState, act)).toEqual(newState);
     });

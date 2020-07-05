@@ -5,28 +5,6 @@ import * as actions from './actionTypes';
 
 
 /**
- * Loads a user object from the server.
- */
-export const loadUser = () => (dispatch, state) => {
-    dispatch({ type: actions.USER_LOADING });
-
-    axios.get(
-        'http://127.0.0.1:8000/account/api/auth/user',
-        tokenConfig(state)).then(result => {
-            dispatch({
-                type: actions.USER_LOADED,
-                payload: result.data,
-            });
-        }).catch(error => {
-            dispatch(returnErrors(error.response.data, error.response.status));
-            dispatch({
-                type: actions.AUTH_ERROR
-            });
-        });
-};
-
-
-/**
  * Logs a user in and get the authentication token from the server.
  * @param {string} username The user's username.
  * @param {string} password The user's password.
