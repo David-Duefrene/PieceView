@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Button from '../../../components/UI/Button/Button'
-import { login, loadUser } from '../../../store/actions/auth';
-import store from '../../../store';
+import { login } from '../../../store/actions/auth';
 import CSS from './Login.module.css';
 
 /**
@@ -40,13 +39,6 @@ export class Login extends Component {
         isAuth: false,
         login: PropTypes.func.isRequired,
     };
-
-    /**
-     * Loads user from local storage. If its not their it will set user to null.
-     */
-    componentDidMount() {
-        store.dispatch(loadUser());
-    }
 
     /**
      * Function for when the user submits the form.

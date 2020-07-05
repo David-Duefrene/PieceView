@@ -108,8 +108,7 @@ export class CardDeck extends Component {
      */
     render() {
         const cards = [];
-
-        if (this.state.isLoaded) {
+        if (this.state.isLoaded && this.state.user_list.length > 0) {
             const bounds = this.pageBoundsCheck();
             for (let i = bounds['min']; i < bounds['max']; i++) {
                 cards.push(
@@ -121,7 +120,16 @@ export class CardDeck extends Component {
                 );
             }
         }
-        else { cards.push(<h1 key='1'>LOADING!!!</h1>) };
+        else if (!this.state.isLoaded) {
+            cards.push(<h1 key='1'>LOADING!!!</h1>)
+        }
+        else if (this.state.user_type === 'followers') {
+            cards.push(<h1>You have no followers.</h1>)
+        }
+        else if (this.state.user_type === 'following') {
+            cards.push(<h1>You are not following anyone.</h1>)
+        }
+        else { cards.push(<h1>You are not following anyone.</h1>) }
 
         return (
             <Fragment>
