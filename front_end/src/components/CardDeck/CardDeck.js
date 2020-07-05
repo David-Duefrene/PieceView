@@ -108,13 +108,12 @@ export class CardDeck extends Component {
      */
     render() {
         const cards = [];
-        if (this.state.isLoaded && this.state.user_list.length > 0) {
-            const bounds = this.pageBoundsCheck();
-            for (let i = bounds['min']; i < bounds['max']; i++) {
+        if (this.state.isLoaded && this.state.user_list['count'] > 0) {
+            for (let i = 0; i < this.state.user_list['count']; i++) {
                 cards.push(
                     <Card
                         number={i}
-                        user={this.state.user_list[i]}
+                        user={this.state.user_list['results'][i]}
                         user_type={this.state.user_type}
                         key={i} />
                 );
@@ -129,7 +128,7 @@ export class CardDeck extends Component {
         else if (this.state.user_type === 'following') {
             cards.push(<h1>You are not following anyone.</h1>)
         }
-        else { cards.push(<h1>You are not following anyone.</h1>) }
+        else { cards.push(<h1>Error.</h1>) }
 
         return (
             <Fragment>
