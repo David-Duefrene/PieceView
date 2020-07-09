@@ -1,32 +1,31 @@
 version: "3.2"
 services:
-    test-backend:
-            build:
-                context: .
-            command: python3 manage.py test
-    test-frontend:
-        build:
-            context: ./front_end
-
-        command: npm run test
-
     backend:
-        build: ./
+        image: python:3.7
+        # user: python
+        working_dir: /home/python/dev
+        volumes:
+            - ./back_end:/home/python/dev
         ports:
             - "8000:8000"
         stdin_open: true
         tty: true
-        command: python3 manage.py runserver 0.0.0.0:8000
+        command: bash -c "
+            pip install -r requirements.txt
+            && python3 manage.py runserver 0.0.0.0:8000"
     front_end:
-        build: ./front_end
+        image: node:13
+        user: node
+        working_dir: /home/node/dev
         volumes:
-            - ./front_end:/app
+            - ./front_end:/home/node/dev
             # One-way volume to use node_modules from inside image
-            - /app/node_modules
+            - ./front_end/node_modules
         ports:
             - "3000:3000"
         environment:
             - NODE_ENV=development
         depends_on:
             - backend
+        tty: true
         command: npm start

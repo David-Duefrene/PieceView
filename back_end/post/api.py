@@ -8,7 +8,7 @@ from rest_framework.generics import ListCreateAPIView
 from .models import Post
 from .serializers import PostSerializer
 
-
+# reload
 class PostAPI(ListCreateAPIView):
     """Handles posts. Allows view access to all but will restrict
     creating/editing a post to an authenticated user.
