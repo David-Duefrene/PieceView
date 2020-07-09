@@ -13,9 +13,9 @@ const card = props => {
         <div
             className={CSS.Card}
             id={props.user_type + props.number}>
-            <img src={props.user.photo_url} className={CSS.CardImage} />
+            <img src={props.user['photo_url']} className={CSS.CardImage} />
             <h5 className={CSS.CardTitle}>
-                {props.user.first_name + ' ' + props.user.last_name}
+                {props.user['first_name'] + ' ' + props.user['last_name']}
             </h5>
             <p className={CSS.CardBody}>Lorem ipsum dolor sit amet, consectetur
             adipiscing elit. Pellentesque dolor enim, facilisis a lectus ut,
