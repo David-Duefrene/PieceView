@@ -57,10 +57,10 @@ const paginateButtons = (props) => {
 };
 
 paginateButtons.propTypes = {
-    first: PropTypes.string.isRequired,
-    next: PropTypes.string.isRequired,
-    prev: PropTypes.string.isRequired,
-    last: PropTypes.string.isRequired,
+    first: PropTypes.func.isRequired,
+    next: PropTypes.func.isRequired,
+    prev: PropTypes.func.isRequired,
+    last: PropTypes.func.isRequired,
     userType: PropTypes.string.isRequired,
 
 };
