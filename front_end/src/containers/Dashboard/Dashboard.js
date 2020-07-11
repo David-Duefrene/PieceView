@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-import CardDeck from '../../components/CardDeck/CardDeck';
+import CardDeck from '../../components/CardDeck/CardDeck.jsx';
 import UpdateProfile from './UpdateProfile/UpdateProfile';
 import CSS from './Dashboard.module.css';
 
@@ -51,7 +51,7 @@ export class Dashboard extends Component {
                         <h1>Followers clicked.</h1>
                         <CardDeck
                             className='Followers'
-                            user_type='followers'
+                            userType='followers'
                             user={this.props.user} />
                     </Fragment>
                 );
@@ -63,7 +63,7 @@ export class Dashboard extends Component {
                         <h1>Following Clicked.</h1>
                         <CardDeck
                             className='Following'
-                            user_type="following"
+                            userType="following"
                             user={this.props.user} />
                     </Fragment>
                 );
