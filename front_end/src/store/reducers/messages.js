@@ -1,12 +1,11 @@
-import * as actions from "../actions/actionTypes";
+import * as actions from '../actions/actionTypes';
 
 const initialState = {};
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case actions.CREATE_MESSAGE:
-            return (state = action.payload);
-        default:
-            return state;
+    case actions.CREATE_MESSAGE:
+        return { ...state, message: action.payload };
+    default: return state;
     }
 }
