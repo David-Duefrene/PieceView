@@ -14,6 +14,6 @@ describe('messages reducer', () => {
 
     it('should return payload as state', () => {
         const action = { payload: { test: 'test' }, type: actions.CREATE_MESSAGE };
-        expect(messages(undefined, action)).toEqual(action.payload);
+        expect(messages(undefined, action)).toEqual({ message: action.payload });
     });
 });
