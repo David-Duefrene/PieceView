@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -11,21 +11,23 @@ import CSS from './NavBar.module.css';
 /**
  * The navigation bar for the user to navigate the app.
  */
-const navBar = (props) => {
-    const { onLogout, isAuth } = props;
-    return (
-        <ul className={CSS.NavBar}>
-            <NavItem path='/' exact>PieceView</NavItem>
-            { isAuth
-                ? (
-                    <LogoutButton logoutReducer={onLogout}>
-                        Logout
-                    </LogoutButton>
-                )
-                : <NavItem path='/login' exact={false}>Login</NavItem>}
-        </ul>
-    );
-};
+export class NavBar extends Component {
+    render() {
+        const { onLogout, isAuth } = this.props;
+        return (
+            <ul className={CSS.NavBar}>
+                <NavItem path='/' exact>PieceView</NavItem>
+                { isAuth
+                    ? (
+                        <LogoutButton logoutReducer={onLogout}>
+                            Logout
+                        </LogoutButton>
+                    )
+                    : <NavItem path='/login' exact={false}>Login</NavItem>}
+            </ul>
+        );
+    }
+}
 
 /**
  * @prop {bool} isAuth If the user is authenticated.
@@ -37,9 +39,9 @@ const mapStateToProps = (state) => ({ isAuth: state.auth.isAuthenticated });
  */
 const madDispatchToProps = (dispatch) => ({ onLogout: () => dispatch(actions.logout()) });
 
-navBar.propTypes = {
+NavBar.propTypes = {
     isAuth: PropTypes.bool.isRequired,
     onLogout: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, madDispatchToProps)(navBar);
+export default connect(mapStateToProps, madDispatchToProps)(NavBar);
