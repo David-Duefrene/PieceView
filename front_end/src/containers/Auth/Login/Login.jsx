@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Button from '../../../components/UI/Button/Button';
-import { login } from '../../../store/actions/auth';
+import * as actions from '../../../store/actions/index';
 import CSS from './Login.module.css';
 
 /**
@@ -41,9 +41,9 @@ export class Login extends Component {
      */
     onSubmit = (event) => {
         event.preventDefault();
-        const { loginFunc } = this.props;
+        const { onLogin } = this.props;
         const { form } = this.state;
-        loginFunc(form.username.value, form.password.value);
+        onLogin(form.username.value, form.password.value);
     }
 
     /**
@@ -104,9 +104,13 @@ const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuthenticated,
 });
 
+const madDispatchToProps = (dispatch) => ({
+    onLogin: (username, password) => dispatch(actions.login(username, password)),
+});
+
 Login.propTypes = {
     isAuth: PropTypes.bool.isRequired,
-    loginFunc: PropTypes.func.isRequired,
+    onLogin: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, madDispatchToProps)(Login);

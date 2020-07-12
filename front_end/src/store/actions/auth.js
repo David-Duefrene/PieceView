@@ -14,17 +14,20 @@ export const login = (username, password) => dispatch => {
         const config = {
         headers: { 'Content-Type': 'application/json' }
     };
+    console.log(username);
 
     // Request Body
     const body = JSON.stringify({ username, password });
 
     axios.post('http://127.0.0.1:8000/account/api/auth/login', body, config)
     .then(result => {
+        console.log(result);
         dispatch({
             type: actions.LOGIN_SUCCESS,
             payload: result.data,
         });
     }).catch(error => {
+        console.log(error);
         dispatch(returnErrors(error.response.data, error.response.status));
         dispatch({ type: actions.LOGIN_FAIL });
     });
