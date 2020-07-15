@@ -9,13 +9,13 @@ import CSS from './Card.module.css';
  * @param {string} props.userType - The user type for the cards
  * @param {string} props.user.first_name - The user's first name
  * @param {string} props.user.last_name - The user's last name
- * @param {string} props.user.photo_url - The user's phot url
+ * @param {string} props.user.photo - The user's phot url
  */
 const card = (props) => {
     const { userType, number, user } = props;
     return (
         <div className={CSS.Card} id={userType + number}>
-            <img src={user.photo_url} alt='' className={CSS.CardImage} />
+            <img src={user.photo} alt='' className={CSS.CardImage} />
             <h5 className={CSS.CardTitle}>
                 {`${user.first_name} ${user.last_name}`}
             </h5>
@@ -41,7 +41,7 @@ card.propTypes = {
     user: PropTypes.shape({
         first_name: PropTypes.string.isRequired,
         last_name: PropTypes.string.isRequired,
-        photo_url: PropTypes.string.isRequired,
+        photo: PropTypes.string.isRequired,
     }).isRequired,
 };
 
