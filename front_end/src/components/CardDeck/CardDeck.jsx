@@ -26,8 +26,7 @@ export class CardDeck extends Component {
     state = {
         userList: [],
         isLoaded: false,
-        pageLimit: 3,
-        pageNum: 1,
+        maxPages: 0,
         userType: null,
         stateError: null,
     };
@@ -37,72 +36,44 @@ export class CardDeck extends Component {
      * @async
      */
     componentDidMount() {
-        axios.get('account/api/contacts').then((result) => {
+        this.loadContacts('account/api/contacts');
+    }
+
+    loadContacts = (url) => {
+        axios.get(url).then((result) => {
             const { userType } = this.props;
             this.setState({
                 userList: result.data,
                 isLoaded: true,
                 userType,
-                pageLimit: parseInt(window.innerWidth / 280, 10),
+                maxPages: Math.ceil(result.data.count / 5),
             });
         }).catch((error) => {
             this.setState({ stateError: error });
         });
     }
 
-    /**
-     * Gets the first set of cards in userList.
-     */
-    first = () => {
-        this.setState({ pageNum: 1 });
-    }
-
-    /**
-     * Gets the previous set of cards in userList.
-     */
-    previous = () => {
-        const { state } = this.state;
-        const { newPage } = state.pageNum - 1;
-        if (newPage < 1) {
-            this.first();
-        } else {
-            this.setState({ pageNum: newPage });
+    previousClicked = () => {
+        const { userList } = this.state;
+        if (userList.previous !== null) {
+            this.loadContacts(userList.previous);
         }
     }
 
-    /**
-     * Gets the next set of cards in userList.
-     */
-    next = () => {
-        const { state } = this.state;
-        const { newPage } = state.pageNum + 1;
-        if (newPage * state.pageNum >= state.userList.length) {
-            this.last();
-        } else { this.setState({ pageNum: newPage }); }
+    nextClicked = () => {
+        const { userList } = this.state;
+        if (userList.next !== null) {
+            this.loadContacts(userList.next);
+        }
     }
 
-    /**
-     * Gets the last set of cards in userList.
-     */
-    last = () => {
-        const { state } = this.state;
-        const newPage = Math.ceil(state.userList.length / state.pageLimit);
-        this.setState({ pageNum: newPage });
+    firstClicked = () => {
+        this.loadContacts('account/api/contacts');
     }
 
-    /**
-     * Ensures the page does not try and access and users that are not
-     * available.
-     */
-    pageBoundsCheck = () => {
-        const { state } = this.state;
-        let min = (state.pageNum) * state.pageLimit;
-        if (min >= state.userList.length) {
-            min = state.userList.length - state.pageLimit;
-        } else { min -= state.pageLimit; }
-
-        const max = min + state.pageLimit;
-        return { min, max };
+    lastClicked = () => {
+        const { maxPages } = this.state;
+        this.loadContacts(`account/api/contacts?page=${maxPages}`);
     }
 
     /**
@@ -124,7 +95,7 @@ export class CardDeck extends Component {
         const cards = [];
 
         if (isLoaded && userList.count > 0) {
-            for (let i = 0; i < userList.count; i++) {
+            for (let i = 0; i < userList.results.length; i++) {
                 cards.push(
                     <Card
                         number={i}
@@ -149,10 +120,10 @@ export class CardDeck extends Component {
                 </div>
                 <PaginateButtons
                     user_type={userType}
-                    first={this.first}
-                    next={this.next}
-                    prev={this.previous}
-                    last={this.last}
+                    first={this.firstClicked}
+                    next={this.nextClicked}
+                    prev={this.previousClicked}
+                    last={this.lastClicked}
                 />
             </>
         );

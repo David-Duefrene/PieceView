@@ -2,6 +2,8 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import GenericAPIView
+from rest_framework.pagination import PageNumberPagination
+
 from django.contrib.auth.hashers import make_password
 
 from knox.models import AuthToken
@@ -13,6 +15,7 @@ from .serializers import UserSerializer, LoginSerializer, RegisterSerializer
 class UserAPI(ModelViewSet):
     """API to allow a user to create, edit and delete account.
     """
+    PageNumberPagination.page_size = 5
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
@@ -66,5 +69,13 @@ class ContactsAPI(ModelViewSet):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        user = CustomUser.objects.get(id=self.request.user.id)
-        return user.followers.all()
+        try:
+            user = CustomUser.objects.get(id=self.request.user.id)
+            if self.request.data['type'] == 'followers':
+                return user.followers.all()
+            elif self.request.data['type'] == 'following':
+                return user.following.all()
+            else:
+                raise KeyError('Invalid type')
+        except KeyError:
+            return user.followers.all()

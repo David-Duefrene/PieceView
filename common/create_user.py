@@ -26,3 +26,4 @@ def create_user(user_data=default_data):
     )
     user.set_password(user_data['password'])
     user.save()
+    return user
