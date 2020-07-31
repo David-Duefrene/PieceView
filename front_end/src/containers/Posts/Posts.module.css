@@ -1,0 +1,16 @@
+.Posts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.Header {
+    align-self: center;
+}
+
+@media (min-width: 700px){
+    .Posts {
+        flex-direction: column;
+        overflow: hidden;
+    }
+}

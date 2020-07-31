@@ -7,3 +7,4 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['authors', 'content', 'title', 'created', 'get_absolute_url']
+        depth = 1

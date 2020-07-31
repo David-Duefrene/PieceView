@@ -1,12 +1,10 @@
-from django.core.paginator import Paginator
-
-from rest_framework import permissions
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView
 
 from .models import Post
 from .serializers import PostSerializer
+
 
 # reload
 class PostAPI(ListCreateAPIView):
@@ -23,8 +21,31 @@ class PostAPI(ListCreateAPIView):
         create a post
     """
     queryset = Post.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
+
+    def get(self, request, *args, **kwargs):
+        """Handles getting a list of posts. Allow un authenticated access and
+        is paginated by ?page=num in the URL. No data needed in the request.
+
+            Return Response:
+                Returns the same as default get, it just trims sensitive info
+                from the author and trims the content to a preview.
+        """
+        popList = [
+            'id', 'password', 'last_login', 'is_superuser', 'email', 'groups',
+            'user_permissions', 'following',
+        ]
+        raw_data = super().get(request, *args, **kwargs)
+        results = raw_data.data['results']
+        for post in results:
+            # Remove sensitive data in the author info section
+            for key in popList:
+                post['authors'].pop(key)
+            # Trim the content down to a preview.
+            preview = post['content'][0:3000]
+            post['content'] = preview
+        return raw_data
 
     def post(self, request, *args, **kwargs):
         """Post function for the PostAPI. Takes in the request from the user.

@@ -30,7 +30,9 @@ class PostAPITest(APITestCase):
         self.post_list = OrderedDict()
 
     def generate_posts(self, number_of_posts=5):
-        """Generates posts for test to use.
+        """Generates posts for test to use. Currently uses a temporary hack
+            and saves the username directly as the author instead of the whole
+            user object.
 
             arguments:
                 number_of_posts: OPTIONAL, uses 5 as default, number of posts
@@ -48,7 +50,9 @@ class PostAPITest(APITestCase):
             title = self.generator.sentence()
             content = self.generator.paragraph()
             post = {
-                'authors': post_number + 1,
+                # Saving username directly to authors as a temporary hack
+                # Will need to update to properly save User data structure
+                'authors': author.username,  # post_number + 1,
                 'title': title,
                 'content': content
             }
@@ -68,11 +72,16 @@ class PostAPITest(APITestCase):
         response = self.client.get(reverse('post_API'))
 
         for index, post in enumerate(self.post_list.items()):
-            self.assertEqual(response.data['results'][index]['title'], post[1]['title'])
+            self.assertEqual(
+                response.data['results'][index]['title'],
+                post[1]['title']
+            )
             self.assertEqual(
                 response.data['results'][index]['content'], post[1]['content'])
             self.assertEqual(
-                response.data['results'][index]['authors'], post[1]['authors'])
+                response.data['results'][index]['authors']['username'],
+                post[1]['authors']
+            )
 
     def test_anon_gets_rejected_when_creating_post(self):
         response = self.client.post(reverse('post_API'))
