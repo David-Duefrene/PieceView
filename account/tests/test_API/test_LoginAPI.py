@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework.exceptions import ErrorDetail
 
-from common.create_user import create_user, default_data
+from common.create_user import create_user
 
 
 class LoginAPITest(APITestCase):
@@ -14,11 +14,8 @@ class LoginAPITest(APITestCase):
             login(self): logs the user in with self.login_data
     """
     def setUp(self):
-        self.login_data = {
-            'username': default_data['username'],
-            'password': default_data['password']
-        }
-        create_user()
+        user = create_user()
+        self.login_data = {'username': user.username, 'password': 'password'}
 
     def login(self):
         """ Logs the user in with self.login_data.

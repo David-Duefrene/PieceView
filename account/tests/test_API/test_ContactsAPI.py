@@ -3,9 +3,7 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework.exceptions import ErrorDetail
 
-from common.create_user import default_data
-from common.create_followers import create_followers, create_following, \
-    default_contacts
+from common.create_followers import create_followers, create_following
 from account.models import CustomUser
 
 
@@ -13,10 +11,12 @@ class ContactsAPITest(APITestCase):
     """Test the Contacts API.
 
         Methods:
-            setup: resets the class attribute back to defaults
+            check: checks to see if out contacts matches.
     """
     def setUp(self):
-        create_followers()
+        data = create_followers()
+        self.user = data['user']
+        self.contacts = data['contacts']
 
     def check(self, data):
         """Checks to see if the type matches default data.
@@ -24,15 +24,11 @@ class ContactsAPITest(APITestCase):
             Params:
                 data(dict): the data returned from the server
         """
-        # Django returns the followers from newest to oldest
-        # So we need to reverse it first
-        default_contacts.reverse()
         for index, each in enumerate(data['results']):
-            self.assertEqual(
-                each['username'], default_contacts[int(index)]['username'])
+            self.assertTrue(each['username'] in self.contacts)
 
     def login(self):
-        user = CustomUser.objects.get(username=default_data['username'])
+        user = CustomUser.objects.get(username=self.user.username)
         self.client.force_authenticate(user=user)
 
     def test_auth_user_gets_followers_list_with_no_data(self):
@@ -78,15 +74,15 @@ class ContactsAPITest(APITestCase):
 
 class FollowersAPITest(APITestCase):
     def setUp(self):
-        create_following()
+        data = create_following()
+        self.user = data['user']
+        self.contacts = data['contacts']
 
     def test_following(self):
-        user = CustomUser.objects.get(username=default_data['username'])
+        user = CustomUser.objects.get(username=self.user.username)
         self.client.force_authenticate(user=user)
         response = self.client.get(
             reverse('contacts_API'), {'type': 'following'})
         self.assertEqual(response.status_code, 200)
-        default_contacts.reverse()
         for index, each in enumerate(response.data['results']):
-            self.assertEqual(
-                each['username'], default_contacts[int(index)]['username'])
+            self.assertTrue(each['username'] in self.contacts)

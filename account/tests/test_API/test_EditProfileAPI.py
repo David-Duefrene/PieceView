@@ -4,7 +4,7 @@ from rest_framework.test import APITestCase, APIClient
 from rest_framework.exceptions import ErrorDetail
 
 from account.models import CustomUser
-from common.create_user import create_user, default_data
+from common.create_user import create_user
 
 
 class EditProfileAPITest(APITestCase):
@@ -26,28 +26,19 @@ class EditProfileAPITest(APITestCase):
             'first_name': 'updateFirstTest',
             'last_name': 'updateLastTest'
         }
-        self.user = None
+        self.user = create_user()
         self.response = None
-
-        create_user()
 
     def update_user(self):
         """update_user function for the EditProfileAPITest. Will attempt to
            update the user profile with self.updated_data. Will assign the user
            and the server response to self.user and self.response respectively.
         """
-        self.user = CustomUser.objects.get(username=default_data['username'])
-        token = self.client.post(
-            reverse('log_API'), {
-                'username': default_data['username'],
-                'password': default_data['password']},
-            format='json').data['token']
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
-
+        self.client.force_authenticate(user=self.user)
         self.response = self.client.put(
             reverse('api_account'), self.updated_data, format='json'
         )
-        self.user = CustomUser.objects.get(username=default_data['username'])
+        self.user = CustomUser.objects.get(username=self.user.username)
 
     def test_can_update_user_profile(self):
         """Tests that we can update the user profile."""
