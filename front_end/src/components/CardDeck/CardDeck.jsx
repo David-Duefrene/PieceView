@@ -11,14 +11,14 @@ export class CardDeck extends Component {
     /**
     * Displays a set of users.
     * @extends Component
-    * @param {string} userType The type of users that the CardDeck is
-    *   displaying.
-    * @prop {list} userList The list of users the CardDeck is displaying.
-    * @prop {bool} isLoaded If the page is currently fully loaded.
-    * @prop {number} pageLimit The max number of cards per page.
-    * @prop {number} pageNum The current page number.
-    * @prop {string} userType The type of users that the CardDeck is
-    *   displaying
+    * @param {string} userType The type of users that the CardDeck is displaying
+    * @prop {list} userList The list of users the CardDeck is displaying
+    * @prop {bool} isLoaded If the page is currently fully loaded
+    * @prop {int} pageLimit The max number of cards per page
+    * @prop {int} pageNum The current page number
+    * @prop {string} userType The type of users that the CardDeck is displaying
+    * @prop {error} stateError If there is an error it wil be stored here
+    *
     * @example
     * // Returns a users followers list
     * <CardDeck userType='Followers' />
@@ -32,13 +32,17 @@ export class CardDeck extends Component {
     };
 
     /**
-     * Loads the contacts from the server.
-     * @async
+     * Triggers loadContacts
      */
     componentDidMount() {
         this.loadContacts('account/api/contacts');
     }
 
+    /**
+     * Loads the contacts list from the server
+     * @param {string} url the url to load contacts from
+     * @async
+     */
     loadContacts = (url) => {
         axios.get(url).then((result) => {
             const { userType } = this.props;
@@ -53,6 +57,9 @@ export class CardDeck extends Component {
         });
     }
 
+    /**
+     * Gets the previous page from the server
+     */
     previousClicked = () => {
         const { userList } = this.state;
         if (userList.previous !== null) {
@@ -60,6 +67,9 @@ export class CardDeck extends Component {
         }
     }
 
+    /**
+     * Gets the next page from the server
+     */
     nextClicked = () => {
         const { userList } = this.state;
         if (userList.next !== null) {
@@ -67,10 +77,16 @@ export class CardDeck extends Component {
         }
     }
 
+    /**
+     * Gets the first page from the server
+     */
     firstClicked = () => {
         this.loadContacts('account/api/contacts');
     }
 
+    /**
+     * Gets the last page from the server
+     */
     lastClicked = () => {
         const { maxPages } = this.state;
         this.loadContacts(`account/api/contacts?page=${maxPages}`);
@@ -85,12 +101,7 @@ export class CardDeck extends Component {
             stateError, isLoaded, userList, userType,
         } = this.state;
         if (stateError != null) {
-            return (
-                <h1>
-                    Error:
-                    {stateError}
-                </h1>
-            );
+            throw new Error(stateError.toString());
         }
         const cards = [];
 
@@ -115,9 +126,7 @@ export class CardDeck extends Component {
 
         return (
             <>
-                <div className={`${CSS.CardDeck} ${userType}`}>
-                    {cards}
-                </div>
+                <div className={`${CSS.CardDeck} ${userType}`}>{cards}</div>
                 <PaginateButtons
                     user_type={userType}
                     first={this.firstClicked}

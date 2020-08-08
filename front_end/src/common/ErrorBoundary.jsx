@@ -23,7 +23,7 @@ export class ErrorBoundary extends Component {
                     <h1>Something went wrong.</h1>
                     <p>{error && error.toString()}</p>
                     <br />
-                    <p>{errorInfo.componentStack}</p>
+                    <p>{errorInfo === null ? ' ' : errorInfo.componentStack}</p>
                 </div>
             );
         }
