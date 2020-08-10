@@ -19,6 +19,7 @@ const NavBar = () => {
             <NavItem path='/' exact>PieceView</NavItem>
             { isAuth ? (
                 <>
+                    <NavItem path='/create-post'>Create a Post</NavItem>
                     <NavItem path='/dashboard'>Dashboard</NavItem>
                     <LogoutButton logoutReducer={dispatch}>
                         Logout

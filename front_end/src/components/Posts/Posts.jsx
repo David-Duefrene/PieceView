@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import CSS from './Posts.module.css';
-import PostStrip from '../../components/PostStrip/PostStrip';
-import PaginateButtons from '../../components/UI/PaginateButtons/PaginateButtons';
+import PostStrip from './PostStrip/PostStrip';
+import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
 
 /**
  * Renders all posts currently posted.
