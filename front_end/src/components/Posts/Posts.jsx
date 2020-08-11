@@ -33,7 +33,6 @@ export class Posts extends Component {
 
     /**
      * Loads first page of the active posts on the server
-     * @async
      */
     componentDidMount() {
         this.loadPosts();
@@ -41,61 +40,76 @@ export class Posts extends Component {
 
     /**
      * Loads the post based off of state.pageNum
+     * @param {string} url - The url to load the posts from
+     * @async
      */
     loadPosts = (url = 'http://localhost:8000/post/api/postList/') => {
-        axios.get(url).then((result) => {
-            this.setState({
-                maxPage: Math.ceil(result.data.count / 10),
-                postList: result.data.results,
-                isLoaded: true,
-                nextPage: result.data.next,
-                prevPage: result.data.previous,
-            });
-        }).catch((error) => {
-            this.setState({ stateError: error });
-        });
+        axios.get(url).then((result) => this.setState({
+            maxPage: Math.ceil(result.data.count / 10),
+            postList: result.data.results,
+            isLoaded: true,
+            nextPage: result.data.next,
+            prevPage: result.data.previous,
+        })).catch((error) => this.setState({ stateError: error }));
     }
 
+    /**
+     * Loads the previous page
+     */
     previousClicked = () => {
-        const { prevPage } = this.state;
+        const { prevPage, pageNum } = this.state;
         if (prevPage !== null) {
             this.loadPosts(prevPage);
+            this.setState({ pageNum: pageNum - 1 });
         }
     }
 
+    /**
+     * Loads the next page
+     */
     nextClicked = () => {
-        const { nextPage } = this.state;
+        const { nextPage, pageNum } = this.state;
         if (nextPage !== null) {
             this.loadPosts(nextPage);
+            this.setState({ pageNum: pageNum + 1 });
         }
     }
 
+    /**
+     * Loads the first page
+     */
     firstClicked = () => {
         const { postList } = this.state;
         if (postList.first !== null) {
             this.loadPosts();
+            this.setState({ pageNum: 1 });
         }
     }
 
+    /**
+     * Loads the last page
+     */
     lastClicked = () => {
         const { postList, maxPage } = this.state;
         if (postList.last !== null) {
             this.loadPosts(`post/api/postList/?page=${maxPage}`);
+            this.setState({ pageNum: maxPage });
         }
     }
 
+    /**
+     * Renders the component
+     */
     render() {
-        const { isLoaded, postList, stateError } = this.state;
+        const {
+            isLoaded, postList, stateError, pageNum, maxPage,
+        } = this.state;
 
-        if (!isLoaded) { return (<h1 className={CSS.Header}>Posts is loading.</h1>); }
+        if (!isLoaded) {
+            return (<h1 className={CSS.Header}>Posts is loading.</h1>);
+        }
         if (stateError != null) {
-            return (
-                <h1>
-                    Error:
-                    {stateError}
-                    .
-                </h1>
-            );
+            return (<h1>{`Error: ${stateError}.`}</h1>);
         }
 
         const posts = [];
@@ -112,11 +126,14 @@ export class Posts extends Component {
                 />,
             );
         }
+
         return (
             <div className={CSS.Posts}>
                 <h1 className={CSS.Header}>Posts</h1>
                 {posts}
                 <PaginateButtons
+                    pageNum={pageNum}
+                    maxPages={maxPage}
                     userType='posts'
                     first={this.firstClicked}
                     prev={this.previousClicked}

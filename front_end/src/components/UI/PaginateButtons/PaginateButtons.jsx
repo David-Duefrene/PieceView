@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import CSS from './PaginateButtons.module.css';
 
 /**
  * Renders the buttons to cycle through the card deck.
- * @param {int} props.user_type - The user type to reference the buttons.
- * @param {func} props.first - The function to move to the first page.
- * @param {func} props.next - The function to move to the next page.
- * @param {func} props.prev - The function to move to the previous page.
- * @param {func} props.last - The function to move to the last page.
+ * @param {int} pageNum - The current page the user is on
+ * @param {int} maxPages - The max number of pages available.
+ * @param {func} first - The function to move to the first page
+ * @param {func} next - The function to move to the next page
+ * @param {func} prev - The function to move to the previous page
+ * @param {func} last - The function to move to the last page
  */
 const paginateButtons = (props) => {
     const {
-        first, next, prev, last, userType,
+        first, next, prev, last, pageNum, maxPages,
     } = props;
 
     return (
@@ -32,11 +34,7 @@ const paginateButtons = (props) => {
 
                 <li>
                     <button type='button' className={CSS.PageNum}>
-                        Page
-                        <span className={`current-page-${userType}`}>
-                            1
-                        </span>
-                        of TODO.
+                        {`Page ${pageNum} of ${maxPages}`}
                     </button>
                 </li>
 
@@ -61,8 +59,8 @@ paginateButtons.propTypes = {
     next: PropTypes.func.isRequired,
     prev: PropTypes.func.isRequired,
     last: PropTypes.func.isRequired,
-    userType: PropTypes.string.isRequired,
-
+    pageNum: PropTypes.number.isRequired,
+    maxPages: PropTypes.number.isRequired,
 };
 
 export default paginateButtons;

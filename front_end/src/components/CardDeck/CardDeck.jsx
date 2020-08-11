@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import axios from '../../axios-auth';
-import PaginateButtons from
-    '../UI/PaginateButtons/PaginateButtons';
+import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
 import Card from './Card/Card';
 import CSS from './CardDeck.module.css';
 
@@ -12,7 +11,7 @@ export class CardDeck extends Component {
     * Displays a set of users.
     * @extends Component
     * @param {string} userType The type of users that the CardDeck is displaying
-    * @prop {list} userList The list of users the CardDeck is displaying
+    * @prop {list: User} userList The list of users the CardDeck is displaying
     * @prop {bool} isLoaded If the page is currently fully loaded
     * @prop {int} pageLimit The max number of cards per page
     * @prop {int} pageNum The current page number
@@ -29,6 +28,7 @@ export class CardDeck extends Component {
         maxPages: 0,
         userType: null,
         stateError: null,
+        pageNum: 1,
     };
 
     /**
@@ -61,9 +61,10 @@ export class CardDeck extends Component {
      * Gets the previous page from the server
      */
     previousClicked = () => {
-        const { userList } = this.state;
+        const { userList, pageNum } = this.state;
         if (userList.previous !== null) {
             this.loadContacts(userList.previous);
+            this.setState({ pageNum: pageNum - 1 });
         }
     }
 
@@ -71,9 +72,10 @@ export class CardDeck extends Component {
      * Gets the next page from the server
      */
     nextClicked = () => {
-        const { userList } = this.state;
+        const { userList, pageNum } = this.state;
         if (userList.next !== null) {
             this.loadContacts(userList.next);
+            this.setState({ pageNum: pageNum + 1 });
         }
     }
 
@@ -82,6 +84,7 @@ export class CardDeck extends Component {
      */
     firstClicked = () => {
         this.loadContacts('account/api/contacts');
+        this.setState({ pageNum: 1 });
     }
 
     /**
@@ -90,6 +93,7 @@ export class CardDeck extends Component {
     lastClicked = () => {
         const { maxPages } = this.state;
         this.loadContacts(`account/api/contacts?page=${maxPages}`);
+        this.setState({ pageNum: maxPages });
     }
 
     /**
@@ -98,7 +102,7 @@ export class CardDeck extends Component {
      */
     render() {
         const {
-            stateError, isLoaded, userList, userType,
+            stateError, isLoaded, userList, userType, maxPages, pageNum,
         } = this.state;
         if (stateError != null) {
             throw new Error(stateError.toString());
@@ -129,6 +133,8 @@ export class CardDeck extends Component {
                 <div className={`${CSS.CardDeck} ${userType}`}>{cards}</div>
                 <PaginateButtons
                     user_type={userType}
+                    pageNum={pageNum}
+                    maxPages={maxPages}
                     first={this.firstClicked}
                     next={this.nextClicked}
                     prev={this.previousClicked}
