@@ -1,3 +1,4 @@
+"""URLs list for the account module."""
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
@@ -7,7 +8,7 @@ from knox import views as knox_views
 
 from . import views
 from . import ajax_views
-from .api import LoginAPI, ContactsAPI, UserAPI
+from .api import LoginAPI, ContactsAPI, UserAPI, UserEdit
 
 router = routers.DefaultRouter()
 
@@ -54,9 +55,9 @@ urlpatterns = [
 
     # Paths for API calls
     path('api/auth', include('knox.urls')),
-    path('api/account',
-         UserAPI.as_view({'post': 'create', 'get': 'list', 'put': 'update'}),
+    path('api/account', UserAPI.as_view({'post': 'create', 'get': 'list'}),
          name='api_account'),
+    path('api/account/edit', UserEdit.as_view(), name='edit_account'),
     path('api/auth/login', LoginAPI.as_view(), name='log_API'),
     path('api/contacts', ContactsAPI.as_view({'get': 'list'}),
          name='contacts_API'),
