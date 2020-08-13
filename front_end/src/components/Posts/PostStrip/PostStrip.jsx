@@ -22,7 +22,7 @@ const postStrip = (props) => {
             <AuthorAvatar className={CSS.Card} number={ID} user={user} />
             <div className={CSS.Post}>
                 <h5>{title}</h5>
-                <p>{body}</p>
+                <p dangerouslySetInnerHTML={{ __html: body }} />
                 <small>{created}</small>
             </div>
         </div>
