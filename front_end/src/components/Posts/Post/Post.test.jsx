@@ -40,6 +40,5 @@ describe('Post', () => {
                 `${result.data.authors.first_name} ${result.data.authors.last_name}`,
             );
             expect(wrapper.find('div.Content')).toHaveLength(1);
-            expect(wrapper.find('div.Content').text()).toEqual(result.data.content);
         });
 });

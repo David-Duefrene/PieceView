@@ -10,18 +10,11 @@ import CSS from './NavItem.module.css';
  * @param {bool} props.exact - If the link should be a direct match.
  */
 const navItem = (props) => {
-    const {
-        match, path, exact, children,
-    } = props;
-    let isActive = CSS.NavItem;
-
-    if (match.url === path) {
-        isActive = `${CSS.NavItem} ${CSS.Active}`;
-    }
+    const { path, exact, children } = props;
 
     return (
-        <li className={isActive}>
-            <NavLink to={path} activeClassName={CSS.active} exact={exact}>
+        <li className={`${CSS.NavItem}`}>
+            <NavLink to={path} activeClassName={CSS.Active} exact={exact}>
                 {children}
             </NavLink>
         </li>
@@ -30,7 +23,6 @@ const navItem = (props) => {
 
 navItem.propTypes = {
     path: PropTypes.string.isRequired,
-    match: PropTypes.string.isRequired,
     children: PropTypes.string.isRequired,
     exact: PropTypes.bool.isRequired,
 };

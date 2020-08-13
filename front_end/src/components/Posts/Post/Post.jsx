@@ -42,9 +42,10 @@ export class Post extends Component {
                     <div className={CSS.Post}>
                         <h1 className={CSS.Title}>{title}</h1>
                         <h3 className={CSS.Author}>{`${author.first_name} ${author.last_name}`}</h3>
-                        <div className={CSS.Content}>
-                            {content}
-                        </div>
+                        <div
+                            className={CSS.Content}
+                            dangerouslySetInnerHTML={{ __html: content }}
+                        />
                     </div>
                 ) : (<h1>Loading!!!</h1>)}
             </div>

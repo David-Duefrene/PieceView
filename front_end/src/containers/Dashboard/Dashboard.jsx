@@ -13,8 +13,8 @@ import CSS from './Dashboard.module.css';
  */
 export class Dashboard extends Component {
     state = {
-        tabs: ['Profile', 'Followers', 'Following'],
-        activeTab: 'Followers',
+        tabs: ['Profile', 'Following'],
+        activeTab: 'Profile',
     };
 
     /**
@@ -40,6 +40,7 @@ export class Dashboard extends Component {
                         ? CSS.Active.concat(' ', CSS.NavLink)
                         : CSS.NavLink}
                     onClick={() => this.onTabClickedHandler(item)}
+                    id={item}
                 >
                     {item}
                 </button>
@@ -49,15 +50,6 @@ export class Dashboard extends Component {
         // Generate content here
         let tabContent;
         switch (activeTab) {
-        case 'Followers':
-            tabContent = (
-                <>
-                    <h1>Followers clicked.</h1>
-                    <CardDeck className='Followers' userType='followers' user={user} />
-                </>
-            );
-            break;
-
         case 'Following':
             tabContent = (
                 <>
@@ -80,7 +72,7 @@ export class Dashboard extends Component {
             tabContent = (
                 <>
                     <h1>Followers defaulted.</h1>
-                    <CardDeck className='Followers' user_type='followers' user={user} />
+                    <CardDeck className='Following' user_type='following' user={user} />
                 </>
             );
             break;
