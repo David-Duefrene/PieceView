@@ -6,20 +6,12 @@ describe('auth reducer', () => {
 
     beforeEach(() => {
         initialState = {
+            notInitial: false,
             token: localStorage.getItem('token'),
             isAuthenticated: null,
             isLoading: false,
             user: null,
         };
-    });
-
-    it('should return initial state', () => {
-        expect(auth(undefined, {})).toEqual(initialState);
-    });
-
-    it('should return modified state', () => {
-        const modifiedState = { notInitial: true };
-        expect(auth(modifiedState, {})).toEqual(modifiedState);
     });
 
     it('should return state with isLoading set true if user is loading', () => {
