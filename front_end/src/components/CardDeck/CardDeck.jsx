@@ -45,11 +45,9 @@ export class CardDeck extends Component {
      */
     loadContacts = (url) => {
         axios.get(url).then((result) => {
-            const { userType } = this.props;
             this.setState({
                 userList: result.data,
                 isLoaded: true,
-                userType,
                 maxPages: Math.ceil(result.data.count / 5),
             });
         }).catch((error) => {
@@ -116,6 +114,7 @@ export class CardDeck extends Component {
                         number={i}
                         user={userList.results[i]}
                         user_type={userType}
+                        following
                         key={i}
                     />,
                 );

@@ -6,14 +6,15 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import GenericAPIView, \
     RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import PageNumberPagination
+from django.http import HttpResponseNotFound
 
 from django.contrib.auth.hashers import make_password
 
 from knox.models import AuthToken
 
-from .models import CustomUser
+from .models import CustomUser, Contact
 from .serializers import UserSerializer, LoginSerializer, RegisterSerializer, \
-    UserEditSerializer
+    UserEditSerializer, ContactUserSerializer
 
 
 class UserAPI(ModelViewSet):
@@ -169,7 +170,7 @@ class ContactsAPI(ModelViewSet):
     """
 
     permission_classes = [IsAuthenticated]
-    serializer_class = UserSerializer
+    serializer_class = ContactUserSerializer
 
     def get_queryset(self):
         """Will returns a contacts list.
@@ -183,11 +184,33 @@ class ContactsAPI(ModelViewSet):
         """
         try:
             user = CustomUser.objects.get(id=self.request.user.id)
-            if self.request.data['type'] == 'followers':
-                return user.followers.all()
-            elif self.request.data['type'] == 'following':
-                return user.following.all()
-            else:
-                raise KeyError('Invalid type')
+            # if self.request.data['type'] == 'followers':
+            #     return user.followers.all()
+            # elif self.request.data['type'] == 'following':
+            return user.following.all()
+            # else:
+            #     raise KeyError('Invalid type')
         except KeyError:
             return user.followers.all()
+
+    def post(self, request, *args, **kwargs):
+        """Create or destroy a contact
+
+        Will either create a delete a contact. Will return success or failied
+
+        Request Data:
+            action(string): either follow or unfollow
+            id(int): the is of the user that is being followed/unfollowed
+        """
+        try:
+            to_user = CustomUser.objects.get(
+                username=(request.data['username']))
+            if request.data['action'] == 'follow':
+                Contact.objects.get_or_create(
+                    from_user=request.user, to_user=to_user)
+            elif request.data['action'] == 'unfollow':
+                Contact.objects.filter(
+                    from_user=request.user, to_user=to_user).delete()
+            return Response({'Status': 'Success'})
+        except Exception:
+            return HttpResponseNotFound('What?')
