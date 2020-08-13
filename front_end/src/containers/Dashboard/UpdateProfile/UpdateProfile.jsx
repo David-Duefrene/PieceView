@@ -41,6 +41,13 @@ class UpdateProfile extends Component {
                 value: '',
                 id: 'email',
             },
+            biography: {
+                elementType: 'input',
+                label: 'biography',
+                dataType: 'textarea',
+                value: '',
+                id: 'photo',
+            },
             photo: {
                 elementType: 'input',
                 label: 'photo',
@@ -65,6 +72,7 @@ class UpdateProfile extends Component {
                 lastName: UpdateObject(form.lastName, { value: user.last_name }),
                 email: UpdateObject(form.email, { value: user.email }),
                 photo: UpdateObject(form.photo, { value: photoURL }),
+                biography: UpdateObject(form.biography, { value: user.biography }),
             },
         });
     }
@@ -81,7 +89,7 @@ class UpdateProfile extends Component {
             email: form.email.value,
             first_name: form.firstName.value,
             last_name: form.lastName.value,
-            photo: form.photo.value,
+            photo_link: form.photo.value,
         };
         axios.patch('/account/api/account/edit', data).then(() => {
             history.push('/dashboard');
@@ -107,34 +115,30 @@ class UpdateProfile extends Component {
         if (!isLoaded) {
             return (<h1>Loading!!!</h1>);
         }
-        let photo = null;
+        const photo = <img alt='' src={form.photo.value} />;
+
         const newForm = (
-            Object.entries(form).map((element) => {
-                if (element[0] === 'photo') {
-                    photo = <img alt='' src={element[1].value} />;
-                }
-                return (
-                    <div className={CSS.inputGroup} key={element[0]}>
-                        {photo}
-                        <label htmlFor={element[0]} className={CSS.formLabel}>
-                            {element[1].label}
-                        </label>
-                        <input
-                            type={element[1].dataType}
-                            name={element[0]}
-                            className={CSS.input}
-                            onChange={this.onTextChangeHandler}
-                            value={element[1].value}
-                        />
-                    </div>
-                );
-            })
+            Object.entries(form).map((element) => (
+                <div className={CSS.inputGroup} key={element[0]}>
+                    <label htmlFor={element[0]} className={CSS.formLabel}>
+                        {element[1].label}
+                    </label>
+                    <input
+                        type={element[1].dataType}
+                        name={element[0]}
+                        className={CSS.input}
+                        onChange={this.onTextChangeHandler}
+                        value={element[1].value}
+                    />
+                </div>
+            ))
         );
 
         return (
             <form className={CSS.ProfileForm} onSubmit={this.onSubmit}>
                 <h2>{`Welcome ${user.username}.`}</h2>
                 <h2>You may edit your profile with the following form:</h2>
+                {photo}
                 {newForm}
                 <Button type='submit'>Update Profile</Button>
                 {formMessage === null ? '' : (<p>{formMessage}</p>)}
@@ -151,6 +155,7 @@ UpdateProfile.propTypes = {
         first_name: PropTypes.string.isRequired,
         last_name: PropTypes.string.isRequired,
         photo: PropTypes.string.isRequired,
+        biography: PropTypes.string.isRequired,
     }).isRequired,
 };
 

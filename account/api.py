@@ -101,6 +101,8 @@ class UserEdit(RetrieveUpdateDestroyAPIView):
         instance.first_name = request.data['first_name']
         instance.last_name = request.data['last_name']
         instance.email = request.data['email']
+        instance.photo_link = request.data['photo_link']
+        instance.biography = request.data['biography']
         instance.save()
 
         serializer = self.edit_serializer(instance, data=request.data)

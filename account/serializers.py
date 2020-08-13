@@ -21,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         model = CustomUser
         fields = ['username', 'email', 'photo', 'first_name', 'last_name',
-                  'followers', 'photo_url', 'get_absolute_url']
+                  'biography', 'photo_url', 'get_absolute_url']
 
 
 class UserEditSerializer(serializers.ModelSerializer):
@@ -38,7 +38,8 @@ class UserEditSerializer(serializers.ModelSerializer):
 
         model = CustomUser
         photo = serializers.FileField(required=False)
-        fields = ['email', 'first_name', 'last_name', 'photo_link']
+        fields = ['email', 'first_name', 'last_name', 'photo_link',
+                  'biography']
 
 
 class ContactSerializer(serializers.ModelSerializer):

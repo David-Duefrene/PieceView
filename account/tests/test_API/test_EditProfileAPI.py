@@ -26,7 +26,9 @@ class EditProfileAPITest(APITestCase):
         self.updated_data = {
             'email': 'updateTest@test.com',
             'first_name': 'updateFirstTest',
-            'last_name': 'updateLastTest'
+            'last_name': 'updateLastTest',
+            'photo_link': 'www.test.com/photo',
+            'biography': 'Test Bio'
         }
         self.user = create_user()
         self.response = None
