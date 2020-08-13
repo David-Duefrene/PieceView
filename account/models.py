@@ -31,6 +31,7 @@ class CustomUser(AbstractUser):
     photo = ImageField(upload_to='users/%Y/%m/%d/', blank=True)
     photo_link = CharField(blank=False, max_length=2000,
                            default='/static/icons/no-picture.jpg')
+    biography = CharField(blank=True, max_length=1000)
 
     objects = UserManager()
     paginate = PaginateManager()
