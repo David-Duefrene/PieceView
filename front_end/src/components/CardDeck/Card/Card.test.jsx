@@ -25,6 +25,6 @@ describe('<Card />', () => {
             expect(wrapper.find('h5.CardTitle').text()).toEqual('fName lName');
             expect(wrapper.find('p.CardBody')).toHaveLength(1);
             expect(wrapper.find('div.CardFooter')).toHaveLength(1);
-            expect(wrapper.find('button.Button').text()).toEqual('Profile');
+            expect(wrapper.find('button.Button').map((node) => node)[0].text()).toEqual('Profile');
         });
 });

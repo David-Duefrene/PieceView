@@ -7,8 +7,23 @@ from .models import CustomUser, Contact
 User = get_user_model()
 
 
+class ContactUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'biography',
+                  'photo_url', 'get_absolute_url']
+
+
+class FollowingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username']
+
+
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for showing a user's data."""
+
+    following = FollowingSerializer(many=True)
 
     class Meta:
         """The Meta
@@ -21,7 +36,8 @@ class UserSerializer(serializers.ModelSerializer):
 
         model = CustomUser
         fields = ['username', 'email', 'photo', 'first_name', 'last_name',
-                  'biography', 'photo_url', 'get_absolute_url']
+                  'biography', 'photo_url', 'get_absolute_url', 'following']
+        depth = 1
 
 
 class UserEditSerializer(serializers.ModelSerializer):
