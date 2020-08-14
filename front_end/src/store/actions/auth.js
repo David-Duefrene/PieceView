@@ -1,57 +1,36 @@
 import axios from 'axios';
 
+import authAxios from '../../axios-auth';
 import { returnErrors } from './messages';
 import * as actions from './actionTypes';
-
-
-/**
- * Loads a user object from the server.
- */
-export const loadUser = () => (dispatch, state) => {
-    dispatch({ type: actions.USER_LOADING });
-
-    axios.get(
-        'http://127.0.0.1:8000/account/api/auth/user',
-        tokenConfig(state)).then(result => {
-            dispatch({
-                type: actions.USER_LOADED,
-                payload: result.data,
-            });
-        }).catch(error => {
-            dispatch(returnErrors(error.response.data, error.response.status));
-            dispatch({
-                type: actions.AUTH_ERROR
-            });
-        });
-};
-
 
 /**
  * Logs a user in and get the authentication token from the server.
  * @param {string} username The user's username.
  * @param {string} password The user's password.
  */
-export const login = (username, password) => dispatch => {
+export const login = (username, password) => (dispatch) => {
     // Headers
-        const config = {
-        headers: { 'Content-Type': 'application/json' }
+    const config = {
+        headers: { 'Content-Type': 'application/json' },
     };
-
     // Request Body
     const body = JSON.stringify({ username, password });
 
     axios.post('http://127.0.0.1:8000/account/api/auth/login', body, config)
-    .then(result => {
-        dispatch({
-            type: actions.LOGIN_SUCCESS,
-            payload: result.data,
+        .then((result) => {
+            dispatch({ type: actions.LOGIN_SUCCESS, payload: result.data });
+        }).catch((error) => {
+            dispatch(returnErrors(error.response.data, error.response.status));
+            dispatch({ type: actions.LOGIN_FAIL });
         });
-    }).catch(error => {
-        dispatch(returnErrors(error.response.data, error.response.status));
-        dispatch({ type: actions.LOGIN_FAIL });
-    });
 };
 
+export const updateProfile = (profile) => (dispatch) => {
+    authAxios.patch('/account/api/account/edit', profile).then((result) => {
+        dispatch({ type: actions.UPDATE_PROFILE, payload: result.data });
+    }).catch((error) => new Error(error));
+};
 
 /**
  * Registers the user with the server.
@@ -59,51 +38,33 @@ export const login = (username, password) => dispatch => {
  * @param {string} password The user's password.
  * @param {string} email The user's email.
  */
-export const register = newUser => dispatch => {
+export const register = (newUser) => (dispatch) => {
     // Headers
-        const config = {
-        headers: { 'Content-Type': 'application/json' }
+    const config = {
+        headers: { 'Content-Type': 'application/json' },
     };
 
     axios.post(
-        'http://127.0.0.1:8000/account/api/auth/register',
+        'http://localhost:8000/account/api/account',
         newUser,
-        config
-    ).then(result => {
+        config,
+    ).then((result) => {
         dispatch({
             type: actions.LOGIN_SUCCESS,
             payload: result.data,
         });
-    }).catch(error =>  {
-        console.log(error.response);
-    })
-};
-
-
-/**
- * Logs the user out and invalidates the authentication key with the server.
- */
-export const logout = () => ( dispatch, getState ) => {
-    fetch('http://127.0.0.1:8000/account/api/auth/logout',
-        null,
-        tokenConfig(getState)).then(raw => {
-            return raw.json();
-        }).then(() => {
-            dispatch({ type: actions.LOGOUT_SUCCESS });
-        },
-    (error) => {
-        console.log(`Error in actions.auth.js in logout().\nError:  ${error}`);
+    }).catch((error) => {
+        dispatch(returnErrors(error.response.data, error.response.status));
     });
 };
-
 
 /**
  * Sets the config with the user's token.
  * @param {object} getState Current state.
  */
-export const tokenConfig = getState => {
+export const tokenConfig = (getState) => {
     // Get token from state
-    const token = getState().auth.token;
+    const { token } = getState().auth;
 
     // Headers
     const config = {
@@ -111,7 +72,14 @@ export const tokenConfig = getState => {
     };
 
     // If token, add to headers config
-    if (token) { config.headers['Authorization'] = `Token ${token}` };
+    if (token) { config.headers.Authorization = `Token ${token}`; }
 
     return config;
+};
+
+/**
+ * Logs the user out and invalidates the authentication key with the server.
+ */
+export const logout = () => (dispatch) => {
+    dispatch({ type: actions.LOGOUT_SUCCESS });
 };

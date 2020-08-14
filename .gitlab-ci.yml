@@ -1,0 +1,30 @@
+stages:
+    - test-backend
+    - test-frontend
+
+services: 
+    - postgres:12.2-alpine
+
+variables:
+    POSTGRES_DB: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: Nano1947
+    POSTGRES_HOST_AUTH_METHOD: trust
+
+test-backend:
+    stage: test-backend
+    image: python:3.7
+    script:
+        - "export DATABASE_URL=postgres://postgres:@postgres:5432/project_ci_test"
+        - pip install --no-cache-dir -r requirements.txt
+        - python manage.py makemigrations account
+        - python manage.py migrate
+        - python manage.py test
+
+test-frontend:
+    stage: test-frontend
+    image: "node:14.4"
+    script:
+    - cd front_end
+    - npm install
+    - npm test

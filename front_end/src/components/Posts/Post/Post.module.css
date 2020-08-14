@@ -1,0 +1,17 @@
+.Post {
+    display: flex;
+    flex-direction: column;
+}
+
+.Title {
+    align-self: center;
+}
+
+.Author {
+    align-self: center;
+}
+
+.Content {
+    align-self: center;
+    margin: 1em 10%;
+}

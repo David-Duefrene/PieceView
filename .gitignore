@@ -145,6 +145,4 @@ yarn-error.log*
 # For testing
 HTML-dump/
 
-# Not including migration until production for simplicity
-*/migrations/
 PieceViewTEMP/

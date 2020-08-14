@@ -1,151 +1,87 @@
+"""Test to make sure a user can edit their profile"""
 from django.urls import reverse
 
 from rest_framework.test import APITestCase, APIClient
 from rest_framework.exceptions import ErrorDetail
 
 from account.models import CustomUser
+from common.create_user import create_user
 
 
 class EditProfileAPITest(APITestCase):
-    """Test the Edit Profile API"""
+    """Test the Edit Profile API.
+
+    Attributes:
+        updated_data: Data we are going to update the profile with
+
+    Methods:
+        setup(self): resets the class attribute back to defaults
+        update_user(self, data): updates the user with the given data
+    """
+
     def setUp(self):
+        """Set up the client, update_data, user, and response"""
         self.client = APIClient()
         # Data we are going to update with
-        self.updatedData = {
+        self.updated_data = {
             'email': 'updateTest@test.com',
             'first_name': 'updateFirstTest',
-            'last_name': 'updateLastTest'
+            'last_name': 'updateLastTest',
+            'photo_link': 'www.test.com/photo',
+            'biography': 'Test Bio'
         }
+        self.user = create_user()
+        self.response = None
 
-        # Creates a User
-        self.data = {
-            'username': 'TestUser',
-            'email': 'test@test.com',
-            'password': 'password',
-            'first_name': 'first_test',
-            'last_name': 'last_test'
-        }
+    def update_user(self):
+        """Update the user's profile
 
-        self.client.post(reverse('register_API'), self.data, format='json')
-        self.assertTrue(CustomUser.objects.get(username=self.data['username']))
+        Updates the user's profile with updated_data and updates the user and
+        adds the server response response.
+        """
+        self.client.force_authenticate(user=self.user)
+        self.response = self.client.patch(
+            reverse('edit_account'), self.updated_data, format='json'
+        )
+        self.user = CustomUser.objects.get(username=self.user.username)
 
     def test_can_update_user_profile(self):
-        """Tests that we can update the user profile."""
-        token = self.client.post(
-            reverse('log_API'),
-            {
-                'username': self.data['username'],
-                'password': self.data['password']
-            },
-            format='json'
-        ).data['token']
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
-
-        self.client.put(
-            reverse('edit_account'),
-            self.updatedData,
-            format='json'
-        )
-        user = CustomUser.objects.get(username=self.data['username'])
-
-        self.assertEqual(user.first_name, self.updatedData['first_name'])
-        self.assertEqual(user.last_name, self.updatedData['last_name'])
-        self.assertEqual(user.email, self.updatedData['email'])
+        """Test that we can update the user profile."""
+        self.update_user()
+        self.assertEqual(self.user.first_name, self.updated_data['first_name'])
+        self.assertEqual(self.user.last_name, self.updated_data['last_name'])
+        self.assertEqual(self.user.email, self.updated_data['email'])
 
     def test_first_name_is_optional(self):
-        """Tests that the first name field is optional."""
-        self.updatedData['first_name'] = ''
-        token = self.client.post(
-            reverse('log_API'),
-            {
-                'username': self.data['username'],
-                'password': self.data['password']
-            },
-            format='json'
-        ).data['token']
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
-
-        self.client.put(
-            reverse('edit_account'),
-            self.updatedData,
-            format='json'
-        )
-        user = CustomUser.objects.get(username=self.data['username'])
-
-        self.assertEqual(user.first_name, self.updatedData['first_name'])
+        """Test that the first name field is optional."""
+        self.updated_data['first_name'] = ''
+        self.update_user()
+        self.assertEqual(self.user.first_name, self.updated_data['first_name'])
 
     def test_last_name_is_optional(self):
-        """Tests that the last name field is optional."""
-        self.updatedData['last_name'] = ''
-        token = self.client.post(
-            reverse('log_API'),
-            {
-                'username': self.data['username'],
-                'password': self.data['password']
-            },
-            format='json'
-        ).data['token']
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
-
-        self.client.put(
-            reverse('edit_account'),
-            self.updatedData,
-            format='json'
-        )
-        user = CustomUser.objects.get(username=self.data['username'])
-
-        self.assertEqual(user.last_name, self.updatedData['last_name'])
+        """Test that the last name field is optional."""
+        self.updated_data['last_name'] = ''
+        self.update_user()
+        self.assertEqual(self.user.last_name, self.updated_data['last_name'])
 
     def test_email_is_optional(self):
-        """Tests that th email field is optional."""
-        self.updatedData['email'] = ''
-        token = self.client.post(
-            reverse('log_API'),
-            {
-                'username': self.data['username'],
-                'password': self.data['password']
-            },
-            format='json'
-        ).data['token']
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
-
-        self.client.put(
-            reverse('edit_account'),
-            self.updatedData,
-            format='json'
-        )
-        user = CustomUser.objects.get(username=self.data['username'])
-
-        self.assertEqual(user.email, self.updatedData['email'])
+        """Test that th email field is optional."""
+        self.updated_data['email'] = ''
+        self.update_user()
+        self.assertEqual(self.user.email, self.updated_data['email'])
 
     def test_bad_email_is_rejected(self):
-        """Tests a improperly formatted email address is rejected."""
-        self.updatedData['email'] = ''
-        token = self.client.post(
-            reverse('log_API'),
-            {
-                'username': self.data['username'],
-                'password': self.data['password'],
-                'email': 'incorrect'
-            },
-            format='json'
-        ).data['token']
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
-
-        response = self.client.put(
-            reverse('edit_account'),
-            self.updatedData,
-            format='json'
-        )
-        user = CustomUser.objects.get(username=self.data['username'])
+        """Test a improperly formatted email address is rejected."""
+        self.updated_data['email'] = ''
+        self.update_user()
 
         # email should be left as original email address
-        self.assertEqual(user.email, self.updatedData['email'])
+        self.assertEqual(self.user.email, self.updated_data['email'])
         # And we should get a HTTP 400 with error code.
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(self.response.status_code, 400)
         # Eventually this needs to return a custom error instead of blank
         # For now the blank error will do
         self.assertEqual(
-            response.data['email'],
+            self.response.data['email'],
             [ErrorDetail(string='This field may not be blank.', code='blank')]
         )

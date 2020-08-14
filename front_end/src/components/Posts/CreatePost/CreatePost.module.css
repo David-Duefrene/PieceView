@@ -1,0 +1,15 @@
+.Form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0% 10% 0% 10%;
+}
+
+.Input {
+    width: 100%;
+}
+
+.Editor {
+    width: 100%;
+    min-height: 30em;
+}

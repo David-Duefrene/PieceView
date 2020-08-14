@@ -1,0 +1,17 @@
+.PostList {
+    display: flex;
+    flex-direction: column;
+    background-color: #90E0EF;
+}
+
+.Post {
+    padding: 2%;
+}
+
+@media (min-width: 700px){
+    .PostList {
+        flex-direction: row;
+        width: 90%;
+        align-self: center;
+    }
+}

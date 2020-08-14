@@ -1,6 +1,7 @@
 import os
 import django
 import sys
+import random
 from faker import Faker
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PieceView.settings')
@@ -8,6 +9,7 @@ django.setup()
 
 # skipcq: FLK-E402
 from account.models import CustomUser
+from post.models import Post
 
 
 class Populate():
@@ -16,10 +18,15 @@ class Populate():
     def __init__(self):
         self.generator = Faker()
         self.password = 'asdVE5asd'
+        self.author = None
 
         self.command_list = {
-            'commands': self.commands, 'users': self.users,
-            'followers': self.followers, 'following': self.following}
+            'commands': self.commands,
+            'users': self.users,
+            'followers': self.followers,
+            'following': self.following,
+            'posts': self.posts,
+        }
 
     def commands(self):
         print(self.command_list)
@@ -97,9 +104,10 @@ class Populate():
     @staticmethod
     def following(args):
         """
-        Adds people to follow to user. Need 2 arguments, first number of people
-        to follow to generate and the second is the your username. Default is
-        5. populate followers <int:num of people to follow> <str:username>
+        Makes users follow a specified user. Need 2 arguments, first number of
+        people to follow to generate and the second is the your username.
+        Default is 5.
+        populate followers <int:num of people to follow> <str:username>
         """
 
         if len(args) < 2:
@@ -125,22 +133,41 @@ class Populate():
                 continue
 
             if counter >= number_of_followers:
-                # print('I have finished adding followers')
                 break
 
             if users in user.followers.all():
                 continue
 
             user.following.add(users)
-            # print(f'{users} follow: {user}')
             counter += 1
         return True
+
+    def posts(self, args):
+        """
+        Generates posts. 1 optional argument, number of posts to generate.
+        Default is 5. Command should create 1 user if none exists in database.
+        """
+        total_posts = 5
+        if args[0].isnumeric():
+            total_posts = int(args[0])
+
+        all_users = CustomUser.objects.all()
+        if len(all_users) < 1:
+            self.users(['1'])
+
+        for num in range(total_posts):
+            Post.objects.get_or_create(
+                authors=all_users[random.randrange(0, len(all_users), 1)],
+                content=self.generator.paragraph(),
+                title=self.generator.sentence()
+            )
+
 
 if __name__ == "__main__":
     POP = Populate()
     if len(sys.argv) < 2:
         print('Type command and optional number of time to run said command.')
-        print('For a list of commands Type: ')
+        print('For a list of commands Type: commands')
 
     else:
         if sys.argv[1] in POP.command_list:
