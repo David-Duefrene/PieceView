@@ -1,5 +1,11 @@
 version: "3.2"
 services:
+   db:
+      image: postgres
+      environment:
+        - POSTGRES_DB=postgres
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=Nano1947
     backend:
         image: python:3.7
         # user: python

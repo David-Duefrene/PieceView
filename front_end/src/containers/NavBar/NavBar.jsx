@@ -12,7 +12,7 @@ import CSS from './NavBar.module.css';
  */
 const NavBar = () => {
     const isAuth = useSelector((state) => state.auth.isAuthenticated);
-    const [dispatch] = useReducer(actions.logout, { isAuth });
+    const [dispatch] = useReducer(isAuth, actions.logout);
 
     return (
         <ul className={CSS.NavBar}>

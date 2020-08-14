@@ -56,7 +56,7 @@ export class Register extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         const { form } = this.state;
-        const { returnErrorsFunc, registerFunc } = this.props;
+        const { returnErrorsFunc, register } = this.props;
 
         if (form.password.value !== form.password2.value) {
             returnErrorsFunc({ passwordNotMatch: 'Passwords do not match' });
@@ -66,7 +66,7 @@ export class Register extends Component {
                 password: form.password.value,
                 email: form.email.value,
             };
-            registerFunc(newUser);
+            register(newUser);
         }
     };
 
@@ -121,7 +121,7 @@ const mapStateToProps = (state) => ({
 });
 
 Register.propTypes = {
-    registerFunc: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
     returnErrorsFunc: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
 };

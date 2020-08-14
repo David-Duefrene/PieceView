@@ -59,7 +59,8 @@ class CustomUser(AbstractUser):
     @property
     def get_absolute_url(self):
         """Lets a user get the profile url, Currently non functional"""
-        return reverse('user_detail', kwargs={'slug': self.username})
+        return {'Status': 'Coming Soon!'}
+        # return reverse('user_detail', kwargs={'slug': self.username})
 
     @property
     def photo_url(self):

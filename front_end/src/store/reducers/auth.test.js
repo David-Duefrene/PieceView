@@ -7,7 +7,7 @@ describe('auth reducer', () => {
     beforeEach(() => {
         initialState = {
             notInitial: false,
-            token: localStorage.getItem('token'),
+            token: undefined,
             isAuthenticated: null,
             isLoading: false,
             user: null,

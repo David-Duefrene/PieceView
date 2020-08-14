@@ -5,16 +5,19 @@ import CSS from './LogoutButton.module.css';
 
 /**
  * Renders an individual navigation item for the navigation bar.
- * @param {func} props.logoutReducer - The function to logout the user.
+ * @param {func} logoutReducer - The function to logout the user.
  */
-const logoutButton = (props) => {
+const LogoutButton = (props) => {
     const { logoutReducer, children } = props;
+
     return (
         <li className={CSS.LogoutButton}>
             <a
                 to='/'
-                onClick={logoutReducer}
-                onKeyDown={logoutReducer}
+                onClick={() => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                }}
                 exact='True'
                 role='button'
                 tabIndex={0}
@@ -25,11 +28,11 @@ const logoutButton = (props) => {
     );
 };
 
-logoutButton.propTypes = {
+LogoutButton.propTypes = {
     logoutReducer: PropTypes.func.isRequired,
     children: PropTypes.string,
 };
 
-logoutButton.defaultProps = { children: 'logout' };
+LogoutButton.defaultProps = { children: 'logout' };
 
-export default logoutButton;
+export default LogoutButton;

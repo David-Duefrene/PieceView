@@ -3,10 +3,10 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
-from account.views import IndexTemplateView
+# from account.views import IndexTemplateView
 
 urlpatterns = [
-    path('', IndexTemplateView.as_view(), name='index'),
+    # path('', IndexTemplateView.as_view(), name='index'),
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('post/', include('post.urls')),
