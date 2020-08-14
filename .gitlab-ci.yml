@@ -23,7 +23,7 @@ test-backend:
 
 test-frontend:
     stage: test-frontend
-    image: "node:14.4"
+    image: "node:14.8"
     script:
     - cd front_end
     - npm install
