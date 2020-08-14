@@ -14,25 +14,26 @@ def generate_posts():
     and saves the username directly as the author instead of the whole
     user object.
     """
-    post_list = OrderedDict()
+    post_list = [] # OrderedDict()
     generator = Faker()
     for post_number in range(5):
         author = create_user()
 
         title = generator.sentence()
         content = generator.paragraph()
-        post = {
-            # Saving username directly to authors as a temporary hack
-            # Will need to update to properly save User data structure
-            'authors': author.username,
-            'title': title,
-            'content': content
-        }
-        post_list.update({post_number: OrderedDict(post)})
+        # post = {
+        #     # Saving username directly to authors as a temporary hack
+        #     # Will need to update to properly save User data structure
+        #     'authors': author.username,
+        #     'title': title,
+        #     'content': content
+        # }
+        new_post = Post.objects.create(
+            authors=author, title=title, content=content)
 
-        Post.objects.create(authors=author, title=title, content=content)
+        post_list.append(new_post)
 
-    post_list = OrderedDict(sorted(post_list.items(), reverse=True))
+    # post_list = OrderedDict(sorted(post_list.items(), reverse=True))
     return post_list
 
 

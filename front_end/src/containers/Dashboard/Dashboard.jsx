@@ -103,6 +103,7 @@ Dashboard.propTypes = {
         first_name: PropTypes.string.isRequired,
         last_name: PropTypes.string.isRequired,
         photo: PropTypes.string.isRequired,
+        bio: PropTypes.string.isRequired,
     }).isRequired,
 };
 

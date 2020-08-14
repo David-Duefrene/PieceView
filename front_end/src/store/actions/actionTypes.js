@@ -9,3 +9,4 @@ export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
 export const CREATE_MESSAGE = 'CREATE_MESSAGE';
 export const CONTACT = 'CONTACT';
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';

@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import authAxios from '../../axios-auth';
 import { returnErrors } from './messages';
 import * as actions from './actionTypes';
 
@@ -25,6 +26,12 @@ export const login = (username, password) => (dispatch) => {
         });
 };
 
+export const updateProfile = (profile) => (dispatch) => {
+    authAxios.patch('/account/api/account/edit', profile).then((result) => {
+        dispatch({ type: actions.UPDATE_PROFILE, payload: result.data });
+    }).catch((error) => new Error(error));
+};
+
 /**
  * Registers the user with the server.
  * @param {string} username The user's username.
@@ -38,7 +45,7 @@ export const register = (newUser) => (dispatch) => {
     };
 
     axios.post(
-        'http://127.0.0.1:8000/account/api/auth/register',
+        'http://localhost:8000/account/api/account',
         newUser,
         config,
     ).then((result) => {
@@ -73,13 +80,6 @@ export const tokenConfig = (getState) => {
 /**
  * Logs the user out and invalidates the authentication key with the server.
  */
-export const logout = () => (dispatch, getState) => {
-    fetch('http://127.0.0.1:8000/account/api/auth/logout',
-        null,
-        tokenConfig(getState)).then((raw) => raw.json()).then(() => {
-        dispatch({ type: actions.LOGOUT_SUCCESS });
-    },
-    (error) => {
-        dispatch(returnErrors(error.response.data, error.response.status));
-    });
+export const logout = () => (dispatch) => {
+    dispatch({ type: actions.LOGOUT_SUCCESS });
 };

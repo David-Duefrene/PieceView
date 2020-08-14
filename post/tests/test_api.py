@@ -6,13 +6,14 @@ posts.
 """
 from django.urls import reverse
 
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APITestCase, APIClient, APITransactionTestCase
 
 from faker import Faker
 from collections import OrderedDict
 
 from common.create_user import create_user
 from common.generate_posts import generate_posts, create_post
+from post.models import Post
 
 
 class PostListAPITest(APITestCase):
@@ -34,17 +35,10 @@ class PostListAPITest(APITestCase):
         """Will ensure a non authenticated account can access the post list."""
         self.post_list = generate_posts()
         response = self.client.get(reverse('post_API'))
-        for index, post in enumerate(self.post_list.items()):
-            self.assertEqual(
-                response.data['results'][index]['title'],
-                post[1]['title']
-            )
-            self.assertEqual(
-                response.data['results'][index]['content'], post[1]['content'])
-            self.assertEqual(
-                response.data['results'][index]['authors']['username'],
-                post[1]['authors']
-            )
+
+        self.post_list.reverse()
+        for index in range(5):
+            self.assertEqual(self.post_list[index].title, response.data['results'][index]['title'])
 
     def test_anon_gets_rejected_when_creating_post(self):
         """Will reject non authenticated user when trying to create a post."""
@@ -78,7 +72,7 @@ class PostListAPITest(APITestCase):
         self.assertEqual(response.data['Error'], '\'content\' cannot be None')
 
 
-class PostAPITest(APITestCase):
+class PostAPITest(APITransactionTestCase):
     """Tests the PostAPI.
 
     Attributes:
@@ -95,16 +89,15 @@ class PostAPITest(APITestCase):
         """Test to ensure a non authenticated account can access a post."""
         for index in range(5):
             response = self.client.get(
-                reverse('postRUD', kwargs={'pk': index + 1}))
-
+                reverse('postRUD', kwargs={'pk': self.post_list[index].pk}))
             self.assertEqual(
                 response.data['authors']['username'],
-                self.post_list[index]['authors']
+                self.post_list[index].authors.username
             )
             self.assertEqual(
-                response.data['title'], self.post_list[index]['title'])
+                response.data['title'], self.post_list[index].title)
             self.assertEqual(
-                response.data['content'], self.post_list[index]['content'])
+                response.data['content'], self.post_list[index].content)
 
     def test_anon_gets_rejected_when_deleting_a_post(self):
         """Tests to ensure a non authenticated user cannot delete a post."""
@@ -115,13 +108,15 @@ class PostAPITest(APITestCase):
         """Test to ensure a user cannot delete a post that they do not own."""
         user = create_user()
         self.client.force_authenticate(user=user)
-        response = self.client.delete(reverse('postRUD', kwargs={'pk': 1}))
+        response = self.client.delete(reverse(
+            'postRUD', kwargs={'pk': self.post_list[1].pk}))
         self.assertEqual(response.status_code, 403)
 
     def test_user_can_delete_their_own_post(self):
         """Test to ensure a user can delete their own post."""
         user = create_user()
         self.client.force_authenticate(user=user)
-        create_post(user=user)
-        response = self.client.delete(reverse('postRUD', kwargs={'pk': 6}))
+        post = create_post(user=user)
+        response = self.client.delete(reverse(
+            'postRUD', kwargs={'pk': post.pk}))
         self.assertEqual(response.status_code, 204)

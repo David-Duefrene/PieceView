@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+
 import Button from '../../../components/UI/Button/Button';
 import UpdateObject from '../../../common/UpdateObject';
-import axios from '../../../axios-auth';
+import * as actions from '../../../store/actions/index';
 import CSS from './UpdateProfile.module.css';
 
 /**
@@ -51,7 +53,7 @@ class UpdateProfile extends Component {
             photo: {
                 elementType: 'input',
                 label: 'photo',
-                dataType: 'url',
+                dataType: 'text',
                 value: '',
                 id: 'photo',
             },
@@ -84,16 +86,16 @@ class UpdateProfile extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         const { form } = this.state;
-        const { history } = this.props;
+        const { updateProfile } = this.props;
         const data = {
             email: form.email.value,
             first_name: form.firstName.value,
             last_name: form.lastName.value,
             photo_link: form.photo.value,
+            biography: form.biography.value,
         };
-        axios.patch('/account/api/account/edit', data).then(() => {
-            history.push('/dashboard');
-        }).catch((error) => new Error(error));
+        this.setState({ isLoaded: false });
+        updateProfile(data);
     };
 
     /**
@@ -112,7 +114,11 @@ class UpdateProfile extends Component {
     render() {
         const { user } = this.props;
         const { form, isLoaded, formMessage } = this.state;
+
         if (!isLoaded) {
+            if (user !== null) {
+                this.setState({ isLoaded: true });
+            }
             return (<h1>Loading!!!</h1>);
         }
         const photo = <img alt='' src={form.photo.value} />;
@@ -147,6 +153,10 @@ class UpdateProfile extends Component {
     }
 }
 
+const madDispatchToProps = (dispatch) => ({
+    updateProfile: (profile) => dispatch(actions.updateProfile(profile)),
+});
+
 UpdateProfile.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
     user: PropTypes.shape({
@@ -159,4 +169,4 @@ UpdateProfile.propTypes = {
     }).isRequired,
 };
 
-export default UpdateProfile;
+export default connect(() => {}, madDispatchToProps)(UpdateProfile);

@@ -5,7 +5,7 @@ import RichTextEditor from 'react-rte';
 import PropTypes from 'prop-types';
 
 import Button from '../../UI/Button/Button';
-import axios from '../../../axios-auth';
+import axiosAuth from '../../../axios-auth';
 import CSS from './CreatePost.module.css';
 
 /**
@@ -35,7 +35,7 @@ export class CreatePost extends Component {
             content: content.toString('html'),
         };
 
-        axios.post('post/api/postList/', data).then((result) => {
+        axiosAuth.post('post/api/postList/', data).then((result) => {
             history.push(result.data.URL);
         }).catch((error) => {
             throw new Error(error.toString());
