@@ -9,7 +9,7 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = [
             'username', 'first_name', 'last_name', 'is_staff', 'is_active',
-            'date_joined', 'photo',
+            'date_joined', 'photo_link',
         ]
 
 
