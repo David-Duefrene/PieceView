@@ -65,8 +65,6 @@ class CustomUser(AbstractUser):
     @property
     def photo_url(self):
         """Lets a user get the photo URL or the default no picture URL"""
-        if self.photo:
-            return self.photo.url
         return self.photo_link
 
 

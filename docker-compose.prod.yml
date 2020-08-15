@@ -3,13 +3,16 @@ version: "3.2"
 services:
     backend:
         build: ./
-        command: python manage.py runserver 0.0.0.0:8000
-        volumes:
-          - ./:/usr/src/
+        # command: python manage.py runserver 0.0.0.0:8000
+        command: gunicorn pieceview.wsgi:application --bind 0.0.0.0:8000
+        # volumes:
+        #   - ./:/usr/src/
         ports:
           - 8000:8000
         env_file:
-          - ./.env.dev
+          - ./.env.prod
+        depends_on:
+          - db
 
     front_end:
         build:
@@ -23,7 +26,7 @@ services:
         volumes:
             - postgres_data:/var/lib/postgresql/data/
         env_file:
-            - ./.env.dev
+            - ./.env.prod.db
 
     nginx:
         image: nginx:latest
