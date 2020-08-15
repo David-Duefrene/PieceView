@@ -30,12 +30,12 @@ class UserSerializer(serializers.ModelSerializer):
 
         Attributes:
             Model: CustomUser
-            Fields: username, email, photo, first_name, last_name, followers,
+            Fields: username, email, first_name, last_name, followers,
                 photo_url, get_absolute_url
         """
 
         model = CustomUser
-        fields = ['username', 'email', 'photo', 'first_name', 'last_name',
+        fields = ['username', 'email', 'first_name', 'last_name',
                   'biography', 'photo_url', 'get_absolute_url', 'following']
         depth = 1
 
@@ -53,7 +53,7 @@ class UserEditSerializer(serializers.ModelSerializer):
         """
 
         model = CustomUser
-        photo = serializers.FileField(required=False)
+        # photo = serializers.FileField(required=False)
         fields = ['email', 'first_name', 'last_name', 'photo_link',
                   'biography']
 
