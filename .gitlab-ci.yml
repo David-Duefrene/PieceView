@@ -2,7 +2,7 @@ stages:
     - test-backend
     - test-frontend
 
-services: 
+services:
     - postgres:12.2-alpine
 
 variables:
@@ -10,6 +10,7 @@ variables:
     POSTGRES_USER: postgres
     POSTGRES_PASSWORD: Nano1947
     POSTGRES_HOST_AUTH_METHOD: trust
+    SQL_HOST: postgres
 
 test-backend:
     stage: test-backend

@@ -3,10 +3,7 @@ version: "3.2"
 services:
     backend:
         build: ./
-        # command: python manage.py runserver 0.0.0.0:8000
-        command: gunicorn pieceview.wsgi:application --bind 0.0.0.0:8000
-        # volumes:
-        #   - ./:/usr/src/
+        command: gunicorn PieceView.wsgi:application --bind 0.0.0.0:8000
         ports:
           - 8000:8000
         env_file:
