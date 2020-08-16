@@ -89,6 +89,9 @@ export class Login extends Component {
         return (
             <form className={CSS.form} onSubmit={this.onSubmit}>
                 <h2>Login</h2>
+                {messages.message !== undefined ? Object.entries(messages.message.msg)
+                    .map((error) => (<h3 key={error[1]} className={CSS.error}>{error[1]}</h3>))
+                    : null }
                 {newForm}
                 <div className={CSS.inputGroup}>
                     <Button type='submit'>
