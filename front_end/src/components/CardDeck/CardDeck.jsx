@@ -26,7 +26,6 @@ export class CardDeck extends Component {
         userList: [],
         isLoaded: false,
         maxPages: 0,
-        userType: null,
         stateError: null,
         pageNum: 1,
     };
@@ -100,8 +99,9 @@ export class CardDeck extends Component {
      */
     render() {
         const {
-            stateError, isLoaded, userList, userType, maxPages, pageNum,
+            stateError, isLoaded, userList, maxPages, pageNum,
         } = this.state;
+        const { userType } = this.props;
         if (stateError != null) {
             throw new Error(stateError.toString());
         }

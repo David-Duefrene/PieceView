@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+
 import { CardDeck } from './CardDeck';
 import Card from './Card/Card';
 import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
@@ -22,9 +24,7 @@ describe('CardDeck', () => {
         expect(wrapper.find(PaginateButtons)).toHaveLength(1);
     });
 
-    // it('should name card deck after user_type', () => {
-    //     expect(wrapper.find('div.test-batch')).toHaveLength(1);
-    //     wrapper.setState({ userType: 'what' });
-    //     expect(wrapper.find('div.what')).toHaveLength(1);
-    // });
+    it('should name card deck after user_type', () => {
+        expect(wrapper.find('div.test-batch')).toHaveLength(1);
+    });
 });
