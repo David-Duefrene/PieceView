@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import dotenv from 'dotenv';
 
 import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
 import UpdateObject from '../../../common/UpdateObject';
-import * as actions from '../../../store/actions/index';
+import { updateProfile } from '../../../store/actions/index';
 import CSS from './UpdateProfile.module.css';
+
+const config = dotenv.config();
 
 /**
  * Form for a user to update their profile.
  * @param {object} user The current logged in user
  * @prop {object} form The form the user will use
- * @prop {string} form.firstName Text input for the user's first name, it is optional.
- * @prop {string} form.lastName Text input for the user's last name, it is optional.
- * @prop {string} form.email Email input for the user's email address, it is required.
- * @prop {file} form.photo URL input for the user's profile photo, it is optional.
+ * @prop {string} firstName Text input for the user's first name, it is optional.
+ * @prop {string} lastName Text input for the user's last name, it is optional.
+ * @prop {string} email Email input for the user's email address, it is required.
+ * @prop {string} photo URL input for the user's profile photo, it is optional.
  */
-class UpdateProfile extends Component {
+export class UpdateProfile extends Component {
     state= {
         isLoaded: false,
         formMessage: null,
@@ -65,8 +68,9 @@ class UpdateProfile extends Component {
      */
     componentDidMount() {
         const { user } = this.props;
-        const photoURL = user.photo === null ? '/static/icons/no-picture.jpg' : user.photo;
+        const photoURL = user.photo_link === '' ? 'static/icons/no-picture.jpg' : user.photo_link;
         const { form } = this.state;
+
         this.setState({
             isLoaded: true,
             form: {
@@ -86,7 +90,7 @@ class UpdateProfile extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         const { form } = this.state;
-        const { updateProfile } = this.props;
+        const { updateUser } = this.props;
         const data = {
             email: form.email.value,
             first_name: form.firstName.value,
@@ -95,7 +99,7 @@ class UpdateProfile extends Component {
             biography: form.biography.value,
         };
         this.setState({ isLoaded: false });
-        updateProfile(data);
+        updateUser(data);
     };
 
     /**
@@ -121,7 +125,7 @@ class UpdateProfile extends Component {
             }
             return (<h1>Loading!!!</h1>);
         }
-        const photo = <img alt='' src={form.photo.value} />;
+        const photo = <img alt='' src={`${process.env.REACT_APP_API_URL}${form.photo.value}`} />;
 
         const newForm = (
             Object.entries(form).map((element) => (
@@ -154,7 +158,7 @@ class UpdateProfile extends Component {
 }
 
 const madDispatchToProps = (dispatch) => ({
-    updateProfile: (profile) => dispatch(actions.updateProfile(profile)),
+    updateUser: (profile) => dispatch(updateProfile(profile)),
 });
 
 UpdateProfile.propTypes = {
@@ -164,7 +168,7 @@ UpdateProfile.propTypes = {
         email: PropTypes.string.isRequired,
         first_name: PropTypes.string.isRequired,
         last_name: PropTypes.string.isRequired,
-        photo: PropTypes.string.isRequired,
+        photo_link: PropTypes.string.isRequired,
         biography: PropTypes.string.isRequired,
     }).isRequired,
 };
