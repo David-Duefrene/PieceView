@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
+import axios from '../../../axios';
 import CSS from './Post.module.css';
 
 /**
@@ -19,7 +19,7 @@ export class Post extends Component {
 
     componentDidMount() {
         const { match } = this.props;
-        axios.get(`http://127.0.0.1:8000/post/api/post/${match.params.pk}`).then((result) => {
+        axios.get(`post/api/post/${match.params.pk}`).then((result) => {
             this.setState({
                 isLoaded: true,
                 title: result.data.title,

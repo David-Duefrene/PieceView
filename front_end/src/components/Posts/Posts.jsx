@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
-import axios from 'axios';
-
-import CSS from './Posts.module.css';
+import axios from '../../axios';
 import PostStrip from './PostStrip/PostStrip';
 import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
+import CSS from './Posts.module.css';
 
 /**
  * Renders all posts currently posted.
@@ -43,7 +42,7 @@ export class Posts extends Component {
      * @param {string} url - The url to load the posts from
      * @async
      */
-    loadPosts = (url = 'http://localhost:8000/post/api/postList/') => {
+    loadPosts = (url = 'post/api/postList/') => {
         axios.get(url).then((result) => this.setState({
             maxPage: Math.ceil(result.data.count / 10),
             postList: result.data.results,

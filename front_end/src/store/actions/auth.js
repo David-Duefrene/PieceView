@@ -1,6 +1,5 @@
-import axios from 'axios';
-
 import authAxios from '../../axios-auth';
+import axios from '../../axios';
 import { returnErrors } from './messages';
 import * as actions from './actionTypes';
 
@@ -10,14 +9,10 @@ import * as actions from './actionTypes';
  * @param {string} password The user's password.
  */
 export const login = (username, password) => (dispatch) => {
-    // Headers
-    const config = {
-        headers: { 'Content-Type': 'application/json' },
-    };
     // Request Body
     const body = JSON.stringify({ username, password });
 
-    axios.post('http://127.0.0.1:8000/account/api/auth/login', body, config)
+    axios.post('account/api/auth/login', body)
         .then((result) => {
             dispatch({ type: actions.LOGIN_SUCCESS, payload: result.data });
         }).catch((error) => {
@@ -39,16 +34,8 @@ export const updateProfile = (profile) => (dispatch) => {
  * @param {string} email The user's email.
  */
 export const register = (newUser) => (dispatch) => {
-    // Headers
-    const config = {
-        headers: { 'Content-Type': 'application/json' },
-    };
 
-    axios.post(
-        'http://localhost:8000/account/api/account',
-        newUser,
-        config,
-    ).then((result) => {
+    axios.post('account/api/account', newUser).then((result) => {
         dispatch({
             type: actions.LOGIN_SUCCESS,
             payload: result.data,
@@ -56,25 +43,6 @@ export const register = (newUser) => (dispatch) => {
     }).catch((error) => {
         dispatch(returnErrors(error.response.data, error.response.status));
     });
-};
-
-/**
- * Sets the config with the user's token.
- * @param {object} getState Current state.
- */
-export const tokenConfig = (getState) => {
-    // Get token from state
-    const { token } = getState().auth;
-
-    // Headers
-    const config = {
-        headers: { 'Content-Type': 'application/json' },
-    };
-
-    // If token, add to headers config
-    if (token) { config.headers.Authorization = `Token ${token}`; }
-
-    return config;
 };
 
 /**
