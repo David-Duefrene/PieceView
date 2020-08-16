@@ -16,9 +16,7 @@ export const login = (username, password) => (dispatch) => {
         .then((result) => {
             dispatch({ type: actions.LOGIN_SUCCESS, payload: result.data });
         }).catch((error) => {
-            console.log(error);
             dispatch(returnErrors(error.response.data, error.response.status));
-            dispatch({ type: actions.LOGIN_FAIL });
         });
 };
 

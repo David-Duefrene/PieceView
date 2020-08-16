@@ -6,7 +6,6 @@ import * as actions from './actionTypes';
  * @param {string} status The status code.
  */
 export const returnErrors = (msg, status) => {
-    console.log(status);
     return ({
         type: actions.CREATE_MESSAGE,
         payload: { msg, status },

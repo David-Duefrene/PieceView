@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Button from '../../../components/UI/Button/Button';
-import * as actions from '../../../store/actions/index';
+import { login } from '../../../store/actions/index';
 import CSS from './Login.module.css';
 
 /**
@@ -71,11 +71,12 @@ export class Login extends Component {
                     {element[1].label}
                 </label>
                 <input
-                    type={element[1].type}
+                    type={element[1].dataType}
                     className={CSS.input}
                     name={element[0]}
                     onChange={this.onChange}
                     value={element[1].value}
+                    required
                 />
                 {
                     messages.message !== undefined
@@ -109,7 +110,7 @@ const mapStateToProps = (state) => ({
 });
 
 const madDispatchToProps = (dispatch) => ({
-    onLogin: (username, password) => dispatch(actions.login(username, password)),
+    onLogin: (username, password) => dispatch(login(username, password)),
 });
 
 Login.propTypes = {
