@@ -1,14 +1,13 @@
 import React from 'react';
 
-import axios from 'axios';
-
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
+import axios from '../../../axios';
 import { Post } from './Post';
 
 configure({ adapter: new Adapter() });
-jest.mock('axios');
+jest.mock('../../../axios');
 
 const result = {
     data: {
