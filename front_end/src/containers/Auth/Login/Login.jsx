@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Button from '../../../components/UI/Button/Button';
-import * as actions from '../../../store/actions/index';
+import { login } from '../../../store/actions/index';
 import CSS from './Login.module.css';
 
 /**
@@ -60,31 +60,38 @@ export class Login extends Component {
      * If the user is already authenticated form will redirect to homepage.
      */
     render() {
-        const { isAuth } = this.props;
+        const { isAuth, messages } = this.props;
+        const { form } = this.state;
+
         if (isAuth) { return <Redirect to='/' />; }
 
-        const { form } = this.state;
         const newForm = (Object.entries(form).map((element) => (
             <div className={CSS.inputGroup} key={element[0]}>
                 <label htmlFor={element[1].label} className={CSS.label}>
-                    {' '}
                     {element[1].label}
-                    {' '}
                 </label>
                 <input
-                    type={element[1].type}
+                    type={element[1].dataType}
                     className={CSS.input}
                     name={element[0]}
-
                     onChange={this.onChange}
                     value={element[1].value}
+                    required
                 />
+                {
+                    messages.message !== undefined
+                        ? (<h5 className={CSS.error}>{messages.message.msg[element[0]]}</h5>)
+                        : null
+                }
             </div>
         )));
 
         return (
             <form className={CSS.form} onSubmit={this.onSubmit}>
                 <h2>Login</h2>
+                {messages.message !== undefined ? Object.entries(messages.message.msg)
+                    .map((error) => (<h3 key={error[1]} className={CSS.error}>{error[1]}</h3>))
+                    : null }
                 {newForm}
                 <div className={CSS.inputGroup}>
                     <Button type='submit'>
@@ -102,15 +109,21 @@ export class Login extends Component {
 
 const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuthenticated,
+    messages: state.messages,
 });
 
 const madDispatchToProps = (dispatch) => ({
-    onLogin: (username, password) => dispatch(actions.login(username, password)),
+    onLogin: (username, password) => dispatch(login(username, password)),
 });
 
 Login.propTypes = {
     isAuth: PropTypes.bool.isRequired,
+    messages: PropTypes.shape,
     onLogin: PropTypes.func.isRequired,
+};
+
+Login.defaultProps = {
+    messages: {},
 };
 
 export default connect(mapStateToProps, madDispatchToProps)(Login);

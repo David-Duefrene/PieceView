@@ -5,7 +5,11 @@ import * as actions from './actionTypes';
  * @param {string} msg The error message itself.
  * @param {string} status The status code.
  */
-export const returnErrors = (msg, status) => ({
-    type: actions.GET_ERRORS,
-    payload: { msg, status },
-});
+export const returnErrors = (msg, status) => {
+    return ({
+        type: actions.CREATE_MESSAGE,
+        payload: { msg, status },
+    });
+};
+
+export default returnErrors;
