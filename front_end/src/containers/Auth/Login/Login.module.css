@@ -31,3 +31,8 @@
     width: 50%;
     height: 3em;
 }
+
+.error {
+    background-color: red;
+    max-width: max-content;
+}

@@ -54,8 +54,15 @@ describe('<CreatePost />', () => {
 
     it('should submit form to server', () => {
         const form = wrapper.find('form');
+        const content = {
+            getEditorState: () => ({
+                getCurrentContent: () => ({
+                    hasText: () => true,
+                }),
+            }),
+        };
+        wrapper.setState({ title: 'testTitle', content });
 
-        wrapper.setState({ title: 'testTitle', content: 'testContent' });
         form.simulate('submit', { preventDefault: () => {} });
         expect(mockAxios.mock.calls.length).toBe(1);
     });
