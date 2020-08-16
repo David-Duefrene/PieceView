@@ -42,6 +42,7 @@ export default function (state = initialState, action) {
             user: action.payload.user,
         };
     case actions.LOGOUT_SUCCESS:
+        console.log('loggedout');
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         return {
