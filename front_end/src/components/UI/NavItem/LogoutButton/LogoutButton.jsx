@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
+import * as actions from '../../../../store/actions/actionTypes';
 import CSS from './LogoutButton.module.css';
 
 /**
  * Renders an individual navigation item for the navigation bar.
- * @param {func} logoutReducer - The function to logout the user.
  */
 const LogoutButton = (props) => {
-    const { logoutReducer, children } = props;
+    const { children } = props;
+    const dispatch = useDispatch();
 
     return (
         <li className={CSS.LogoutButton}>
             <a
                 to='/'
-                onClick={() => {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                }}
+                onClick={() => dispatch({ type: actions.LOGOUT_SUCCESS })}
+                onKeyDown={() => dispatch({ type: actions.LOGOUT_SUCCESS })}
                 exact='True'
                 role='button'
                 tabIndex={0}
@@ -29,7 +29,6 @@ const LogoutButton = (props) => {
 };
 
 LogoutButton.propTypes = {
-    logoutReducer: PropTypes.func.isRequired,
     children: PropTypes.string,
 };
 
