@@ -60,25 +60,28 @@ export class Login extends Component {
      * If the user is already authenticated form will redirect to homepage.
      */
     render() {
-        const { isAuth } = this.props;
+        const { isAuth, messages } = this.props;
+        const { form } = this.state;
+
         if (isAuth) { return <Redirect to='/' />; }
 
-        const { form } = this.state;
         const newForm = (Object.entries(form).map((element) => (
             <div className={CSS.inputGroup} key={element[0]}>
                 <label htmlFor={element[1].label} className={CSS.label}>
-                    {' '}
                     {element[1].label}
-                    {' '}
                 </label>
                 <input
                     type={element[1].type}
                     className={CSS.input}
                     name={element[0]}
-
                     onChange={this.onChange}
                     value={element[1].value}
                 />
+                {
+                    messages.message !== undefined
+                        ? (<h5 className={CSS.error}>{messages.message.msg[element[0]]}</h5>)
+                        : null
+                }
             </div>
         )));
 
@@ -102,6 +105,7 @@ export class Login extends Component {
 
 const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuthenticated,
+    messages: state.messages,
 });
 
 const madDispatchToProps = (dispatch) => ({
@@ -110,7 +114,12 @@ const madDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
     isAuth: PropTypes.bool.isRequired,
+    messages: PropTypes.shape,
     onLogin: PropTypes.func.isRequired,
+};
+
+Login.defaultProps = {
+    messages: {},
 };
 
 export default connect(mapStateToProps, madDispatchToProps)(Login);
