@@ -44,7 +44,7 @@ export class Posts extends Component {
      */
     loadPosts = (url = 'post/api/postList/') => {
         axios.get(url).then((result) => this.setState({
-            maxPage: Math.ceil(result.data.count / 10),
+            maxPage: Math.ceil(result.data.count / 5),
             postList: result.data.results,
             isLoaded: true,
             nextPage: result.data.next,
