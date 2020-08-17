@@ -5,19 +5,17 @@ import CSS from './AuthorAvatar.module.css';
 
 /**
  * Renders an individual card.
- * @param {int} props.number - The card ID number for the page
- * @param {string} props.user.first_name - The user's first name
- * @param {string} props.user.last_name - The user's last name
- * @param {string} props.user.photo - The user's phot url
+ * @param {int} number - The card ID number for the page
+ * @param {string} user.first_name - The user's first name
+ * @param {string} user.last_name - The user's last name
+ * @param {string} user.photo_link - The user's phot url
  */
 const authorAvatar = (props) => {
     const { number, user } = props;
-    // set default photo
-    if (user.photo == null) { user.photo = '/static/icons/no-picture.jpg'; }
 
     return (
         <div className={CSS.Avatar} id={number}>
-            <img src={user.photo} alt='' className={CSS.AvatarImage} />
+            <img src={user.photo_link} alt='' className={CSS.AvatarImage} />
             <h5 className={CSS.AvatarTitle}>
                 {`${user.first_name} ${user.last_name}`}
             </h5>
@@ -38,7 +36,7 @@ authorAvatar.propTypes = {
     user: PropTypes.shape({
         first_name: PropTypes.string.isRequired,
         last_name: PropTypes.string.isRequired,
-        photo: PropTypes.string,
+        photo_link: PropTypes.string,
     }).isRequired,
 };
 

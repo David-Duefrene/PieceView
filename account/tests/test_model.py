@@ -1,8 +1,5 @@
 """Tests the User and Contact models"""
 from django.test import TestCase
-from django.core.files.uploadedfile import SimpleUploadedFile
-
-import os
 
 from account.models import CustomUser, Contact
 
@@ -18,7 +15,8 @@ class CustomUserModelTest(TestCase):
 
     def test_default_photo_url(self):
         """Test for default photo url"""
-        self.assertEqual('static/icons/no-picture.jpg', self.user.photo_link)
+        self.assertEqual('http://localhost:8000/static/icons/no-picture.jpg',
+                         self.user.photo_link)
 
     def test_custom_photo_link(self):
         """Test for correct URL if the user uploads a photo link"""

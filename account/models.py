@@ -1,4 +1,6 @@
 """Models for the account module"""
+import os
+
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db.models import EmailField, CharField, ForeignKey, \
     DateTimeField, ManyToManyField, Model, CASCADE
@@ -29,7 +31,7 @@ class CustomUser(AbstractUser):
 
     email = EmailField(blank=False)
     photo_link = CharField(blank=False, max_length=2000,
-                           default='static/icons/no-picture.jpg')
+                           default=f'{os.environ.get("STATIC_URL")}static/icons/no-picture.jpg')
     biography = CharField(blank=True, max_length=1000)
 
     objects = UserManager()
