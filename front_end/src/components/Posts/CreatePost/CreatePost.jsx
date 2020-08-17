@@ -20,6 +20,7 @@ export class CreatePost extends Component {
     state = {
         title: null,
         content: RichTextEditor.createEmptyValue(),
+        contentError: null,
     }
 
     /**
@@ -34,19 +35,22 @@ export class CreatePost extends Component {
             title,
             content: content.toString('html'),
         };
-
-        axiosAuth.post('post/api/postList/', data).then((result) => {
-            history.push(result.data.URL);
-        }).catch((error) => {
-            throw new Error(error.toString());
-        });
+        if (content.getEditorState().getCurrentContent().hasText()) {
+            axiosAuth.post('post/api/postList/', data).then((result) => {
+                history.push(result.data.URL);
+            }).catch((error) => {
+                throw new Error(error.toString());
+            });
+        } else {
+            this.setState({ contentError: 'Cannot be empty' });
+        }
     };
 
     /**
      * Renders the component
      */
     render() {
-        const { content, title } = this.state;
+        const { content, title, contentError } = this.state;
         return (
             <form className={CSS.Form} onSubmit={this.onSubmit}>
                 <h1 className={CSS.Header}>Create a post.</h1>
@@ -58,6 +62,7 @@ export class CreatePost extends Component {
                     id='Title'
                     className={CSS.Input}
                     value={title}
+                    required
                     onChange={(val) => this.setState({ title: val.target.value })}
                 />
                 <h3 className={CSS.Label}>Post Content</h3>
@@ -66,6 +71,7 @@ export class CreatePost extends Component {
                     className={CSS.Editor}
                     onChange={(val) => this.setState({ content: val })}
                 />
+                {contentError !== null ? (<h3 className={CSS.error}>{contentError}</h3>) : null}
                 <Button className={CSS.Button} type='submit'>Submit Post</Button>
             </form>
         );

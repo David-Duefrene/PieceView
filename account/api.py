@@ -88,6 +88,10 @@ class UserEdit(RetrieveUpdateDestroyAPIView):
     edit_serializer = UserEditSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    # def get(self, request, *args, **kwargs):
+    #     print(request.user)
+    #     return Response({'Status': 'Working!'})
+
     def patch(self, request, *args, **kwargs):
         """Will allows a user to update their profile
 
@@ -212,5 +216,5 @@ class ContactsAPI(ModelViewSet):
                 Contact.objects.filter(
                     from_user=request.user, to_user=to_user).delete()
             return Response({'Status': 'Success'})
-        except Exception:
-            return HttpResponseNotFound('What?')
+        except Exception as e:
+            return HttpResponseNotFound(e)

@@ -41,7 +41,9 @@ class EditProfileAPITest(APITestCase):
         """
         self.client.force_authenticate(user=self.user)
         self.response = self.client.patch(
-            reverse('edit_account'), self.updated_data, format='json'
+            reverse(
+                'edit_account',kwargs={ 'pk': self.user.id}),
+                self.updated_data, format='json'
         )
         self.user = CustomUser.objects.get(username=self.user.username)
 

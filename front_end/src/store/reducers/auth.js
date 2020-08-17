@@ -41,10 +41,8 @@ export default function (state = initialState, action) {
             isLoading: false,
             user: action.payload.user,
         };
-    case actions.AUTH_ERROR:
-    case actions.LOGIN_FAIL:
     case actions.LOGOUT_SUCCESS:
-    case actions.REGISTER_FAIL:
+        console.log('loggedout');
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         return {

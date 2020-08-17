@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import CSS from './PostStrip.module.css';
@@ -13,6 +14,7 @@ import AuthorAvatar from './AuthorAvatar/AuthorAvatar';
  * @param {string} props.user.last_name - The user's last name
  * @param {string} props.user.photo - The user's phot url
  */
+
 const postStrip = (props) => {
     const {
         ID, title, user, created, body,
@@ -24,6 +26,11 @@ const postStrip = (props) => {
                 <h5>{title}</h5>
                 <p dangerouslySetInnerHTML={{ __html: body }} />
                 <small>{created}</small>
+                {body.length > 999 ? (
+                    <Link type='button' to={`post/${ID}`}>
+                        <button className={CSS.Button} type='button'>Read More</button>
+                    </Link>
+                ) : null}
             </div>
         </div>
     );

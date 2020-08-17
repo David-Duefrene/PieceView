@@ -26,9 +26,7 @@ export class Post extends Component {
                 content: result.data.content,
                 author: result.data.authors,
             });
-        }).catch((error) => {
-            console.log(error);
-        });
+        }).catch((error) => Error(error));
     }
 
     render() {
