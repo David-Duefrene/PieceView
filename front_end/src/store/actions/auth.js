@@ -21,7 +21,7 @@ export const login = (username, password) => (dispatch) => {
 };
 
 export const updateProfile = (profile) => (dispatch) => {
-    authAxios.patch('/account/api/account/edit', profile).then((result) => {
+    authAxios.patch('/account/api/account/edit/1', profile).then((result) => {
         dispatch({ type: actions.UPDATE_PROFILE, payload: result.data });
     }).catch((error) => new Error(error));
 };
@@ -33,7 +33,6 @@ export const updateProfile = (profile) => (dispatch) => {
  * @param {string} email The user's email.
  */
 export const register = (newUser) => (dispatch) => {
-
     axios.post('account/api/account', newUser).then((result) => {
         dispatch({
             type: actions.LOGIN_SUCCESS,

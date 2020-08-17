@@ -1,4 +1,6 @@
 """Models for the account module"""
+import os
+
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db.models import EmailField, CharField, ForeignKey, \
     DateTimeField, ManyToManyField, Model, CASCADE
@@ -6,7 +8,7 @@ from django.db.models.manager import Manager
 from django.urls import reverse
 
 from common.manager import PaginateManager
-# ImageField,
+
 
 class CustomUser(AbstractUser):
     """CustomUser model describes the sites users
@@ -28,9 +30,8 @@ class CustomUser(AbstractUser):
     """
 
     email = EmailField(blank=False)
-    # photo = ImageField(upload_to='users/%Y/%m/%d/', blank=True)
     photo_link = CharField(blank=False, max_length=2000,
-                           default='/static/icons/no-picture.jpg')
+                           default=f'{os.environ.get("STATIC_URL")}static/icons/no-picture.jpg')
     biography = CharField(blank=True, max_length=1000)
 
     objects = UserManager()
@@ -59,8 +60,7 @@ class CustomUser(AbstractUser):
     @property
     def get_absolute_url(self):
         """Lets a user get the profile url, Currently non functional"""
-        return {'Status': 'Coming Soon!'}
-        # return reverse('user_detail', kwargs={'slug': self.username})
+        return reverse('edit_account', kwargs={'pk': self.id})
 
     @property
     def photo_url(self):

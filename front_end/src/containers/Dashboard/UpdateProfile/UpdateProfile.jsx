@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import dotenv from 'dotenv';
 
 import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
-import UpdateObject from '../../../common/UpdateObject';
 import { updateProfile } from '../../../store/actions/index';
 import CSS from './UpdateProfile.module.css';
-
-const config = dotenv.config();
 
 /**
  * Form for a user to update their profile.
@@ -68,17 +64,16 @@ export class UpdateProfile extends Component {
      */
     componentDidMount() {
         const { user } = this.props;
-        const photoURL = user.photo_link === '' ? 'static/icons/no-picture.jpg' : user.photo_link;
         const { form } = this.state;
 
         this.setState({
             isLoaded: true,
             form: {
-                firstName: UpdateObject(form.firstName, { value: user.first_name }),
-                lastName: UpdateObject(form.lastName, { value: user.last_name }),
-                email: UpdateObject(form.email, { value: user.email }),
-                photo: UpdateObject(form.photo, { value: photoURL }),
-                biography: UpdateObject(form.biography, { value: user.biography }),
+                firstName: { ...form.firstName, value: user.first_name },
+                lastName: { ...form.lastName, value: user.last_name },
+                email: { ...form.email, value: user.email },
+                photo: { ...form.photo, value: user.photo_link },
+                biography: { ...form.biography, value: user.biography },
             },
         });
     }
@@ -125,7 +120,12 @@ export class UpdateProfile extends Component {
             }
             return (<h1>Loading!!!</h1>);
         }
-        const photo = <img alt='' src={`${process.env.REACT_APP_API_URL}${form.photo.value}`} />;
+        const photo = (
+            <img
+                alt=''
+                src={form.photo.value}
+            />
+        );
 
         const newForm = (
             Object.entries(form).map((element) => (
@@ -163,6 +163,7 @@ const madDispatchToProps = (dispatch) => ({
 
 UpdateProfile.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+    updateUser: PropTypes.func.isRequired,
     user: PropTypes.shape({
         username: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,

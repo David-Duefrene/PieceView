@@ -9,6 +9,7 @@ import Login from './containers/Auth/Login/Login';
 import Register from './containers/Auth/Register/Register';
 import PrivateRoute from './common/PrivateRoute';
 import NavBar from './containers/NavBar/NavBar';
+import UserProfile from './components/UserProfile/UserProfile';
 import CSS from './App.module.css';
 
 const App = () => (
@@ -19,6 +20,7 @@ const App = () => (
             <Route path='/login' component={Login} />
             <Route path='/register' component={Register} />
             <Route path='/post/:pk' component={Post} />
+            <Route path='/user/:pk' component={UserProfile} />
             <PrivateRoute path='/create-post' component={CreatePost} />
             <PrivateRoute path='/dashboard' component={Dashboard} />
         </Switch>

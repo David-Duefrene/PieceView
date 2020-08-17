@@ -15,6 +15,7 @@ describe('<AuthorAvatar />', () => {
             first_name: 'fName',
             last_name: 'lName',
             photo: '/static/icons/no-picture.jpg',
+            get_absolute_url: 'user/1',
         };
         wrapper = shallow(<AuthorAvatar number={1} user={testUser} />);
     });

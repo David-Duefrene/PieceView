@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import axios from '../../../axios-auth';
@@ -12,25 +13,27 @@ import CSS from './Card.module.css';
  * @param {bool} isFollowed - If the user is followed
  * @param {string} user.first_name - The user's first name
  * @param {string} user.last_name - The user's last name
- * @param {string} user.photo - The user's phot url
+ * @param {string} user.photo_url - The user's phot url
  */
 const Card = (props) => {
     const {
-        userType, number, user, following,
+        userType, number, user, following, match,
     } = props;
-    const [buttonText, setButtonText] = useState(following ? 'unfollow' : 'follow');
-    // set default photo
-    if (user.photo == null) { user.photo = '/static/icons/no-picture.jpg'; }
+    const [buttonText, setButtonText] = useState(following ? 'Unfollow' : 'Follow');
 
     return (
         <div className={CSS.Card} id={userType + number}>
-            <img src={user.photo} alt='' className={CSS.CardImage} />
+            <img src={user.photo_url} alt='' className={CSS.CardImage} />
             <h5 className={CSS.CardTitle}>
                 {`${user.first_name} ${user.last_name}`}
             </h5>
             <p className={CSS.CardBody}>{user.biography}</p>
             <div className={CSS.CardFooter}>
-                <button type='button' className={CSS.Button}>Profile</button>
+                {
+                    match.path === '/user/:pk'
+                        ? null
+                        : <button type='button' className={CSS.Button}>Profile</button>
+                }
                 <button
                     type='button'
                     className={CSS.Button}
@@ -39,8 +42,8 @@ const Card = (props) => {
                             'http://localhost:8000/account/api/contacts',
                             { action: buttonText, username: user.username },
                         ).then(() => {
-                            setButtonText(buttonText === 'follow' ? 'unfollow' : 'follow');
-                        }).catch((error) => console.log(error));
+                            setButtonText(buttonText === 'Follow' ? 'Unfollow' : 'Follow');
+                        }).catch((error) => Error(error));
                     }}
                 >
                     {buttonText}
@@ -54,13 +57,16 @@ Card.propTypes = {
     number: PropTypes.number.isRequired,
     userType: PropTypes.string.isRequired,
     following: PropTypes.bool.isRequired,
+    match: PropTypes.shape({
+        path: PropTypes.string.isRequired,
+    }).isRequired,
     user: PropTypes.shape({
         username: PropTypes.string.isRequired,
         first_name: PropTypes.string.isRequired,
         last_name: PropTypes.string.isRequired,
         biography: PropTypes.string.isRequired,
-        photo: PropTypes.string,
+        photo_url: PropTypes.string,
     }).isRequired,
 };
 
-export default Card;
+export default withRouter(Card);
