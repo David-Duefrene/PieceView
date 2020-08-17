@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import dotenv from 'dotenv';
 
 import { connect } from 'react-redux';
 
 import Button from '../../../components/UI/Button/Button';
 import { updateProfile } from '../../../store/actions/index';
 import CSS from './UpdateProfile.module.css';
-
-// eslint-disable-next-line no-unused-vars
-const config = dotenv.config();
 
 /**
  * Form for a user to update their profile.
