@@ -1,0 +1,9 @@
+.Profile{
+    padding-left: 10%;
+}
+
+@media (min-width: 700px) {
+    .Profile{
+        padding-left: 35%;
+    }
+}
