@@ -5,7 +5,32 @@
 }
 
 .Post {
+    display: grid;
     padding: 2%;
+}
+
+.Button {
+
+	box-shadow: 0px 1px 0px 0px #22ffa2;
+	background-color:transparent;
+    border-radius: 6px 10px 10px;
+    border: 1px solid #22ffa2;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+    text-shadow: 0px 1px 0px #22ffa2;	display:inline-block;
+}
+.Button:hover {
+
+	background-color:rgb(34, 255, 162, 0.3);
+}
+.Button:active {
+	position:relative;
+	top:1px;
 }
 
 @media (min-width: 700px){
