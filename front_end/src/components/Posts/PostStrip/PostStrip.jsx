@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import CSS from './PostStrip.module.css';
@@ -24,6 +25,9 @@ const postStrip = (props) => {
                 <h5>{title}</h5>
                 <p dangerouslySetInnerHTML={{ __html: body }} />
                 <small>{created}</small>
+                <Link type='button' to={`post/${ID}`}>
+                    <button className={CSS.Button} type='button'>Profile</button>
+                </Link>
             </div>
         </div>
     );

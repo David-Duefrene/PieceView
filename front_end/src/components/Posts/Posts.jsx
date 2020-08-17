@@ -114,6 +114,7 @@ export class Posts extends Component {
         const posts = [];
 
         for (let i = 0; i < postList.length; i++) {
+            const postPK = postList[i].get_absolute_url.replace(/^\D+/g, '');
             posts.push(
                 <PostStrip
                     title={postList[i].title}
@@ -121,7 +122,7 @@ export class Posts extends Component {
                     created={postList[i].created}
                     user={postList[i].authors}
                     key={i}
-                    ID={i}
+                    ID={postPK}
                 />,
             );
         }
