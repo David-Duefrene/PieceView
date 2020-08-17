@@ -14,6 +14,7 @@ import AuthorAvatar from './AuthorAvatar/AuthorAvatar';
  * @param {string} props.user.last_name - The user's last name
  * @param {string} props.user.photo - The user's phot url
  */
+
 const postStrip = (props) => {
     const {
         ID, title, user, created, body,
@@ -25,9 +26,11 @@ const postStrip = (props) => {
                 <h5>{title}</h5>
                 <p dangerouslySetInnerHTML={{ __html: body }} />
                 <small>{created}</small>
-                <Link type='button' to={`post/${ID}`}>
-                    <button className={CSS.Button} type='button'>Profile</button>
-                </Link>
+                {body.length > 999 ? (
+                    <Link type='button' to={`post/${ID}`}>
+                        <button className={CSS.Button} type='button'>Read More</button>
+                    </Link>
+                ) : null}
             </div>
         </div>
     );
