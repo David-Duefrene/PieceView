@@ -14,11 +14,13 @@ describe('<PostStrip />', () => {
         first_name: 'fName',
         last_name: 'lName',
         photo_url: '/static/icons/no-picture.jpg',
+        get_absolute_url: '/account/1',
     };
 
     beforeEach(() => {
         const date = '01/01/01 00:58';
-        wrapper = shallow(<PostStrip user={testUser} title='Test Title' ID={1} created={date} />);
+        wrapper = shallow((
+            <PostStrip user={testUser} body='Test' title='Test Title' ID={1} created={date} />));
     });
 
     it('should have 1 card, a title and a created date/time section', () => {
