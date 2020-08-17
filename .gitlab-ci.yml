@@ -45,7 +45,6 @@ dependency-scan:
         - ls
         - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
         - docker run
-            --interactive --tty --rm \
             --volume "$PWD:/" \
             --volume /var/run/docker.sock:/var/run/docker.sock \
             registry.gitlab.com/gitlab-org/security-products/dependency-scanning:${VERSION:-latest} /
