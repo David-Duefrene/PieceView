@@ -15,5 +15,6 @@
       * Blog-style, permits certain HTML tags.
 
 ### API Documentation
-[Account API is located here](https://documenter.getpostman.com/view/10468672/T1LQhRw9?version=latest)
-[Post API is located here](https://documenter.getpostman.com/view/10468672/T1LQhRwA?version=latest#intro)
+- [Account API is located here](https://documenter.getpostman.com/view/10468672/T1LQhRw9?version=latest)
+
+- [Post API is located here](https://documenter.getpostman.com/view/10468672/T1LQhRwA?version=latest#intro)
