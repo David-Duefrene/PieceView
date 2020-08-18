@@ -72,7 +72,7 @@ export class UpdateProfile extends Component {
                 firstName: { ...form.firstName, value: user.first_name },
                 lastName: { ...form.lastName, value: user.last_name },
                 email: { ...form.email, value: user.email },
-                photo: { ...form.photo, value: user.photo_link },
+                photo: { ...form.photo, value: user.photo_url },
                 biography: { ...form.biography, value: user.biography },
             },
         });
@@ -169,7 +169,7 @@ UpdateProfile.propTypes = {
         email: PropTypes.string.isRequired,
         first_name: PropTypes.string.isRequired,
         last_name: PropTypes.string.isRequired,
-        photo_link: PropTypes.string.isRequired,
+        photo_url: PropTypes.string.isRequired,
         biography: PropTypes.string.isRequired,
     }).isRequired,
 };
