@@ -12,7 +12,7 @@ services:
           - ./.env.dev
 
     front_end:
-        image: node:13
+        build: ./front_end
         user: node
         working_dir: /home/node/dev
         volumes:

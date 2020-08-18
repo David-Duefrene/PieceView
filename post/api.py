@@ -6,6 +6,7 @@ from rest_framework.generics import ListCreateAPIView, \
 
 from .models import Post
 from .serializers import PostSerializer
+from account.models import CustomUser
 from common.permissions import IsOwnerOrReadOnly
 
 
@@ -29,6 +30,35 @@ class PostListAPI(ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = PostSerializer
 
+    def get_queryset(self):
+        """Will returns a QuerySet of posts
+
+        Returns either the posts of the current user's following list or all
+        posts.
+
+            Request Data:
+                type(string): Need to be either following or all
+                    Will default to all if not provided or invalid
+            Returns List: Posts of users following list or All posts
+        """
+        try:
+            user = CustomUser.objects.get(id=self.request.user.id)
+
+            if self.request.data['type'] == 'following':
+                following_list = user.following.all()
+                posts = Post.objects.none()
+                for author in following_list:
+                    posts = posts | Post.objects.filter(owner_id=author.id)
+                return posts
+            elif self.request.data['type'] == 'all':
+                return Post.objects.all()
+            else:
+                raise KeyError('Invalid type')
+        except KeyError:
+            return Post.objects.all()
+        except CustomUser.DoesNotExist:
+            return Post.objects.all()
+
     def get(self, request, *args, **kwargs):
         """Will retrieves a list of posts.
 
@@ -41,6 +71,7 @@ class PostListAPI(ListCreateAPIView):
         """
         data = super().get(request, *args, **kwargs)
         results = data.data['results']
+
         for post in results:
             # Trim the content down to a preview.
             preview = post['content'][0:3000]
