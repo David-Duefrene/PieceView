@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import axios from '../../axios';
 import PostStrip from './PostStrip/PostStrip';
@@ -12,6 +13,7 @@ export class Posts extends Component {
     /**
      * Displays the posts currently active.
      * @extends Component
+     * @param {string} type The type of posts the component is displaying
      * @prop {int} pageNum The current page number. Default is 1
      * @prop {list} postList The current active posts list
      * @prop {int} maxPage The maximum page number
@@ -43,7 +45,9 @@ export class Posts extends Component {
      * @async
      */
     loadPosts = (url = 'post/api/postList/') => {
-        axios.get(url).then((result) => this.setState({
+        const { type } = this.props;
+
+        axios.get(url, { type }).then((result) => this.setState({
             maxPage: Math.ceil(result.data.count / 5),
             postList: result.data.results,
             isLoaded: true,
@@ -144,5 +148,13 @@ export class Posts extends Component {
         );
     }
 }
+
+Posts.propTypes = {
+    type: PropTypes.string,
+};
+
+Posts.defaultProps = {
+    type: 'all',
+};
 
 export default Posts;
