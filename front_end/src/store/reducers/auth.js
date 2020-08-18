@@ -11,7 +11,7 @@ const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     isLoading: false,
-    user: null,
+    user: JSON.parse(localStorage.getItem('user')),
 };
 
 /**
@@ -21,22 +21,30 @@ const initialState = {
  */
 export default function (state = initialState, action) {
     switch (action.type) {
+    case actions.UPDATE_PROFILE:
+        localStorage.setItem('user', JSON.stringify(...action.payload));
+        return {
+            ...state,
+            isLoading: false,
+            ...state.user,
+            ...action.payload,
+        };
     case actions.USER_LOADING:
         return { ...state, isLoading: true };
     case actions.LOGIN_SUCCESS:
     case actions.REGISTER_SUCCESS:
         localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
         return {
             ...state,
+            token: action.payload.token,
             isAuthenticated: true,
             isLoading: false,
             user: action.payload.user,
         };
-    case actions.AUTH_ERROR:
-    case actions.LOGIN_FAIL:
     case actions.LOGOUT_SUCCESS:
-    case actions.REGISTER_FAIL:
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         return {
             ...state,
             token: null,
@@ -44,6 +52,13 @@ export default function (state = initialState, action) {
             isAuthenticated: false,
             isLoading: false,
         };
-    default: return state;
+    default:
+        if (state.token !== null) {
+            return {
+                ...state,
+                isAuthenticated: true,
+            };
+        }
+        return state;
     }
 }

@@ -1,25 +1,22 @@
 version: "3.2"
+
 services:
     backend:
-        image: python:3.7
-        # user: python
-        working_dir: /home/python/dev
+        build: ./
+        command: python manage.py runserver 0.0.0.0:8000
         volumes:
-            - ./back_end:/home/python/dev
+          - ./:/usr/src/
         ports:
-            - "8000:8000"
-        stdin_open: true
-        tty: true
-        command: bash -c "
-            pip install -r requirements.txt
-            && python3 manage.py runserver 0.0.0.0:8000"
+          - 8000:8000
+        env_file:
+          - ./.env.dev
+
     front_end:
         image: node:13
         user: node
         working_dir: /home/node/dev
         volumes:
             - ./front_end:/home/node/dev
-            # One-way volume to use node_modules from inside image
             - ./front_end/node_modules
         ports:
             - "3000:3000"
@@ -29,3 +26,13 @@ services:
             - backend
         tty: true
         command: npm start
+
+    db:
+        image: postgres:12.4-alpine
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        env_file:
+            - ./.env.dev
+
+volumes:
+    postgres_data:

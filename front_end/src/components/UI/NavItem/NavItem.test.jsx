@@ -11,16 +11,12 @@ describe('<NavItem />', () => {
     let wrapper;
 
     beforeEach(() => {
-        const match = { url: 'test' };
-        wrapper = shallow(<NavItemTest match={match} path='test' />);
+        const match = { url: '/test' };
+        wrapper = shallow(<NavItemTest match={match} path='/test' exact>Test</NavItemTest>);
     });
 
     it('should have 1 NavLink', () => {
         expect(wrapper.find(NavLink)).toHaveLength(1);
-    });
-
-    it('should be active if current URL matches destination path', () => {
-        expect(wrapper.find('.Active')).toHaveLength(1);
     });
 
     it(`should not have an have an active class if current URL does not match

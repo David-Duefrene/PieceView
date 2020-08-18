@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useReducer } from 'react';
+import { useSelector } from 'react-redux';
 
 import NavItem from '../../components/UI/NavItem/NavItem';
 import LogoutButton from
@@ -11,37 +10,29 @@ import CSS from './NavBar.module.css';
 /**
  * The navigation bar for the user to navigate the app.
  */
-export class NavBar extends Component {
-    render() {
-        const { onLogout, isAuth } = this.props;
-        return (
-            <ul className={CSS.NavBar}>
-                <NavItem path='/' exact>PieceView</NavItem>
-                { isAuth
-                    ? (
-                        <LogoutButton logoutReducer={onLogout}>
-                            Logout
-                        </LogoutButton>
-                    )
-                    : <NavItem path='/login' exact={false}>Login</NavItem>}
-            </ul>
-        );
-    }
-}
+const NavBar = () => {
+    const isAuth = useSelector((state) => state.auth.isAuthenticated);
+    const [dispatch] = useReducer(isAuth, actions.logout);
 
-/**
- * @prop {bool} isAuth If the user is authenticated.
- */
-const mapStateToProps = (state) => ({ isAuth: state.auth.isAuthenticated });
-
-/**
- * @prop {func} onLogout Function to logout the user.
- */
-const madDispatchToProps = (dispatch) => ({ onLogout: () => dispatch(actions.logout()) });
-
-NavBar.propTypes = {
-    isAuth: PropTypes.bool.isRequired,
-    onLogout: PropTypes.func.isRequired,
+    return (
+        <ul className={CSS.NavBar}>
+            <NavItem path='/' exact>PieceView</NavItem>
+            { isAuth ? (
+                <>
+                    <NavItem path='/create-post'>Create a Post</NavItem>
+                    <NavItem path='/dashboard'>Dashboard</NavItem>
+                    <LogoutButton logoutReducer={dispatch}>
+                        Logout
+                    </LogoutButton>
+                </>
+            ) : (
+                <>
+                    <NavItem path='/register'>Register</NavItem>
+                    <NavItem path='/login' exact={false}>Login</NavItem>
+                </>
+            )}
+        </ul>
+    );
 };
 
-export default connect(mapStateToProps, madDispatchToProps)(NavBar);
+export default NavBar;

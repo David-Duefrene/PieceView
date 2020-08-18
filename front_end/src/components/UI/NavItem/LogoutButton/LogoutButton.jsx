@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
+import * as actions from '../../../../store/actions/actionTypes';
 import CSS from './LogoutButton.module.css';
 
 /**
  * Renders an individual navigation item for the navigation bar.
- * @param {func} props.logoutReducer - The function to logout the user.
  */
-const logoutButton = (props) => {
-    const { logoutReducer, children } = props;
+const LogoutButton = (props) => {
+    const { children } = props;
+    const dispatch = useDispatch();
+
     return (
         <li className={CSS.LogoutButton}>
             <a
                 to='/'
-                onClick={logoutReducer}
-                onKeyDown={logoutReducer}
+                onClick={() => dispatch({ type: actions.LOGOUT_SUCCESS })}
+                onKeyDown={() => dispatch({ type: actions.LOGOUT_SUCCESS })}
                 exact='True'
                 role='button'
                 tabIndex={0}
@@ -25,11 +28,10 @@ const logoutButton = (props) => {
     );
 };
 
-logoutButton.propTypes = {
-    logoutReducer: PropTypes.func.isRequired,
+LogoutButton.propTypes = {
     children: PropTypes.string,
 };
 
-logoutButton.defaultProps = { children: 'logout' };
+LogoutButton.defaultProps = { children: 'logout' };
 
-export default logoutButton;
+export default LogoutButton;

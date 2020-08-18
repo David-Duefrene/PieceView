@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Button from '../../../components/UI/Button/Button';
 import CSS from '../Login/Login.module.css';
-import { register, returnErrors } from '../../../store/actions/index';
+import { returnErrors, register } from '../../../store/actions/index';
 
 /**
  * Register form to allow users to register.
@@ -56,17 +56,17 @@ export class Register extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         const { form } = this.state;
-        const { returnErrorsFunc, registerFunc } = this.props;
+        const { formError, registerUser } = this.props;
 
         if (form.password.value !== form.password2.value) {
-            returnErrorsFunc({ passwordNotMatch: 'Passwords do not match' });
+            formError({ password: 'Passwords do not match' });
         } else {
             const newUser = {
                 username: form.username.value,
                 password: form.password.value,
                 email: form.email.value,
             };
-            registerFunc(newUser);
+            registerUser(newUser);
         }
     };
 
@@ -77,7 +77,7 @@ export class Register extends Component {
     }
 
     render() {
-        const { isAuthenticated } = this.props;
+        const { isAuthenticated, messages } = this.props;
         const { form } = this.state;
         if (isAuthenticated) { return <Redirect to='/' />; }
 
@@ -92,7 +92,13 @@ export class Register extends Component {
                     name={element[0]}
                     onChange={this.onChange}
                     value={element[1].value}
+                    required
                 />
+                {
+                    messages.message !== undefined
+                        ? (<h5 className={CSS.error}>{messages.message.msg[element[0]]}</h5>)
+                        : null
+                }
             </div>
         )));
 
@@ -116,14 +122,20 @@ export class Register extends Component {
     }
 }
 
+const madDispatchToProps = (dispatch) => ({
+    registerUser: (user) => dispatch(register(user)),
+    formError: (msg, status) => dispatch(returnErrors(msg, status)),
+});
+
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
+    messages: state.messages,
 });
 
 Register.propTypes = {
-    registerFunc: PropTypes.func.isRequired,
-    returnErrorsFunc: PropTypes.func.isRequired,
+    registerUser: PropTypes.func.isRequired,
+    formError: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
 };
 
-export default connect(mapStateToProps, { register, returnErrors })(Register);
+export default connect(mapStateToProps, madDispatchToProps)(Register);

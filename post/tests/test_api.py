@@ -1,98 +1,53 @@
+"""Access the post model.
+
+Allows a unauthenticated user to view a list of posts and individual posts.
+Allows authenticated users to create a post and modify/delete their own
+posts.
+"""
 from django.urls import reverse
 
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIClient, APITransactionTestCase
 
 from faker import Faker
 from collections import OrderedDict
 
-from account.models import CustomUser
+from common.create_user import create_user
+from common.generate_posts import generate_posts, create_post
 from post.models import Post
 
 
-class PostAPITest(APITestCase):
-    """Tests the PostAPI.
+class PostListAPITest(APITestCase):
+    """Tests the PostListAPI.
 
-        Attributes:
-            post_data: data for a test post
-            user_data: data to generate a user
-            login_data: data to log a user in
-
-        Methods:
-            setup: resets the class attribute back to defaults
-            generate_posts: helper function to allow tests to generate posts
-
-        Test List:
-            test_can_retrieve_posts_while_anon
+    Attributes:
+        post_list: a list of test posts
+        user: a test user to login with
     """
 
     def setUp(self):
+        """Will set up our tests."""
+        self.client = APIClient()
         self.generator = Faker()
         self.post_list = OrderedDict()
-
-    def generate_posts(self, number_of_posts=5):
-        """Generates posts for test to use.
-
-            arguments:
-                number_of_posts: OPTIONAL, uses 5 as default, number of posts
-                    to create
-        """
-        for post_number in range(number_of_posts):
-            full_name = self.generator.name()
-            full_name = full_name.split()
-            username = full_name[0][0] + full_name[1]
-
-            author = CustomUser.objects.create(username=username)
-            author.set_password('password')
-            author.save()
-
-            title = self.generator.sentence()
-            content = self.generator.paragraph()
-            post = {
-                'authors': post_number + 1,
-                'title': title,
-                'content': content
-            }
-            self.post_list.update({post_number: OrderedDict(post)})
-
-            Post.objects.create(
-                authors=author, title=title, content=content)
-
-        self.post_list = OrderedDict(sorted(
-            self.post_list.items(), reverse=True))
+        self.user = create_user()
 
     def test_can_retrieve_posts_while_anon(self):
-        """Test to ensure a non authenticated account can access the
-            post list.
-        """
-        self.generate_posts(5)
+        """Will ensure a non authenticated account can access the post list."""
+        self.post_list = generate_posts()
         response = self.client.get(reverse('post_API'))
 
-        for index, post in enumerate(self.post_list.items()):
-            self.assertEqual(response.data['results'][index]['title'], post[1]['title'])
-            self.assertEqual(
-                response.data['results'][index]['content'], post[1]['content'])
-            self.assertEqual(
-                response.data['results'][index]['authors'], post[1]['authors'])
+        self.post_list.reverse()
+        for index in range(5):
+            self.assertEqual(self.post_list[index].title, response.data['results'][index]['title'])
 
     def test_anon_gets_rejected_when_creating_post(self):
+        """Will reject non authenticated user when trying to create a post."""
         response = self.client.post(reverse('post_API'))
         self.assertEqual(response.status_code, 401)
 
     def test_user_can_create_post_while_authenticated(self):
-        full_name = self.generator.name()
-        full_name = full_name.split()
-        username = full_name[0][0] + full_name[1]
-
-        test_user = CustomUser.objects.create(username=username)
-        test_user.set_password('password')
-        test_user.save()
-        token = self.client.post(
-            reverse('log_API'), {
-                'username': username,
-                'password': 'password'},
-            format='json').data['token']
-
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+        """Test to ensure a authenticated user can create a post."""
+        self.client.force_authenticate(user=self.user)
         data = {
             'title': self.generator.sentence(),
             'content': self.generator.paragraph()
@@ -101,39 +56,67 @@ class PostAPITest(APITestCase):
         self.assertEqual(response.data['status'], 'Success! Post created')
 
     def test_invalid_title_gets_error(self):
-        full_name = self.generator.name()
-        full_name = full_name.split()
-        username = full_name[0][0] + full_name[1]
+        """Test missing title gets an error."""
+        self.client.force_authenticate(user=self.user)
 
-        test_user = CustomUser.objects.create(username=username)
-        test_user.set_password('password')
-        test_user.save()
-        token = self.client.post(
-            reverse('log_API'), {
-                'username': username,
-                'password': 'password'},
-            format='json').data['token']
-
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
         data = {'content': self.generator.paragraph()}
         response = self.client.post(reverse('post_API'), data)
         self.assertEqual(response.data['Error'], '\'title\' cannot be None')
 
     def test_invalid_content_gets_error(self):
-        full_name = self.generator.name()
-        full_name = full_name.split()
-        username = full_name[0][0] + full_name[1]
+        """Test missing content gets an error."""
+        self.client.force_authenticate(user=self.user)
 
-        test_user = CustomUser.objects.create(username=username)
-        test_user.set_password('password')
-        test_user.save()
-        token = self.client.post(
-            reverse('log_API'), {
-                'username': username,
-                'password': 'password'},
-            format='json').data['token']
-
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
         data = {'title': self.generator.sentence()}
         response = self.client.post(reverse('post_API'), data)
         self.assertEqual(response.data['Error'], '\'content\' cannot be None')
+
+
+class PostAPITest(APITransactionTestCase):
+    """Tests the PostAPI.
+
+    Attributes:
+        client: our API client
+        post_list: a list of posts for our test
+    """
+
+    def setUp(self):
+        """Will set up our tests."""
+        self.client = APIClient()
+        self.post_list = generate_posts()
+
+    def test_can_retrieve_posts_while_anon(self):
+        """Test to ensure a non authenticated account can access a post."""
+        for index in range(5):
+            response = self.client.get(
+                reverse('postRUD', kwargs={'pk': self.post_list[index].pk}))
+            self.assertEqual(
+                response.data['authors']['username'],
+                self.post_list[index].authors.username
+            )
+            self.assertEqual(
+                response.data['title'], self.post_list[index].title)
+            self.assertEqual(
+                response.data['content'], self.post_list[index].content)
+
+    def test_anon_gets_rejected_when_deleting_a_post(self):
+        """Tests to ensure a non authenticated user cannot delete a post."""
+        response = self.client.delete(reverse('postRUD', kwargs={'pk': 1}))
+        self.assertEqual(response.status_code, 401)
+
+    def test_user_cannot_delete_another_users_post(self):
+        """Test to ensure a user cannot delete a post that they do not own."""
+        user = create_user()
+        self.client.force_authenticate(user=user)
+        response = self.client.delete(reverse(
+            'postRUD', kwargs={'pk': self.post_list[1].pk}))
+        self.assertEqual(response.status_code, 403)
+
+    def test_user_can_delete_their_own_post(self):
+        """Test to ensure a user can delete their own post."""
+        user = create_user()
+        self.client.force_authenticate(user=user)
+        post = create_post(user=user)
+        response = self.client.delete(reverse(
+            'postRUD', kwargs={'pk': post.pk}))
+        self.assertEqual(response.status_code, 204)

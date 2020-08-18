@@ -17,8 +17,9 @@ describe('<Register />', () => {
         wrapper = shallow(
             <Register
                 isAuthenticated={false}
-                registerFunc={mockRegister}
-                returnErrorsFunc={() => {}}
+                registerUser={mockRegister}
+                formError={() => {}}
+                messages={{}}
             />,
         );
     });
