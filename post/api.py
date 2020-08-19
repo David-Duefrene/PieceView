@@ -5,7 +5,8 @@ from rest_framework.generics import ListCreateAPIView, \
     RetrieveUpdateDestroyAPIView
 
 from .models import Post
-from .serializers import PostSerializer
+from .serializers import PostSerializer, PostPreviewSerializer
+from account.models import CustomUser
 from common.permissions import IsOwnerOrReadOnly
 
 
@@ -25,27 +26,36 @@ class PostListAPI(ListCreateAPIView):
             create a post.
     """
 
-    queryset = Post.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly]
-    serializer_class = PostSerializer
+    serializer_class = PostPreviewSerializer
 
-    def get(self, request, *args, **kwargs):
-        """Will retrieves a list of posts.
+    def get_queryset(self):
+        """Will returns a QuerySet of posts
 
-        Allow unauthenticated access and is paginated by ?page=num in the URL.
-        No data needed in the request.
+        Returns either the posts of the current user's following list or all
+        posts.
 
-            Return Response:
-                Returns the same as default get, it just trims the content to
-                a 3000 character preview.
+            Request Parameters:
+                type(string): Need to be either following or all
+                    Will default to all if not provided or invalid
+            Returns List: Posts of users following list or All posts
         """
-        data = super().get(request, *args, **kwargs)
-        results = data.data['results']
-        for post in results:
-            # Trim the content down to a preview.
-            preview = post['content'][0:3000]
-            post['content'] = preview
-        return data
+        try:
+            user = CustomUser.objects.get(id=self.request.user.id)
+            if self.request.GET.get('type', '') == 'following':
+                following_list = user.following.all()
+                posts = Post.objects.none()
+                for author in following_list:
+                    posts = posts | Post.objects.filter(owner_id=author.id)
+                return posts
+            elif self.request.GET.get('type', '') == 'all':
+                return Post.objects.all()
+            else:
+                raise KeyError('Invalid type')
+        except KeyError:
+            return Post.objects.all()
+        except CustomUser.DoesNotExist:
+            return Post.objects.all()
 
     def post(self, request, *args, **kwargs):
         """Post function for the PostAPI.
