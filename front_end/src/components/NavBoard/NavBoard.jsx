@@ -67,10 +67,12 @@ export class NavBoard extends Component {
 }
 
 NavBoard.propTypes = {
-    boards: PropTypes.objectOf({
-        name: PropTypes.string.isRequired,
-        element: PropTypes.element.isRequired,
-    }).isRequired,
+    boards: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            element: PropTypes.element.isRequired,
+        }).isRequired,
+    ).isRequired,
 };
 
 export default NavBoard;
