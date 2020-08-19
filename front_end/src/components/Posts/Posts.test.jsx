@@ -30,7 +30,7 @@ for (let i = 0; i < 20; i++) {
             date_joined: faker.date.past(),
             photo: faker.image.imageUrl(),
         },
-        content: faker.lorem.paragraphs(),
+        summary: faker.lorem.paragraphs(),
         title: faker.lorem.sentence(),
         created: faker.date.past().toString(),
         get_absolute_url: faker.internet.url(),
@@ -43,7 +43,7 @@ describe('<Posts />', () => {
     let wrapper;
 
     beforeEach(() => {
-        wrapper = shallow(<Posts />);
+        wrapper = shallow(<Posts type='all' title='Posts' />);
     });
 
     it('should initially show loading', () => {
@@ -59,7 +59,7 @@ describe('<Posts />', () => {
         const postStrips = wrapper.find('postStrip').map((node) => node);
         for (let i = 0; i < 20; i++) {
             expect(testData.results[i].title).toEqual(postStrips[i].props().title);
-            expect(testData.results[i].content).toEqual(postStrips[i].props().body);
+            expect(testData.results[i].summary).toEqual(postStrips[i].props().body);
             expect(testData.results[i].created).toEqual(postStrips[i].props().created);
             expect(testData.results[i].authors).toEqual(postStrips[i].props().user);
         }

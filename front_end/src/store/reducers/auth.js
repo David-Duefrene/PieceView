@@ -22,11 +22,12 @@ const initialState = {
 export default function (state = initialState, action) {
     switch (action.type) {
     case actions.UPDATE_PROFILE:
-        localStorage.setItem('user', JSON.stringify(action.payload));
+        localStorage.setItem('user', JSON.stringify(...action.payload));
         return {
             ...state,
             isLoading: false,
-            user: action.payload,
+            ...state.user,
+            ...action.payload,
         };
     case actions.USER_LOADING:
         return { ...state, isLoading: true };
@@ -42,7 +43,6 @@ export default function (state = initialState, action) {
             user: action.payload.user,
         };
     case actions.LOGOUT_SUCCESS:
-        console.log('loggedout');
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         return {

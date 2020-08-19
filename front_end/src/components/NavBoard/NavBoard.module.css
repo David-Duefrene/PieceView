@@ -1,0 +1,22 @@
+.TabBar {
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.NavLink {
+    background-image: linear-gradient(
+        to right, #77A1D3 0%, #79CBCA 51%, #77A1D3 100%);
+    color: black;
+    background-color: inherit;
+    border: 2px solid #2b3340;
+    border-radius: 7px;
+    height: 4em;
+    width: 10vw;
+    min-width: 8em;
+}
+
+.Active {
+    background-image: linear-gradient(180deg, #11f967 0%, #5a8aa2 100%);
+}
