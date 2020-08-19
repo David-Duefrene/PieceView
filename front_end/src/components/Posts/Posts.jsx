@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import axios from '../../axios';
+import axiosAuth from '../../axios-auth';
 import PostStrip from './PostStrip/PostStrip';
 import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
 import CSS from './Posts.module.css';
@@ -14,6 +15,8 @@ export class Posts extends Component {
      * Displays the posts currently active.
      * @extends Component
      * @param {string} type The type of posts the component is displaying
+     * @param {string} title The title for posts the component is displaying
+     * @param {bool} auth If the user needs to be authenticated
      * @prop {int} pageNum The current page number. Default is 1
      * @prop {list} postList The current active posts list
      * @prop {int} maxPage The maximum page number
@@ -45,15 +48,28 @@ export class Posts extends Component {
      * @async
      */
     loadPosts = (url = 'post/api/postList/') => {
-        const { type } = this.props;
+        const { type, auth } = this.props;
+        const data = {
+            params: { type },
+        };
 
-        axios.get(url, { type }).then((result) => this.setState({
-            maxPage: Math.ceil(result.data.count / 5),
-            postList: result.data.results,
-            isLoaded: true,
-            nextPage: result.data.next,
-            prevPage: result.data.previous,
-        })).catch((error) => this.setState({ stateError: error }));
+        if (auth) {
+            axiosAuth.get(url, data).then((result) => this.setState({
+                maxPage: Math.ceil(result.data.count / 5),
+                postList: result.data.results,
+                isLoaded: true,
+                nextPage: result.data.next,
+                prevPage: result.data.previous,
+            })).catch((error) => this.setState({ stateError: error }));
+        } else {
+            axios.get(url, data).then((result) => this.setState({
+                maxPage: Math.ceil(result.data.count / 5),
+                postList: result.data.results,
+                isLoaded: true,
+                nextPage: result.data.next,
+                prevPage: result.data.previous,
+            })).catch((error) => this.setState({ stateError: error }));
+        }
     }
 
     /**
@@ -107,6 +123,7 @@ export class Posts extends Component {
         const {
             isLoaded, postList, stateError, pageNum, maxPage,
         } = this.state;
+        const { title } = this.props;
 
         if (!isLoaded) {
             return (<h1 className={CSS.Header}>Posts is loading.</h1>);
@@ -122,7 +139,7 @@ export class Posts extends Component {
             posts.push(
                 <PostStrip
                     title={postList[i].title}
-                    body={postList[i].content}
+                    body={postList[i].summary}
                     created={postList[i].created}
                     user={postList[i].authors}
                     key={i}
@@ -133,7 +150,7 @@ export class Posts extends Component {
 
         return (
             <div className={CSS.Posts}>
-                <h1 className={CSS.Header}>Posts</h1>
+                <h1 className={CSS.Header}>{title}</h1>
                 {posts}
                 <PaginateButtons
                     pageNum={pageNum}
@@ -150,11 +167,13 @@ export class Posts extends Component {
 }
 
 Posts.propTypes = {
-    type: PropTypes.string,
+    auth: PropTypes.bool,
+    type: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
 };
 
 Posts.defaultProps = {
-    type: 'all',
+    auth: false,
 };
 
 export default Posts;

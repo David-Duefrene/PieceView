@@ -39,4 +39,20 @@ class PostSerializer(serializers.ModelSerializer):
 
         model = Post
         fields = ['authors', 'content', 'title', 'created', 'get_absolute_url']
-        depth = 1
+
+
+class PostPreviewSerializer(serializers.ModelSerializer):
+    """Serializer for showing a post preview"""
+
+    authors = AuthorSerializer()
+
+    class Meta:
+        """The Meta
+
+        Attributes:
+            model: Post
+            fields: authors, summary, title, created, get_absolute_url,
+        """
+
+        model = Post
+        fields = ['authors', 'summary', 'title', 'created', 'get_absolute_url']
