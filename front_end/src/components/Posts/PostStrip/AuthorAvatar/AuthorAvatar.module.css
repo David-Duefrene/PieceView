@@ -8,8 +8,9 @@
 }
 
 .AvatarImage {
-    width: 100%;
+    width: inherit;
     width: -moz-available;
+    width: -webkit-fill-available;
 }
 
 .AvatarBody {
