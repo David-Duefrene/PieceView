@@ -24,7 +24,7 @@ const postStrip = (props) => {
             <AuthorAvatar className={CSS.Card} number={ID} user={user} />
             <div className={CSS.Post}>
                 <h5>{title}</h5>
-                <p dangerouslySetInnerHTML={{ __html: body }} />
+                <p className={CSS.PostBody} dangerouslySetInnerHTML={{ __html: body }} />
                 <small>{created}</small>
                 {body.length > 999 ? (
                     <Link type='button' to={`post/${ID}`}>
