@@ -2,6 +2,42 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    perspective: 1000px;
+}
+
+.PostList {
+    position: absolute;
+    left: 5px;
+}
+.PostListEnterActive {
+    left: 15px;
+    transition: left 500ms;
+}
+.PostListEnterDone {
+    left: 15px;
+}
+.PostListExit {
+    left: 15px;
+}
+.PostListExitActive {
+    left: 5px;
+    transition: left 500ms;
+    animation: Rotation 200ms 1;
+}
+
+@keyframes Rotation {
+    25% {
+        transform: rotate(15deg);
+      }
+      50% {
+        transform: rotate(-30deg);
+      }
+      75% {
+        transform: rotate(5deg);
+      }
+      100% {
+        transform: rotate(0deg);
+      }
 }
 
 .Header {
