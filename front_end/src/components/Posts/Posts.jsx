@@ -155,7 +155,7 @@ export class Posts extends Component {
         }
 
         return (
-            <div className={CSS.Posts}>
+            <div className={CSS.Main}>
                 <h1 className={CSS.Header}>{title}</h1>
                 <CSSTransition
                     in={rotating}

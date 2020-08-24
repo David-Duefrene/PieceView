@@ -40,7 +40,7 @@
 @media (min-width: 700px){
     .PostList {
         flex-direction: row;
-        width: 90%;
+        width: 100%;
         align-self: center;
     }
 }

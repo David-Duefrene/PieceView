@@ -1,43 +1,32 @@
 .Posts {
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    perspective: 1000px;
+    justify-items: center;
 }
 
-.PostList {
-    position: absolute;
-    left: 5px;
+.Main {
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    margin-left: 5%;
 }
-.PostListEnterActive {
-    left: 15px;
-    transition: left 500ms;
-}
-.PostListEnterDone {
-    left: 15px;
-}
-.PostListExit {
-    left: 15px;
-}
+
 .PostListExitActive {
-    left: 5px;
-    transition: left 500ms;
-    animation: Rotation 200ms 1;
+    animation: Rotation 250ms 1;
 }
 
 @keyframes Rotation {
     25% {
-        transform: rotate(15deg);
-      }
-      50% {
-        transform: rotate(-30deg);
-      }
-      75% {
-        transform: rotate(5deg);
-      }
-      100% {
-        transform: rotate(0deg);
-      }
+        transform: rotate3d(0, 1, 0, 45deg);
+    }
+    50% {
+        transform: rotate3d(0, 1, 0, 90deg);
+    }
+    75% {
+        transform: rotate3d(0, 1, 0, 135deg);
+    }
+    100% {
+        transform: rotate3d(0, 1, 0, 180deg);
+    }
 }
 
 .Header {
