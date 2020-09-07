@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { CSSTransition } from 'react-transition-group';
-
 import axios from '../../axios';
 import axiosAuth from '../../axios-auth';
 import PostStrip from './PostStrip/PostStrip';
-import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
 import CSS from './Posts.module.css';
 
 /**
@@ -26,17 +23,15 @@ export class Posts extends Component {
      * @prop {string} stateError The error string we may get from server
      * @prop {string} nextPage The url for the next page
      * @prop {string} prevPage The url for the previous page
-     * @prop {bool} rotating If the page is currently rotating
      */
     state = {
-        pageNum: 1,
+        pageNum: 0,
         postList: [],
         maxPage: null,
         isLoaded: false,
         stateError: null,
         nextPage: null,
         prevPage: null,
-        rotating: false,
     };
 
     /**
@@ -44,6 +39,7 @@ export class Posts extends Component {
      */
     componentDidMount() {
         this.loadPosts();
+        this.scrollListener = window.addEventListener('scroll', (e) => this.handleScroll(e));
     }
 
     /**
@@ -53,30 +49,51 @@ export class Posts extends Component {
      */
     loadPosts = (url = 'post/api/postList/') => {
         const { type, auth } = this.props;
+        const {
+            postList, pageNum, maxPage, isLoaded,
+        } = this.state;
         const data = {
             params: { type },
         };
 
+        const newPage = pageNum + 1;
+        if (newPage > maxPage && isLoaded) {
+            return;
+        }
+
         if (auth) {
             axiosAuth.get(url, data).then((result) => this.setState({
                 maxPage: Math.ceil(result.data.count / 5),
-                postList: result.data.results,
+                postList: [...postList, ...result.data.results],
                 isLoaded: true,
+                pageNum: newPage,
                 nextPage: result.data.next,
                 prevPage: result.data.previous,
-                rotating: false,
             })).catch((error) => this.setState({ stateError: error }));
         } else {
             axios.get(url, data).then((result) => this.setState({
                 maxPage: Math.ceil(result.data.count / 5),
-                postList: result.data.results,
+                postList: [...postList, ...result.data.results],
                 isLoaded: true,
+                pageNum: newPage,
                 nextPage: result.data.next,
                 prevPage: result.data.previous,
-                rotating: false,
             })).catch((error) => this.setState({ stateError: error }));
         }
     }
+
+    /**
+     * Handles the user scrolling
+     */
+    handleScroll = () => {
+        const lastLi = document.querySelector(`div > div.${CSS.Posts}`);
+        const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+        const pageOffset = window.pageYOffset + window.innerHeight;
+
+        if (pageOffset > lastLiOffset) {
+            this.loadPosts();
+        }
+    };
 
     /**
      * Loads the previous page
@@ -85,7 +102,7 @@ export class Posts extends Component {
         const { prevPage, pageNum } = this.state;
         if (prevPage !== null) {
             this.loadPosts(prevPage);
-            this.setState({ pageNum: pageNum - 1, rotating: true });
+            this.setState({ pageNum: pageNum - 1 });
         }
     }
 
@@ -96,7 +113,7 @@ export class Posts extends Component {
         const { nextPage, pageNum } = this.state;
         if (nextPage !== null) {
             this.loadPosts(nextPage);
-            this.setState({ pageNum: pageNum + 1, rotating: true });
+            this.setState({ pageNum: pageNum + 1 });
         }
     }
 
@@ -107,7 +124,7 @@ export class Posts extends Component {
         const { postList } = this.state;
         if (postList.first !== null) {
             this.loadPosts();
-            this.setState({ pageNum: 1, rotating: true });
+            this.setState({ pageNum: 1 });
         }
     }
 
@@ -118,7 +135,7 @@ export class Posts extends Component {
         const { postList, maxPage } = this.state;
         if (postList.last !== null) {
             this.loadPosts(`post/api/postList/?page=${maxPage}`);
-            this.setState({ pageNum: maxPage, rotating: true });
+            this.setState({ pageNum: maxPage });
         }
     }
 
@@ -126,9 +143,7 @@ export class Posts extends Component {
      * Renders the component
      */
     render() {
-        const {
-            isLoaded, postList, stateError, pageNum, maxPage, rotating,
-        } = this.state;
+        const { isLoaded, postList, stateError } = this.state;
         const { title } = this.props;
 
         if (!isLoaded) {
@@ -157,27 +172,7 @@ export class Posts extends Component {
         return (
             <div className={CSS.Main}>
                 <h1 className={CSS.Header}>{title}</h1>
-                <CSSTransition
-                    in={rotating}
-                    classNames={{
-                        enterActive: CSS.PostListEnterActive,
-                        enterDone: CSS.PostListEnterDone,
-                        exitActive: CSS.PostListExit,
-                        exitDone: CSS.PostListExitActive,
-                    }}
-                    timeout={200}
-                >
-                    <div className={CSS.Posts}>{posts}</div>
-                </CSSTransition>
-                <PaginateButtons
-                    pageNum={pageNum}
-                    maxPages={maxPage}
-                    userType='posts'
-                    first={this.firstClicked}
-                    prev={this.previousClicked}
-                    next={this.nextClicked}
-                    last={this.lastClicked}
-                />
+                <div className={CSS.Posts}>{posts}</div>
             </div>
         );
     }
