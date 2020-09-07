@@ -16,5 +16,6 @@ COPY requirements.txt /usr/src/
 RUN pip3 install -r requirements.txt
 
 COPY . .
+RUN python manage.py migrate
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "localhost:8000"]

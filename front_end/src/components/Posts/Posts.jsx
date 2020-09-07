@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import axios from '../../axios';
 import axiosAuth from '../../axios-auth';
 import PostStrip from './PostStrip/PostStrip';
-import PaginateButtons from '../UI/PaginateButtons/PaginateButtons';
 import CSS from './Posts.module.css';
 
 /**
@@ -26,7 +25,7 @@ export class Posts extends Component {
      * @prop {string} prevPage The url for the previous page
      */
     state = {
-        pageNum: 1,
+        pageNum: 0,
         postList: [],
         maxPage: null,
         isLoaded: false,
@@ -40,6 +39,7 @@ export class Posts extends Component {
      */
     componentDidMount() {
         this.loadPosts();
+        this.scrollListener = window.addEventListener('scroll', (e) => this.handleScroll(e));
     }
 
     /**
@@ -49,28 +49,51 @@ export class Posts extends Component {
      */
     loadPosts = (url = 'post/api/postList/') => {
         const { type, auth } = this.props;
+        const {
+            postList, pageNum, maxPage, isLoaded,
+        } = this.state;
         const data = {
             params: { type },
         };
 
+        const newPage = pageNum + 1;
+        if (newPage > maxPage && isLoaded) {
+            return;
+        }
+
         if (auth) {
             axiosAuth.get(url, data).then((result) => this.setState({
                 maxPage: Math.ceil(result.data.count / 5),
-                postList: result.data.results,
+                postList: [...postList, ...result.data.results],
                 isLoaded: true,
+                pageNum: newPage,
                 nextPage: result.data.next,
                 prevPage: result.data.previous,
             })).catch((error) => this.setState({ stateError: error }));
         } else {
             axios.get(url, data).then((result) => this.setState({
                 maxPage: Math.ceil(result.data.count / 5),
-                postList: result.data.results,
+                postList: [...postList, ...result.data.results],
                 isLoaded: true,
+                pageNum: newPage,
                 nextPage: result.data.next,
                 prevPage: result.data.previous,
             })).catch((error) => this.setState({ stateError: error }));
         }
     }
+
+    /**
+     * Handles the user scrolling
+     */
+    handleScroll = () => {
+        const lastLi = document.querySelector(`div > div.${CSS.Posts}`);
+        const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+        const pageOffset = window.pageYOffset + window.innerHeight;
+
+        if (pageOffset > lastLiOffset) {
+            this.loadPosts();
+        }
+    };
 
     /**
      * Loads the previous page
@@ -120,9 +143,7 @@ export class Posts extends Component {
      * Renders the component
      */
     render() {
-        const {
-            isLoaded, postList, stateError, pageNum, maxPage,
-        } = this.state;
+        const { isLoaded, postList, stateError } = this.state;
         const { title } = this.props;
 
         if (!isLoaded) {
@@ -149,18 +170,9 @@ export class Posts extends Component {
         }
 
         return (
-            <div className={CSS.Posts}>
+            <div className={CSS.Main}>
                 <h1 className={CSS.Header}>{title}</h1>
-                {posts}
-                <PaginateButtons
-                    pageNum={pageNum}
-                    maxPages={maxPage}
-                    userType='posts'
-                    first={this.firstClicked}
-                    prev={this.previousClicked}
-                    next={this.nextClicked}
-                    last={this.lastClicked}
-                />
+                <div className={CSS.Posts}>{posts}</div>
             </div>
         );
     }

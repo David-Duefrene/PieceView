@@ -2,9 +2,8 @@ version: "3.2"
 
 services:
     backend:
-        image: ./
-        build: ./app
-        working_dir: /home/python/dev
+        build: ./
+        command: python manage.py runserver 0.0.0.0:8000
         volumes:
           - ./:/usr/src/
         ports:
@@ -13,9 +12,7 @@ services:
         tty: true
         env_file:
             - ./.env.dev
-        command: bash -c "
-            pip install -r requirements.txt
-            && python3 manage.py runserver 0.0.0.0:8000"
+
     front_end:
         build: ./front_end
         user: node

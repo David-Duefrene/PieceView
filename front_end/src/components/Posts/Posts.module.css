@@ -1,7 +1,32 @@
 .Posts {
-    display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-items: center;
+}
+
+.Main {
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    margin-left: 5%;
+}
+
+.PostListExitActive {
+    animation: Rotation 250ms 1;
+}
+
+@keyframes Rotation {
+    25% {
+        transform: rotate3d(0, 1, 0, 45deg);
+    }
+    50% {
+        transform: rotate3d(0, 1, 0, 90deg);
+    }
+    75% {
+        transform: rotate3d(0, 1, 0, 135deg);
+    }
+    100% {
+        transform: rotate3d(0, 1, 0, 180deg);
+    }
 }
 
 .Header {
