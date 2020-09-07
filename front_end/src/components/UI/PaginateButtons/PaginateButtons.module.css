@@ -1,11 +1,9 @@
 .ButtonBox {
     display: flex;
     background-color: blue;
-    align-items: center;
     justify-content: center;
     flex-direction: row;
-    width: 110%;
-    margin: 10% -3%;
+    width: 100%;
     min-height: 100px;
 }
 

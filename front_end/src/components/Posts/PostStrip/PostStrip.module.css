@@ -9,6 +9,10 @@
     padding: 2%;
 }
 
+.PostBody {
+    overflow-wrap: anywhere;
+}
+
 .Button {
 
 	box-shadow: 0px 1px 0px 0px #22ffa2;
@@ -36,7 +40,7 @@
 @media (min-width: 700px){
     .PostList {
         flex-direction: row;
-        width: 90%;
+        width: 100%;
         align-self: center;
     }
 }

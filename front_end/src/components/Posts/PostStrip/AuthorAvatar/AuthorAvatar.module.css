@@ -4,24 +4,24 @@
     border: 1px solid yellow;
     width: 90%;
     align-self: center;
+    align-items: center;
     margin: 2%;
 }
 
 .AvatarImage {
-    width: 100%;
+    width: inherit;
     width: -moz-available;
+    width: -webkit-fill-available;
 }
 
 .AvatarBody {
     overflow: hidden;
 }
 
-.AvatarTitle {
-    margin-left: 25%;
-}
-
 .AvatarFooter {
     border: 1px solid yellow;
+    min-width: 100%;
+    min-width: -webkit-fill-available;
 }
 
 .Button {
