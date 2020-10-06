@@ -16,7 +16,7 @@ variables:
 
 test-backend:
     stage: test-backend
-    image: python:3.7
+    image: python:3.9
     script:
         - "export DATABASE_URL=postgres://postgres:@postgres:5432/project_ci_test"
         - pip install --no-cache-dir -r requirements.txt
