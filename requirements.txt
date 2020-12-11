@@ -6,7 +6,7 @@ coverage==5.2.1
 coveralls==2.1.2
 defusedxml==0.6.0
 Django==3.1
-django-debug-toolbar==2.2
+django-debug-toolbar==3.2
 docopt==0.6.2
 PyJWT==1.7.1
 pytz==2020.1
