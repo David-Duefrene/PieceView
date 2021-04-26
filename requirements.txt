@@ -2,7 +2,7 @@ asgiref==3.2.10
 bleach==3.1.5
 certifi==2020.6.20
 chardet==3.0.4
-coverage==5.2.1
+coverage==5.5
 coveralls==2.1.2
 defusedxml==0.6.0
 Django==3.1
