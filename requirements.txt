@@ -14,7 +14,7 @@ PyYAML==5.3.1
 requests==2.24.0
 selenium==3.141.0
 six==1.15.0
-sqlparse==0.3.1
+sqlparse==0.4.2
 faker==4.1.2
 django-cors-headers==3.4.0
 djangorestframework==3.11.1
